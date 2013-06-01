@@ -1,0 +1,25 @@
+common:
+  account: UA-29711569-2
+  header:
+    back:
+      label: Back
+  errors:
+    unsupportedplatform: This platform is not supported by the extension, sorry.
+    trackercreationfail: Something went wrong: Analytics is unable to create the requested tracker.
+
+home:
+  title: Tracker Demo
+  intro: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.}
+  connect:
+    label: Connect
+  settings:
+    label: Settings
+  account:
+    label: Analytics ID:
+
+settings:
+  title: Settings
+  debug: Debug
+  optout: Opt out
+  manual: Manual dispatch
+  interval: Dispatch interval
