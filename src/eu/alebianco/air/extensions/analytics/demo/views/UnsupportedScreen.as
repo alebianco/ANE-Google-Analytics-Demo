@@ -16,95 +16,105 @@ import feathers.controls.Label;
 import feathers.controls.Screen;
 import feathers.controls.ScrollContainer;
 import feathers.controls.Scroller;
+import feathers.core.FeathersControl;
 import feathers.display.VerticalSpacer;
 import feathers.layout.IVirtualLayout;
 import feathers.layout.VerticalLayout;
 
 import flash.text.TextFormat;
-
 import flash.text.TextFormatAlign;
 
 public class UnsupportedScreen extends Screen {
 
 	[Inject]
-    public var settings:LayoutSettings;
+	public var settings:LayoutSettings;
 
 	[Inject]
-    public var resources:ResourceBundle;
+	public var resources:ResourceBundle;
 
-    private var layout:IVirtualLayout;
-    private var header:Header;
-    private var container:ScrollContainer;
+	private var layout:IVirtualLayout;
+	private var header:Header;
+	private var container:ScrollContainer;
 
-    private var version_lbl:Label;
-    private var info_lbl:Label;
-    private var support_lbl:Label;
+	private var version_lbl:Label;
+	private var info_lbl:Label;
+	private var support_lbl:Label;
 
-    public function set version(value:String):void {
-        version_lbl.text = value;
-    }
+	private var _version:String;
 
-    override protected function initialize():void {
-        setupLayout();
-        createContent();
-        createHeader();
-    }
+	public function set version(value:String):void {
+		_version = value;
+		invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
+	}
 
-    private function setupLayout():void {
-        var layout:VerticalLayout = new VerticalLayout();
-        layout.gap = settings.gap;
-        layout.paddingTop = settings.paddingTop;
-        layout.paddingRight = settings.paddingRight;
-        layout.paddingBottom = settings.paddingBottom;
-        layout.paddingLeft = settings.paddingLeft;
-        layout.horizontalAlign = settings.horizontalAlign;
-        layout.verticalAlign = settings.verticalAlign;
-        this.layout = layout;
-    }
+	override protected function initialize():void {
+		setupLayout();
+		createContent();
+		createHeader();
+	}
 
-    override protected function draw():void {
-        header.width = actualWidth;
-        header.validate();
+	override public function invalidate(flag:String = "all"):void {
+		super.invalidate(flag);
+		if (flag == FeathersControl.INVALIDATION_FLAG_DATA) {
+			version_lbl.text = _version;
+			support_lbl.textRendererProperties.textFormat = new TextFormat("Arial", 24 * dpiScale, 0xcc0000, true, false, false, null, null, TextFormatAlign.CENTER);
+		}
+	}
 
-        container.y = header.height;
-        container.width = actualWidth
-        container.height = actualHeight - container.y;
+	override protected function draw():void {
+		header.width = actualWidth;
+		header.validate();
 
-        info_lbl.width = container.width - settings.paddingLeft - settings.paddingRight;
+		container.y = header.height;
+		container.width = actualWidth
+		container.height = actualHeight - container.y;
 
-        support_lbl.width = info_lbl.width;
-        support_lbl.textRendererProperties.textFormat = new TextFormat("Arial", 24 * dpiScale, 0xcc0000, true, false, false, null, null, TextFormatAlign.CENTER);
-    }
+		info_lbl.width = container.width - settings.paddingLeft - settings.paddingRight;
 
-    private function createContent():void {
-        container = new ScrollContainer();
-        container.layout = layout;
-        container.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_AUTO;
-        container.scrollerProperties.snapScrollPositionsToPixels = true;
+		support_lbl.width = info_lbl.width;
+	}
 
-        version_lbl = new Label();
-        container.addChild(version_lbl);
+	private function setupLayout():void {
+		const layout:VerticalLayout = new VerticalLayout();
+		layout.gap = settings.gap;
+		layout.paddingTop = settings.paddingTop;
+		layout.paddingRight = settings.paddingRight;
+		layout.paddingBottom = settings.paddingBottom;
+		layout.paddingLeft = settings.paddingLeft;
+		layout.horizontalAlign = settings.horizontalAlign;
+		layout.verticalAlign = settings.verticalAlign;
+		this.layout = layout;
+	}
 
-        info_lbl = new Label();
-        info_lbl.text = resources.home.intro;
-        info_lbl.textRendererProperties.wordWrap = true;
-        container.addChild(info_lbl);
+	private function createContent():void {
+		container = new ScrollContainer();
+		container.layout = layout;
+		container.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_AUTO;
+		container.scrollerProperties.snapScrollPositionsToPixels = true;
 
-        container.addChild(new VerticalSpacer(48 * dpiScale));
+		version_lbl = new Label();
+		container.addChild(version_lbl);
 
-        support_lbl = new Label();
-        support_lbl.textRendererProperties.embedFonts = false;
-        support_lbl.textRendererProperties.wordWrap = true;
-        support_lbl.text = resources.common.errors.unsupportedplatform;
-        container.addChild(support_lbl);
+		info_lbl = new Label();
+		info_lbl.text = resources.home.intro;
+		info_lbl.textRendererProperties.wordWrap = true;
+		container.addChild(info_lbl);
 
-        addChild(container);
-    }
+		container.addChild(new VerticalSpacer(48 * dpiScale));
 
-    private function createHeader():void {
-        header = new Header();
-        header.title = resources.home.title;
-        addChild(header);
-    }
+		support_lbl = new Label();
+		support_lbl.textRendererProperties.embedFonts = false;
+		support_lbl.textRendererProperties.wordWrap = true;
+		support_lbl.text = resources.common.errors.unsupportedplatform;
+		container.addChild(support_lbl);
+
+		addChild(container);
+	}
+
+	private function createHeader():void {
+		header = new Header();
+		header.title = resources.home.title;
+		addChild(header);
+	}
 }
 }

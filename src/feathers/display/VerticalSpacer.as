@@ -11,9 +11,9 @@ package feathers.display {
 import starling.display.Quad;
 
 public class VerticalSpacer extends Quad {
-    public function VerticalSpacer(size:int) {
-        super(size, size, 0x000000);
-        this.visible = false;
-    }
+	public function VerticalSpacer(size:int) {
+		super(size, size, 0x000000);
+		this.visible = false;
+	}
 }
 }

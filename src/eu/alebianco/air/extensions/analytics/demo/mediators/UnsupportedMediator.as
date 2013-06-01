@@ -15,15 +15,15 @@ import robotlegs.bender.bundles.mvcs.Mediator;
 
 public class UnsupportedMediator extends Mediator {
 
-    [Inject]
-    public var view:UnsupportedScreen;
+	[Inject]
+	public var view:UnsupportedScreen;
 
-    [Inject]
-    public var analytics:IAnalytics;
+	[Inject]
+	public var analytics:IAnalytics;
 
-    override public function initialize():void {
-        super.initialize();
-	    view.version = analytics.version;
-    }
+	override public function initialize():void {
+		super.initialize();
+		view.version = analytics.version;
+	}
 }
 }

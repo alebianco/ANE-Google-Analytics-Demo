@@ -16,15 +16,15 @@ import robotlegs.bender.bundles.mvcs.Mediator;
 
 public class MainMediator extends Mediator {
 
-    [Inject]
-    public var view:AnalyticsDemo;
+	[Inject]
+	public var view:AnalyticsDemo;
 
 	[Inject]
 	public var navigator:ScreenNavigator;
 
 	override public function initialize():void {
-        super.initialize();
-	    view.addChild(navigator);
-    }
+		super.initialize();
+		view.addChild(navigator);
+	}
 }
 }

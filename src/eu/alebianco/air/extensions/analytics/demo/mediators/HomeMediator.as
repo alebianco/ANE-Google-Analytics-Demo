@@ -23,53 +23,56 @@ import robotlegs.bender.bundles.mvcs.Mediator;
 
 public class HomeMediator extends Mediator {
 
-    [Inject]
-    public var injector:Injector;
+	private const DEFAULT_ACCOUNT:String = "UA-29711569-2";
 
-    [Inject]
-    public var view:HomeScreen;
+	[Inject]
+	public var injector:Injector;
 
-    [Inject]
-    public var analytics:IAnalytics;
+	[Inject]
+	public var view:HomeScreen;
 
-    [Inject]
-    public var resources:ResourceBundle;
+	[Inject]
+	public var analytics:IAnalytics;
 
-    override public function initialize():void {
-        super.initialize();
+	[Inject]
+	public var resources:ResourceBundle;
 
-	    view.version = analytics.version;
+	override public function initialize():void {
+		super.initialize();
 
-        view.navigationRequested.add(onNavigate);
-        view.accountChanged.add(onAccountChanged);
-        view.connectTriggered.add(onConnect);
-    }
+		view.version = analytics.version;
+		view.account = DEFAULT_ACCOUNT;
 
-    private function onNavigate(screen:DemoScreen):void {
-        dispatch(new NavigateEvent(screen))
-    }
+		view.navigationRequested.add(onNavigate);
+		view.accountChanged.add(onAccountChanged);
+		view.connectTriggered.add(onConnect);
+	}
 
-    private function onAccountChanged():void {
-        if (view.account.length > 18) {
-            view.account = view.account.substr(0, 18);
-        }
-    }
+	private function onNavigate(screen:DemoScreen):void {
+		dispatch(new NavigateEvent(screen))
+	}
 
-    private function onConnect():void {
-        try {
-            injector.map(ITracker).toValue(analytics.getTracker(view.account));
-            onNavigate(DemoScreen.TRACKER)
-        } catch (error:ArgumentError) {
-            new Toast(resources.common.errors.trackercreationfail).show();
-        }
-    }
+	private function onAccountChanged():void {
+		if (view.account.length > 18) {
+			view.account = view.account.substr(0, 18);
+		}
+	}
 
-    override public function destroy():void {
-        super.destroy();
+	private function onConnect():void {
+		try {
+			injector.map(ITracker).toValue(analytics.getTracker(view.account));
+			dispatch(new NavigateEvent(DemoScreen.TRACKER));
+		} catch (error:ArgumentError) {
+			new Toast(resources.common.errors.trackercreationfail).show();
+		}
+	}
 
-        view.navigationRequested.removeAll();
-        view.connectTriggered.removeAll();
-        view.accountChanged.removeAll();
-    }
+	override public function destroy():void {
+		super.destroy();
+
+		view.navigationRequested.removeAll();
+		view.connectTriggered.removeAll();
+		view.accountChanged.removeAll();
+	}
 }
 }

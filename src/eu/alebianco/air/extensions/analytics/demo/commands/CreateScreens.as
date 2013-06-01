@@ -21,7 +21,7 @@ public class CreateScreens extends Command {
 	public var navigator:ScreenNavigator;
 
 	override public function execute():void {
-		DemoScreen.getConstants().forEach(function(screen:DemoScreen, index:int, list:Vector.<DemoScreen>):void {
+		DemoScreen.getConstants().forEach(function (screen:DemoScreen, index:int, list:Vector.<DemoScreen>):void {
 			navigator.addScreen(screen.name, new ScreenNavigatorItem(screen.view))
 		});
 	}

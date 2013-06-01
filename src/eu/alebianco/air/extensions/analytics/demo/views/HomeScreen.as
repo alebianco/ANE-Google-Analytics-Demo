@@ -19,6 +19,7 @@ import feathers.controls.Screen;
 import feathers.controls.ScrollContainer;
 import feathers.controls.Scroller;
 import feathers.controls.TextInput;
+import feathers.core.FeathersControl;
 import feathers.display.VerticalSpacer;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.IVirtualLayout;
@@ -34,136 +35,159 @@ import starling.events.Event;
 public class HomeScreen extends Screen {
 
 	[Inject]
-    public var settings:LayoutSettings;
+	public var settings:LayoutSettings;
 
 	[Inject]
-    public var resources:ResourceBundle;
+	public var resources:ResourceBundle;
 
-    private var layout:IVirtualLayout;
-    private var header:Header;
-    private var container:ScrollContainer;
+	private var layout:IVirtualLayout;
+	private var header:Header;
+	private var container:ScrollContainer;
 
-    private var account_txt:TextInput;
-    private var info_lbl:Label;
-    private var version_lbl:Label;
+	private var settings_btn:Button;
+	private var account_txt:TextInput;
+	private var info_lbl:Label;
 
-    private var _accountChanged:Signal;
-    private var _connectTriggered:Signal;
-    private var _navigationRequested:Signal;
+	private var version_lbl:Label;
+	private var _accountChanged:Signal;
+	private var _connectTriggered:Signal;
 
-    public function get navigationRequested():Signal {
-        return _navigationRequested ||= new Signal(DemoScreen);
-    }
+	private var _navigationRequested:Signal;
+	private var _version:String;
+	private var _account:String;
+	private var connect_btn:Button;
+	private var account_lbl:Label;
 
-    public function get connectTriggered():Signal {
-        return _connectTriggered ||= new Signal();
-    }
+	public function get navigationRequested():Signal {
+		return _navigationRequested ||= new Signal(DemoScreen);
+	}
 
-    public function get accountChanged():Signal {
-        return _accountChanged ||= new Signal();
-    }
+	public function get connectTriggered():Signal {
+		return _connectTriggered ||= new Signal();
+	}
 
-    public function set version(value:String):void {
-        version_lbl.text = value;
-    }
+	public function get accountChanged():Signal {
+		return _accountChanged ||= new Signal();
+	}
 
-    public function get account():String {
-        return StringUtil.trim(account_txt.text);
-    }
+	public function set version(value:String):void {
+		_version = value;
+		invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
+	}
 
-    public function set account(value:String):void {
-        account_txt.text = value;
-    }
+	public function get account():String {
+		return _account;
+	}
 
-    override protected function initialize():void {
-        setupLayout();
-        createContent();
-        createHeader();
-    }
+	public function set account(value:String):void {
+		_account = StringUtil.trim(value);
+		invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
+	}
 
-    private function setupLayout():void {
-        var layout:VerticalLayout = new VerticalLayout();
-        layout.gap = settings.gap;
-        layout.paddingTop = settings.paddingTop;
-        layout.paddingRight = settings.paddingRight;
-        layout.paddingBottom = settings.paddingBottom;
-        layout.paddingLeft = settings.paddingLeft;
-        layout.horizontalAlign = settings.horizontalAlign;
-        layout.verticalAlign = settings.verticalAlign;
-        this.layout = layout;
-    }
+	override protected function initialize():void {
+		setupLayout();
+		createContent();
+		createHeader();
+	}
 
-    override protected function draw():void {
-        header.width = actualWidth;
-        header.validate();
+	override public function invalidate(flag:String = "all"):void {
+		super.invalidate(flag);
+		if (flag == FeathersControl.INVALIDATION_FLAG_DATA) {
+			account_txt.text = _account;
+			version_lbl.text = _version;
+		}
+	}
 
-        container.y = header.height;
-        container.width = actualWidth;
-        container.height = actualHeight - container.y;
+	override protected function draw():void {
+		header.width = actualWidth;
+		header.validate();
 
-        info_lbl.width = container.width - settings.paddingLeft - settings.paddingRight;
-    }
+		container.y = header.height;
+		container.width = actualWidth;
+		container.height = actualHeight - container.y;
 
-    private function createContent():void {
-        container = new ScrollContainer();
-        container.layout = layout;
-        container.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_AUTO;
-        container.scrollerProperties.snapScrollPositionsToPixels = true;
-        addChild(container);
+		info_lbl.width = container.width - settings.paddingLeft - settings.paddingRight;
+	}
 
-        version_lbl = new Label();
-        container.addChild(version_lbl);
+	override public function dispose():void {
+		super.dispose();
 
-        info_lbl = new Label();
-        info_lbl.text = resources.home.intro;
-        info_lbl.textRendererProperties.wordWrap = true;
-        container.addChild(info_lbl);
-        container.addChild(new VerticalSpacer(48 * dpiScale));
+		account_txt.addEventListener(Event.CHANGE, account_changeHandler);
+		connect_btn.addEventListener(Event.TRIGGERED, connect_triggerHandler);
+		settings_btn.addEventListener(Event.TRIGGERED, settings_triggeredHandler);
+	}
+	private function setupLayout():void {
+		const layout:VerticalLayout = new VerticalLayout();
+		layout.gap = settings.gap;
+		layout.paddingTop = settings.paddingTop;
+		layout.paddingRight = settings.paddingRight;
+		layout.paddingBottom = settings.paddingBottom;
+		layout.paddingLeft = settings.paddingLeft;
+		layout.horizontalAlign = settings.horizontalAlign;
+		layout.verticalAlign = settings.verticalAlign;
+		this.layout = layout;
+	}
 
-        var account_lbl:Label = new Label();
-        account_lbl.text = resources.home.account.label;
+	private function createContent():void {
+		container = new ScrollContainer();
+		container.layout = layout;
+		container.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_AUTO;
+		container.scrollerProperties.snapScrollPositionsToPixels = true;
+		addChild(container);
 
-        account_txt = new TextInput();
-        account_txt.addEventListener(Event.CHANGE, account_changeHandler);
-        account_txt.text = resources.common.account;
+		version_lbl = new Label();
+		container.addChild(version_lbl);
 
-        var connect:Button = new Button();
-        connect.label = resources.home.connect.label;
-        connect.addEventListener(Event.TRIGGERED, connect_triggerHandler);
+		info_lbl = new Label();
+		info_lbl.text = resources.home.intro;
+		info_lbl.textRendererProperties.wordWrap = true;
+		container.addChild(info_lbl);
+		container.addChild(new VerticalSpacer(48 * dpiScale));
 
-        var connectGroup:ScrollContainer = new ScrollContainer();
-        connectGroup.layout = new HorizontalLayout();
-        HorizontalLayout(connectGroup.layout).gap = 4;
-        HorizontalLayout(connectGroup.layout).verticalAlign = HorizontalLayout.VERTICAL_ALIGN_MIDDLE;
-        connectGroup.addChild(account_lbl);
-        connectGroup.addChild(account_txt);
-        connectGroup.addChild(connect);
+		account_lbl = new Label();
+		account_lbl.text = resources.home.account.label;
 
-        container.addChild(connectGroup);
-    }
+		account_txt = new TextInput();
+		account_txt.addEventListener(Event.CHANGE, account_changeHandler);
 
-    private function createHeader():void {
-        var settings:Button = new Button();
-        settings.label = resources.home.settings.label;
-        settings.addEventListener(Event.TRIGGERED, settings_triggeredHandler);
+		connect_btn = new Button();
+		connect_btn.label = resources.home.connect.label;
+		connect_btn.addEventListener(Event.TRIGGERED, connect_triggerHandler);
 
-        header = new Header();
-        header.title = resources.home.title;
-        addChild(header);
+		const connectGroup:ScrollContainer = new ScrollContainer();
+		connectGroup.layout = new HorizontalLayout();
+		HorizontalLayout(connectGroup.layout).gap = 4;
+		HorizontalLayout(connectGroup.layout).verticalAlign = HorizontalLayout.VERTICAL_ALIGN_MIDDLE;
+		connectGroup.addChild(account_lbl);
+		connectGroup.addChild(account_txt);
+		connectGroup.addChild(connect_btn);
 
-        header.rightItems = new <DisplayObject>[settings];
-    }
+		container.addChild(connectGroup);
+	}
 
-    private function connect_triggerHandler(event:Event):void {
-        connectTriggered.dispatch()
-    }
+	private function createHeader():void {
+		settings_btn = new Button();
+		settings_btn.label = resources.home.settings.label;
+		settings_btn.addEventListener(Event.TRIGGERED, settings_triggeredHandler);
 
-    private function account_changeHandler(event:Event):void {
-        accountChanged.dispatch()
-    }
+		header = new Header();
+		header.title = resources.home.title;
+		addChild(header);
 
-    private function settings_triggeredHandler(event:Event):void {
-        navigationRequested.dispatch(DemoScreen.SETTINGS);
-    }
+		header.rightItems = new <DisplayObject>[settings_btn];
+	}
+
+	private function connect_triggerHandler(event:Event):void {
+		connectTriggered.dispatch()
+	}
+
+	private function account_changeHandler(event:Event):void {
+		account = account_txt.text;
+		accountChanged.dispatch()
+	}
+
+	private function settings_triggeredHandler(event:Event):void {
+		navigationRequested.dispatch(DemoScreen.SETTINGS);
+	}
 }
 }

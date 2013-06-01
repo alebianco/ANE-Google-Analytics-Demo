@@ -1,5 +1,4 @@
 common:
-  account: UA-29711569-2
   header:
     back:
       label: Back
@@ -9,17 +8,22 @@ common:
 
 home:
   title: Tracker Demo
-  intro: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.}
+  intro: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
   connect:
     label: Connect
   settings:
     label: Settings
   account:
-    label: Analytics ID:
+    label: "Analytics ID:"
 
 settings:
-  title: Settings
-  debug: Debug
-  optout: Opt out
-  manual: Manual dispatch
-  interval: Dispatch interval
+  title:
+    label: Settings
+  debug:
+    label: Debug
+  optout:
+    label: Opt out
+  manual:
+    label: Manual dispatch
+  interval:
+    label: Dispatch interval

@@ -29,45 +29,46 @@ import flash.events.IEventDispatcher;
 import org.swiftsuspenders.Injector;
 
 import robotlegs.bender.extensions.eventCommandMap.api.IEventCommandMap;
-import robotlegs.starling.extensions.viewProcessorMap.api.IViewProcessorMap;
 import robotlegs.bender.framework.api.IConfig;
 import robotlegs.bender.framework.api.LifecycleEvent;
 import robotlegs.starling.extensions.mediatorMap.api.IMediatorMap;
+import robotlegs.starling.extensions.viewProcessorMap.api.IViewProcessorMap;
 
 public class AppConfig implements IConfig {
 
-    [Inject]
-    public var injector:Injector;
+	[Inject]
+	public var injector:Injector;
 
-    [Inject]
-    public var mediator:IMediatorMap;
+	[Inject]
+	public var mediator:IMediatorMap;
 
-    [Inject]
-    public var commander:IEventCommandMap;
+	[Inject]
+	public var commander:IEventCommandMap;
 
 	[Inject]
 	public var views:IViewProcessorMap;
 
 	[Inject]
-    public var dispatcher:IEventDispatcher;
+	public var dispatcher:IEventDispatcher;
 
-    public function configure():void {
+	public function configure():void {
 
-        injector.map(LayoutSettings).asSingleton();
-        injector.map(ResourceBundle).asSingleton();
-        injector.map(ScreenNavigator).asSingleton();
-        injector.map(IAnalytics).toValue(Analytics.getInstance());
+		injector.map(LayoutSettings).asSingleton();
+		injector.map(ResourceBundle).asSingleton();
+		injector.map(ScreenNavigator).asSingleton();
+		injector.map(IAnalytics).toValue(Analytics.getInstance());
 
-        mediator.map(AnalyticsDemo).toMediator(MainMediator);
-        mediator.map(UnsupportedScreen).toMediator(UnsupportedMediator);
-        mediator.map(HomeScreen).toMediator(HomeMediator);
-        mediator.map(SettingsScreen).toMediator(SettingsMediator);
+		mediator.map(AnalyticsDemo).toMediator(MainMediator);
+		mediator.map(UnsupportedScreen).toMediator(UnsupportedMediator);
+		mediator.map(HomeScreen).toMediator(HomeMediator);
+		mediator.map(SettingsScreen).toMediator(SettingsMediator);
 
-	    views.map(HomeScreen).toInjection();
-	    views.map(UnsupportedScreen).toInjection();
+		views.map(HomeScreen).toInjection();
+		views.map(UnsupportedScreen).toInjection();
+		views.map(SettingsScreen).toInjection();
 
-        commander.map(LifecycleEvent.POST_INITIALIZE, LifecycleEvent).toCommand(Startup);
-        commander.map(NavigateEvent.TO, NavigateEvent).toCommand(ShowScreen);
-    }
+		commander.map(LifecycleEvent.POST_INITIALIZE, LifecycleEvent).toCommand(Startup);
+		commander.map(NavigateEvent.TO, NavigateEvent).toCommand(ShowScreen);
+	}
 }
 }

@@ -16,40 +16,40 @@ import eu.alebianco.core.Enum;
 
 public final class DemoScreen extends Enum {
 
-    {
-        initEnum(DemoScreen);
-    }
+	{
+		initEnum(DemoScreen);
+	}
 
-    // Constants.
-    public static const UNSUPPORTED:DemoScreen = new DemoScreen(UnsupportedScreen);
-    public static const HOME:DemoScreen = new DemoScreen(HomeScreen);
-    public static const SETTINGS:DemoScreen = new DemoScreen(SettingsScreen);
-    public static const TRACKER:DemoScreen = new DemoScreen(TrackerScreen);
+	// Constants.
+	public static const UNSUPPORTED:DemoScreen = new DemoScreen(UnsupportedScreen);
+	public static const HOME:DemoScreen = new DemoScreen(HomeScreen);
+	public static const SETTINGS:DemoScreen = new DemoScreen(SettingsScreen);
+	public static const TRACKER:DemoScreen = new DemoScreen(TrackerScreen);
 
-    // Constant query.
-    public static function getConstants():Vector.<DemoScreen> {
-        return Vector.<DemoScreen>(Enum.getConstants(DemoScreen));
-    }
+	// Constant query.
+	public static function getConstants():Vector.<DemoScreen> {
+		return Vector.<DemoScreen>(Enum.getConstants(DemoScreen));
+	}
 
-    public static function parseConstant(constantName:String, caseSensitive:Boolean = false):DemoScreen {
-        return DemoScreen(Enum.parseConstant(DemoScreen, constantName, caseSensitive));
-    }
+	public static function parseConstant(constantName:String, caseSensitive:Boolean = false):DemoScreen {
+		return DemoScreen(Enum.parseConstant(DemoScreen, constantName, caseSensitive));
+	}
 
-    // Properties.
-    private var _view:Class;
-    public function get view():Class {
-        return _view;
-    }
+	// Properties.
+	private var _view:Class;
+	public function get view():Class {
+		return _view;
+	}
 
-    // Constructor.
-    public function DemoScreen(screen:Class) {
-        super();
-        _view = screen;
-    }
+	// Constructor.
+	public function DemoScreen(screen:Class) {
+		super();
+		_view = screen;
+	}
 
-    // Accessors.
-    override public function toString():String {
-        return "[Screen (name: " + name + ")]";
-    }
+	// Accessors.
+	override public function toString():String {
+		return "[Screen (name: " + name + ")]";
+	}
 }
 }

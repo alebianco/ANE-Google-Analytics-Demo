@@ -1,5 +1,4 @@
-package dupin.parsers.yaml
-{
+package dupin.parsers.yaml {
 
 /**
  * Small YAML parser
@@ -11,8 +10,7 @@ package dupin.parsers.yaml
  * @author Lucas Dupin
  * @since  04.11.2010
  */
-public class YAML
-{
+public class YAML {
 
 	// --- Lexer
 
@@ -48,16 +46,14 @@ public class YAML
 	 * Receives a string and breaks it into tokens
 	 * @constructor
 	 */
-	public function YAML(tokens:String)
-	{
+	public function YAML(tokens:String) {
 		this.tokens = tokenize(tokens);
 	}
 
 	/**
 	 * Transform tokens into objects
 	 */
-	public static function decode(str:String):*
-	{
+	public static function decode(str:String):* {
 		return new YAML(str).parse();
 	}
 
@@ -122,10 +118,10 @@ public class YAML
 		if (accept(type)) return;
 
 		var near:String = '';
-		if(this.peek())
+		if (this.peek())
 			near = peek()[1].hasOwnProperty('input') ? this.peek()[1].input : this.peek()[1];
 
-		throw new Error(msg +  ', ' +  near);
+		throw new Error(msg + ', ' + near);
 	}
 
 	/**
@@ -208,7 +204,7 @@ public class YAML
 		this.accept('doc');
 		this.expect('indent', 'expected indent after document');
 		var val:* = this.parse();
-		if(!this.peekType('eof')) this.expect('dedent', 'document not properly dedented');
+		if (!this.peekType('eof')) this.expect('dedent', 'document not properly dedented');
 		return val;
 	}
 
@@ -223,11 +219,10 @@ public class YAML
 		while (this.peekType('id') && (id = this.advanceValue())) {
 			this.expect(':', 'expected semi-colon after id')
 			this.ignoreSpace()
-			if (this.accept('indent'))
-			{
+			if (this.accept('indent')) {
 				//trace("YAML::parseHash() INDENT", id, this.tokens[0]);
 				hash[id] = this.parse();
-				if(!this.peekType('eof')) this.expect('dedent', 'hash not properly dedented')
+				if (!this.peekType('eof')) this.expect('dedent', 'hash not properly dedented')
 			}
 			else {
 				//trace("YAML::parseHash() ELSE", id, this.tokens[0]);
@@ -261,20 +256,19 @@ public class YAML
 		return hash
 	}
 
-
 	protected function parseMultilineString():String {
-		var result:String="", val:String="";
+		var result:String = "", val:String = "";
 		this.advanceValue(); //ignore first | (pipe)
 		//Ignore space and expect indent
 		this.ignoreSpace();
 		this.expect('indent', "multiline string not properly indented");
-		while(!this.peekType('dedent') && (val = this.advanceValue())){
+		while (!this.peekType('dedent') && (val = this.advanceValue())) {
 			//trace("YAML::parseMultilineString()", tokens[0]);
 			result += val + "\n";
 			ignoreSpace();
 		}
 		this.expect('dedent', "multiline string not properly dedented");
-		result = result.substr(0, result.length-1);
+		result = result.substr(0, result.length - 1);
 
 		return result;
 	}
@@ -292,7 +286,7 @@ public class YAML
 			if (this.accept('indent')) {
 				//trace("YAML::parseList() IF");
 				list.push(this.parse());
-				if(!this.peekType('eof'))  this.expect('dedent', 'list item not properly dedented');
+				if (!this.peekType('eof'))  this.expect('dedent', 'list item not properly dedented');
 			} else {
 				//trace("YAML::parseList() ELSE");
 				list.push(this.parse())
@@ -320,7 +314,6 @@ public class YAML
 		return list
 	}
 
-
 	/**
 	 * Tokenize the given _str_.
 	 *
@@ -340,9 +333,8 @@ public class YAML
 							str = str.replace(grammarTokens[i][1], '');
 
 					//Modified id regexp, so it will consider ':', avoiding confusion with strings
-					if(grammarTokens[i][0] == 'id')
+					if (grammarTokens[i][0] == 'id')
 						str = ':' + str;
-
 
 					switch (token[0]) {
 						case 'comment':
@@ -352,7 +344,7 @@ public class YAML
 							//trace("YAML::tokenize() forcing list indent");
 							indents = indents + 1;
 							stack.push(token);
-							token = ['indent','  '];
+							token = ['indent', '  '];
 							break;
 						case 'indent':
 							lastIndents = indents
@@ -365,7 +357,7 @@ public class YAML
 							else if (indents < lastIndents) {
 								//trace("YAML::tokenize()", "DEDENT");
 								input = token[1].input;
-								token = ['dedent',''];
+								token = ['dedent', ''];
 								token.input = input;
 								while (--lastIndents > indents)
 									stack.push(token);
@@ -394,15 +386,12 @@ public class YAML
 	 * Temporary debugging method
 	 * @param stack Array
 	 */
-	public function traceTokens(stack:Array):void
-	{
-		for each (var tkn:Object in stack)
-		{
-			var valueStr:String = (tkn[1] is Array)?""+tkn[1][0]:"";
-			trace("[ "+tkn[0]+" ]  "+valueStr);
+	public function traceTokens(stack:Array):void {
+		for each (var tkn:Object in stack) {
+			var valueStr:String = (tkn[1] is Array) ? "" + tkn[1][0] : "";
+			trace("[ " + tkn[0] + " ]  " + valueStr);
 		}
 	}
-
 
 }
 }

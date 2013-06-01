@@ -25,14 +25,13 @@ dynamic public class ResourceBundle extends Proxy {
 	public function ResourceBundle() {
 
 		const ba:ByteArrayAsset = ByteArrayAsset(new Resources());
-		var text:String = ba.readUTFBytes(ba.length);
+		const text:String = ba.readUTFBytes(ba.length);
 
 		data = YAML.decode(text);
 	}
 
 	override flash_proxy function getProperty(name:*):* {
-
-		return data[name];
+		return hasOwnProperty(name) ? data[name] : null;
 	}
 
 	override flash_proxy function setProperty(name:*, value:*):void {
