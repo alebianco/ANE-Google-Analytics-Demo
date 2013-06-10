@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<application xmlns="http://ns.adobe.com/air/application/3.7">
+    
+	<id>eu.alebianco.air.extensions.analytics.AnalyticsDemo.debug</id>
+	<filename>ANE-AnalyticsDemo</filename>
+	<name>ANE-AnalyticsDemo-debug</name>
+	
+	<versionNumber>1.0.0</versionNumber>
+	<versionLabel>1.0</versionLabel>
+	
+	<initialWindow>
+		<content>Main.swf</content>
+		<autoOrients>true</autoOrients>
+        <fullScreen>false</fullScreen>
+        <visible>true</visible>
+        <renderMode>direct</renderMode>
+    </initialWindow>
+    
+	<extensions>
+    	<extensionID>eu.alebianco.air.extensions.analytics.NativeGATracker</extensionID>
+    </extensions>
+
+	<android>
+        <manifestAdditions><![CDATA[
+			<manifest android:installLocation="auto">
+				<uses-permission android:name="android.permission.INTERNET" />
+				<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+			    <application android:enabled="true">
+					<activity android:excludeFromRecents="false">
+						<intent-filter>
+							<action android:name="android.intent.action.MAIN"/>
+							<category android:name="android.intent.category.LAUNCHER"/>
+						</intent-filter>
+					</activity>
+				</application>
+			</manifest>
+		]]></manifestAdditions>
+    </android>
+    
+    <iPhone>
+        <InfoAdditions><![CDATA[
+			<key>UIDeviceFamily</key>
+			<array>
+				<string>1</string>
+				<string>2</string>
+			</array>
+		]]></InfoAdditions>
+        <requestedDisplayResolution>high</requestedDisplayResolution>
+    </iPhone>
+    
+</application>
