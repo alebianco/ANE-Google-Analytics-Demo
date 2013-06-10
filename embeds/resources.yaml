@@ -1,10 +1,12 @@
 common:
+  tracker:
+    destroy: Closing current tracker ...
   header:
     back:
       label: Back
   errors:
     unsupportedplatform: This platform is not supported by the extension, sorry.
-    trackercreationfail: Something went wrong: Analytics is unable to create the requested tracker.
+    trackercreationfail: "Something went wrong: Analytics is unable to create the requested tracker."
 
 home:
   title: Tracker Demo
