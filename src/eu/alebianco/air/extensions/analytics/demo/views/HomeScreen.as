@@ -9,64 +9,50 @@
 package eu.alebianco.air.extensions.analytics.demo.views {
 
 import eu.alebianco.air.extensions.analytics.demo.model.DemoScreen;
-import eu.alebianco.air.extensions.analytics.demo.model.LayoutSettings;
-import eu.alebianco.air.extensions.analytics.demo.model.ResourceBundle;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IBuildTrackers;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayVersion;
+import eu.alebianco.air.extensions.analytics.demo.views.api.INavigateScreens;
 
 import feathers.controls.Button;
-import feathers.controls.Header;
 import feathers.controls.Label;
-import feathers.controls.Screen;
 import feathers.controls.ScrollContainer;
-import feathers.controls.Scroller;
 import feathers.controls.TextInput;
 import feathers.core.FeathersControl;
 import feathers.display.VerticalSpacer;
 import feathers.layout.HorizontalLayout;
-import feathers.layout.IVirtualLayout;
-import feathers.layout.VerticalLayout;
 
 import mx.utils.StringUtil;
 
+import org.osflash.signals.ISignal;
 import org.osflash.signals.Signal;
 
 import starling.display.DisplayObject;
 import starling.events.Event;
 
-public class HomeScreen extends Screen {
-
-	[Inject]
-	public var settings:LayoutSettings;
-
-	[Inject]
-	public var resources:ResourceBundle;
-
-	private var layout:IVirtualLayout;
-	private var header:Header;
-	private var container:ScrollContainer;
+final public class HomeScreen extends BaseScreen implements IDisplayVersion, IBuildTrackers, INavigateScreens {
 
 	private var settings_btn:Button;
 	private var account_txt:TextInput;
 	private var info_lbl:Label;
 
 	private var version_lbl:Label;
-	private var _accountChanged:Signal;
-	private var _connectTriggered:Signal;
+	private var _accountChanged:ISignal;
+	private var _connectTriggered:ISignal;
 
-	private var _navigationRequested:Signal;
+	private var _navigationRequested:ISignal;
 	private var _version:String;
 	private var _account:String;
 	private var connect_btn:Button;
-	private var account_lbl:Label;
 
-	public function get navigationRequested():Signal {
+	public function get navigationRequested():ISignal {
 		return _navigationRequested ||= new Signal(DemoScreen);
 	}
 
-	public function get connectTriggered():Signal {
+	public function get connectTriggered():ISignal {
 		return _connectTriggered ||= new Signal();
 	}
 
-	public function get accountChanged():Signal {
+	public function get accountChanged():ISignal {
 		return _accountChanged ||= new Signal();
 	}
 
@@ -84,11 +70,10 @@ public class HomeScreen extends Screen {
 		invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
 	}
 
-	override protected function initialize():void {
-		setupLayout();
-		createContent();
-		createHeader();
-	}
+    override protected function initialize():void {
+        super.initialize();
+        createContent();
+    }
 
 	override public function invalidate(flag:String = "all"):void {
 		super.invalidate(flag);
@@ -99,81 +84,54 @@ public class HomeScreen extends Screen {
 	}
 
 	override protected function draw():void {
-		header.width = actualWidth;
-		header.validate();
-
-		container.y = header.height;
-		container.width = actualWidth;
-		container.height = actualHeight - container.y;
-
+		super.draw();
 		info_lbl.width = container.width - settings.paddingLeft - settings.paddingRight;
 	}
 
 	override public function dispose():void {
 		super.dispose();
-
 		account_txt.addEventListener(Event.CHANGE, account_changeHandler);
 		connect_btn.addEventListener(Event.TRIGGERED, connect_triggerHandler);
 		settings_btn.addEventListener(Event.TRIGGERED, settings_triggeredHandler);
-	}
-	private function setupLayout():void {
-		const layout:VerticalLayout = new VerticalLayout();
-		layout.gap = settings.gap;
-		layout.paddingTop = settings.paddingTop;
-		layout.paddingRight = settings.paddingRight;
-		layout.paddingBottom = settings.paddingBottom;
-		layout.paddingLeft = settings.paddingLeft;
-		layout.horizontalAlign = settings.horizontalAlign;
-		layout.verticalAlign = settings.verticalAlign;
-		this.layout = layout;
 	}
 
 	private function createContent():void {
-		container = new ScrollContainer();
-		container.layout = layout;
-		container.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_AUTO;
-		container.scrollerProperties.snapScrollPositionsToPixels = true;
-		addChild(container);
+        version_lbl = new Label();
+        container.addChild(version_lbl);
 
-		version_lbl = new Label();
-		container.addChild(version_lbl);
+        info_lbl = new Label();
+        info_lbl.text = resources.home.intro;
+        info_lbl.textRendererProperties.wordWrap = true;
+        container.addChild(info_lbl);
+        container.addChild(new VerticalSpacer(48 * dpiScale));
 
-		info_lbl = new Label();
-		info_lbl.text = resources.home.intro;
-		info_lbl.textRendererProperties.wordWrap = true;
-		container.addChild(info_lbl);
-		container.addChild(new VerticalSpacer(48 * dpiScale));
+        const account_lbl:Label = new Label();
+        account_lbl.text = resources.home.account.label;
 
-		account_lbl = new Label();
-		account_lbl.text = resources.home.account.label;
+        account_txt = new TextInput();
+        account_txt.addEventListener(Event.CHANGE, account_changeHandler);
 
-		account_txt = new TextInput();
-		account_txt.addEventListener(Event.CHANGE, account_changeHandler);
+        connect_btn = new Button();
+        connect_btn.label = resources.home.connect.label;
+        connect_btn.addEventListener(Event.TRIGGERED, connect_triggerHandler);
 
-		connect_btn = new Button();
-		connect_btn.label = resources.home.connect.label;
-		connect_btn.addEventListener(Event.TRIGGERED, connect_triggerHandler);
+        const connectGroup:ScrollContainer = new ScrollContainer();
+        connectGroup.layout = new HorizontalLayout();
+        HorizontalLayout(connectGroup.layout).gap = 4;
+        HorizontalLayout(connectGroup.layout).verticalAlign = HorizontalLayout.VERTICAL_ALIGN_MIDDLE;
+        connectGroup.addChild(account_lbl);
+        connectGroup.addChild(account_txt);
+        connectGroup.addChild(connect_btn);
 
-		const connectGroup:ScrollContainer = new ScrollContainer();
-		connectGroup.layout = new HorizontalLayout();
-		HorizontalLayout(connectGroup.layout).gap = 4;
-		HorizontalLayout(connectGroup.layout).verticalAlign = HorizontalLayout.VERTICAL_ALIGN_MIDDLE;
-		connectGroup.addChild(account_lbl);
-		connectGroup.addChild(account_txt);
-		connectGroup.addChild(connect_btn);
+        container.addChild(connectGroup);
+    }
 
-		container.addChild(connectGroup);
-	}
+	override protected function createHeader():void {
+        super.createHeader();
 
-	private function createHeader():void {
-		settings_btn = new Button();
-		settings_btn.label = resources.home.settings.label;
-		settings_btn.addEventListener(Event.TRIGGERED, settings_triggeredHandler);
-
-		header = new Header();
-		header.title = resources.home.title;
-		addChild(header);
-
+        settings_btn = new Button();
+        settings_btn.label = resources.home.settings.label;
+        settings_btn.addEventListener(Event.TRIGGERED, settings_triggeredHandler);
 		header.rightItems = new <DisplayObject>[settings_btn];
 	}
 

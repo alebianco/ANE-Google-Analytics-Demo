@@ -82,10 +82,10 @@ import starling.textures.Texture;
 import starling.textures.TextureAtlas;
 
 public class MetalWorksMobileTheme extends DisplayListWatcher {
-	[Embed(source="/../assets/images/metalworks.png")]
+	[Embed(source="/../embeds/images/metalworks.png")]
 	protected static const ATLAS_IMAGE:Class;
 
-	[Embed(source="/../assets/images/metalworks.xml", mimeType="application/octet-stream")]
+	[Embed(source="/../embeds/images/metalworks.xml", mimeType="application/octet-stream")]
 	protected static const ATLAS_XML:Class;
 
 	protected static const LIGHT_TEXT_COLOR:uint = 0xe5e5e5;

@@ -8,33 +8,16 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.views {
 
-import eu.alebianco.air.extensions.analytics.demo.model.LayoutSettings;
-import eu.alebianco.air.extensions.analytics.demo.model.ResourceBundle;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayVersion;
 
-import feathers.controls.Header;
 import feathers.controls.Label;
-import feathers.controls.Screen;
-import feathers.controls.ScrollContainer;
-import feathers.controls.Scroller;
 import feathers.core.FeathersControl;
 import feathers.display.VerticalSpacer;
-import feathers.layout.IVirtualLayout;
-import feathers.layout.VerticalLayout;
 
 import flash.text.TextFormat;
 import flash.text.TextFormatAlign;
 
-public class UnsupportedScreen extends Screen {
-
-	[Inject]
-	public var settings:LayoutSettings;
-
-	[Inject]
-	public var resources:ResourceBundle;
-
-	private var layout:IVirtualLayout;
-	private var header:Header;
-	private var container:ScrollContainer;
+final public class UnsupportedScreen extends BaseScreen implements IDisplayVersion {
 
 	private var version_lbl:Label;
 	private var info_lbl:Label;
@@ -48,9 +31,8 @@ public class UnsupportedScreen extends Screen {
 	}
 
 	override protected function initialize():void {
-		setupLayout();
-		createContent();
-		createHeader();
+		super.initialize();
+        createContent();
 	}
 
 	override public function invalidate(flag:String = "all"):void {
@@ -62,36 +44,13 @@ public class UnsupportedScreen extends Screen {
 	}
 
 	override protected function draw():void {
-		header.width = actualWidth;
-		header.validate();
-
-		container.y = header.height;
-		container.width = actualWidth
-		container.height = actualHeight - container.y;
+		super.draw();
 
 		info_lbl.width = container.width - settings.paddingLeft - settings.paddingRight;
-
 		support_lbl.width = info_lbl.width;
 	}
 
-	private function setupLayout():void {
-		const layout:VerticalLayout = new VerticalLayout();
-		layout.gap = settings.gap;
-		layout.paddingTop = settings.paddingTop;
-		layout.paddingRight = settings.paddingRight;
-		layout.paddingBottom = settings.paddingBottom;
-		layout.paddingLeft = settings.paddingLeft;
-		layout.horizontalAlign = settings.horizontalAlign;
-		layout.verticalAlign = settings.verticalAlign;
-		this.layout = layout;
-	}
-
 	private function createContent():void {
-		container = new ScrollContainer();
-		container.layout = layout;
-		container.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_AUTO;
-		container.scrollerProperties.snapScrollPositionsToPixels = true;
-
 		version_lbl = new Label();
 		container.addChild(version_lbl);
 
@@ -107,14 +66,6 @@ public class UnsupportedScreen extends Screen {
 		support_lbl.textRendererProperties.wordWrap = true;
 		support_lbl.text = resources.common.errors.unsupportedplatform;
 		container.addChild(support_lbl);
-
-		addChild(container);
-	}
-
-	private function createHeader():void {
-		header = new Header();
-		header.title = resources.home.title;
-		addChild(header);
 	}
 }
 }

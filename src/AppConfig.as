@@ -9,18 +9,27 @@ package {
 import eu.alebianco.air.extensions.analytics.Analytics;
 import eu.alebianco.air.extensions.analytics.api.IAnalytics;
 import eu.alebianco.air.extensions.analytics.demo.AnalyticsDemo;
+import eu.alebianco.air.extensions.analytics.demo.commands.CreateTracker;
+import eu.alebianco.air.extensions.analytics.demo.commands.DestroyTracker;
 import eu.alebianco.air.extensions.analytics.demo.commands.ShowScreen;
-import eu.alebianco.air.extensions.analytics.demo.commands.Startup;
+import eu.alebianco.air.extensions.analytics.demo.commands.macro.ChangeTrackerMacro;
+import eu.alebianco.air.extensions.analytics.demo.commands.macro.StartupMacro;
+import eu.alebianco.air.extensions.analytics.demo.commands.guards.NoTrackerRegistered;
+import eu.alebianco.air.extensions.analytics.demo.commands.guards.OtherTrackerRegistered;
+import eu.alebianco.air.extensions.analytics.demo.events.CreateTrackerEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.NavigateEvent;
-import eu.alebianco.air.extensions.analytics.demo.mediators.HomeMediator;
+import eu.alebianco.air.extensions.analytics.demo.mediators.NavigateMediator;
+import eu.alebianco.air.extensions.analytics.demo.mediators.TrackerBuilderMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.MainMediator;
-import eu.alebianco.air.extensions.analytics.demo.mediators.SettingsMediator;
-import eu.alebianco.air.extensions.analytics.demo.mediators.UnsupportedMediator;
+import eu.alebianco.air.extensions.analytics.demo.mediators.GlobalSettingsMediator;
+import eu.alebianco.air.extensions.analytics.demo.mediators.VersionDisplayMediator;
 import eu.alebianco.air.extensions.analytics.demo.model.LayoutSettings;
 import eu.alebianco.air.extensions.analytics.demo.model.ResourceBundle;
-import eu.alebianco.air.extensions.analytics.demo.views.HomeScreen;
-import eu.alebianco.air.extensions.analytics.demo.views.SettingsScreen;
-import eu.alebianco.air.extensions.analytics.demo.views.UnsupportedScreen;
+import eu.alebianco.air.extensions.analytics.demo.views.BaseScreen;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IBuildTrackers;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayVersion;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IManageGlobalSettings;
+import eu.alebianco.air.extensions.analytics.demo.views.api.INavigateScreens;
 
 import feathers.controls.ScreenNavigator;
 
@@ -29,6 +38,7 @@ import flash.events.IEventDispatcher;
 import org.swiftsuspenders.Injector;
 
 import robotlegs.bender.extensions.eventCommandMap.api.IEventCommandMap;
+import robotlegs.bender.extensions.matching.TypeMatcher;
 import robotlegs.bender.framework.api.IConfig;
 import robotlegs.bender.framework.api.LifecycleEvent;
 import robotlegs.starling.extensions.mediatorMap.api.IMediatorMap;
@@ -59,15 +69,15 @@ public class AppConfig implements IConfig {
 		injector.map(IAnalytics).toValue(Analytics.getInstance());
 
 		mediator.map(AnalyticsDemo).toMediator(MainMediator);
-		mediator.map(UnsupportedScreen).toMediator(UnsupportedMediator);
-		mediator.map(HomeScreen).toMediator(HomeMediator);
-		mediator.map(SettingsScreen).toMediator(SettingsMediator);
+		mediator.map(IDisplayVersion).toMediator(VersionDisplayMediator);
+		mediator.map(IBuildTrackers).toMediator(TrackerBuilderMediator);
+		mediator.map(INavigateScreens).toMediator(NavigateMediator);
+		mediator.map(IManageGlobalSettings).toMediator(GlobalSettingsMediator);
 
-		views.map(HomeScreen).toInjection();
-		views.map(UnsupportedScreen).toInjection();
-		views.map(SettingsScreen).toInjection();
+		views.mapMatcher(new TypeMatcher().allOf(BaseScreen)).toInjection();
 
-		commander.map(LifecycleEvent.POST_INITIALIZE, LifecycleEvent).toCommand(Startup);
+		commander.map(LifecycleEvent.POST_INITIALIZE, LifecycleEvent).toCommand(StartupMacro);
+        commander.map(CreateTrackerEvent.CREATE, CreateTrackerEvent).toCommand(ChangeTrackerMacro);
 		commander.map(NavigateEvent.TO, NavigateEvent).toCommand(ShowScreen);
 	}
 }

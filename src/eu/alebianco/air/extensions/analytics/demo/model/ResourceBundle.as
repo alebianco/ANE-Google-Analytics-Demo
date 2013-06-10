@@ -17,7 +17,7 @@ import mx.core.ByteArrayAsset;
 
 dynamic public class ResourceBundle extends Proxy {
 
-	[Embed(source="/../assets/resources.yaml", mimeType="application/octet-stream")]
+	[Embed(source="/../embeds/resources.yaml", mimeType="application/octet-stream")]
 	private const Resources:Class;
 
 	private var data:Object;

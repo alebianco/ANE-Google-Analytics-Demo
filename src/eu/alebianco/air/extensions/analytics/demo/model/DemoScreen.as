@@ -9,7 +9,7 @@
 package eu.alebianco.air.extensions.analytics.demo.model {
 
 import eu.alebianco.air.extensions.analytics.demo.views.HomeScreen;
-import eu.alebianco.air.extensions.analytics.demo.views.SettingsScreen;
+import eu.alebianco.air.extensions.analytics.demo.views.GlobalSettingsScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.TrackerScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.UnsupportedScreen;
 import eu.alebianco.core.Enum;
@@ -23,7 +23,7 @@ public final class DemoScreen extends Enum {
 	// Constants.
 	public static const UNSUPPORTED:DemoScreen = new DemoScreen(UnsupportedScreen);
 	public static const HOME:DemoScreen = new DemoScreen(HomeScreen);
-	public static const SETTINGS:DemoScreen = new DemoScreen(SettingsScreen);
+	public static const SETTINGS:DemoScreen = new DemoScreen(GlobalSettingsScreen);
 	public static const TRACKER:DemoScreen = new DemoScreen(TrackerScreen);
 
 	// Constant query.

@@ -8,14 +8,11 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.views {
 
-import eu.alebianco.air.extensions.analytics.demo.model.LayoutSettings;
-import eu.alebianco.air.extensions.analytics.demo.model.ResourceBundle;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IManageGlobalSettings;
 
 import feathers.controls.Button;
-import feathers.controls.Header;
 import feathers.controls.Label;
 import feathers.controls.List;
-import feathers.controls.Screen;
 import feathers.controls.ScrollContainer;
 import feathers.controls.Slider;
 import feathers.controls.ToggleSwitch;
@@ -29,18 +26,11 @@ import org.osflash.signals.Signal;
 import starling.display.DisplayObject;
 import starling.events.Event;
 
-public class SettingsScreen extends Screen {
-
-	[Inject]
-	public var settings:LayoutSettings;
-
-	[Inject]
-	public var resources:ResourceBundle;
+public class GlobalSettingsScreen extends BaseScreen implements IManageGlobalSettings {
 
 	private var _changed:ISignal;
 	private var _completed:ISignal;
 
-	private var header:Header;
 	private var list:List;
 	private var interval_box:ScrollContainer;
 
@@ -51,6 +41,11 @@ public class SettingsScreen extends Screen {
 	private var debug_tgl:ToggleSwitch;
 	private var optout_tgl:ToggleSwitch;
 
+    private var _debug:Boolean;
+    private var _dispatchInterval:int;
+    private var _dispatchManually:Boolean;
+    private var _optOut:Boolean;
+
 	public function get changed():ISignal {
 		return _changed ||= new Signal();
 	}
@@ -58,11 +53,6 @@ public class SettingsScreen extends Screen {
 	public function get completed():ISignal {
 		return _completed ||= new Signal();
 	}
-
-	private var _debug:Boolean;
-	private var _dispatchInterval:int;
-	private var _dispatchManually:Boolean;
-	private var _optOut:Boolean;
 
 	public function get debug():Boolean {
 		return _debug;
@@ -95,7 +85,6 @@ public class SettingsScreen extends Screen {
 
 	override protected function initialize():void {
 		super.initialize();
-		createHeader();
 		createContent();
 	}
 
@@ -112,13 +101,10 @@ public class SettingsScreen extends Screen {
 	}
 
 	override protected function draw():void {
-		super.initialize();
-		header.width = this.actualWidth;
-		header.validate();
+		super.draw();
 
-		list.y = header.height;
-		list.width = actualWidth;
-		list.height = actualHeight - this.list.y;
+		list.height = container.height;
+        list.validate();
 
 		intervalValue_lbl.validate();
 		intervalDispatch_sld.validate();
@@ -136,14 +122,28 @@ public class SettingsScreen extends Screen {
 		back_btn.removeEventListener(Event.TRIGGERED, backButton_triggeredHandler);
 	}
 
-	private function createContent():void {
+    protected function createContent():void {
+        list = new List();
+        list.isSelectable = false;
+        list.dataProvider = new ListCollection(createControls());
+        container.addChild(list);
+    }
 
-		debug_tgl = new ToggleSwitch();
-		debug_tgl.addEventListener(Event.CHANGE, debug_changeHandler);
+	protected function createControls():Array {
+		return [
+			{ label:resources.settings.debug.label, accessory:createDebugControl() },
+			{ label:resources.settings.optout.label, accessory:createOptoutControl() },
+			{ label:resources.settings.manual.label, accessory:createManualDispatchControl() },
+			{ label:resources.settings.interval.label, accessory:createIntervalDispatchControl() }
+		];
+	}
 
-		manualDispatch_tgl = new ToggleSwitch();
-		manualDispatch_tgl.addEventListener(Event.CHANGE, manualDispatch_changeHandler);
-
+	protected function createOptoutControl():FeathersControl {
+		optout_tgl = new ToggleSwitch();
+		optout_tgl.addEventListener(Event.CHANGE, optout_changeHandler);
+		return optout_tgl;
+	}
+	protected function createIntervalDispatchControl():FeathersControl {
 		interval_box = new ScrollContainer();
 		interval_box.layout = new HorizontalLayout();
 		HorizontalLayout(interval_box.layout).gap = 4;
@@ -160,31 +160,27 @@ public class SettingsScreen extends Screen {
 		intervalValue_lbl = new Label();
 		interval_box.addChild(intervalValue_lbl);
 
-		optout_tgl = new ToggleSwitch();
-		optout_tgl.addEventListener(Event.CHANGE, optout_changeHandler);
+		return interval_box;
+	}
+	protected function createManualDispatchControl():FeathersControl {
+		manualDispatch_tgl = new ToggleSwitch();
+		manualDispatch_tgl.addEventListener(Event.CHANGE, manualDispatch_changeHandler);
+		return manualDispatch_tgl;
+	}
+	protected function createDebugControl():FeathersControl {
+		debug_tgl = new ToggleSwitch();
+		debug_tgl.addEventListener(Event.CHANGE, debug_changeHandler);
 
-		this.list = new List();
-		this.list.isSelectable = false;
-		this.list.dataProvider = new ListCollection(
-				[
-					{ label:resources.settings.debug.label, accessory:debug_tgl },
-					{ label:resources.settings.optout.label, accessory:optout_tgl },
-					{ label:resources.settings.manual.label, accessory:manualDispatch_tgl },
-					{ label:resources.settings.interval.label, accessory:interval_box }
-				]);
-
-		this.addChild(this.list);
+		return debug_tgl;
 	}
 
-	private function createHeader():void {
-		back_btn = new Button();
-		back_btn.label = resources.common.header.back.label;
+	override protected function createHeader():void {
+        super.createHeader();
+        header.title = resources.home.settings.title;
+        back_btn = new Button();
+        back_btn.label = resources.common.header.back.label;
 		back_btn.addEventListener(Event.TRIGGERED, backButton_triggeredHandler);
-
-		header = new Header();
-		header.title = resources.home.settings.title;
 		header.leftItems = new <DisplayObject>[back_btn];
-		addChild(header);
 
 		backButtonHandler = this.onBackButton;
 	}

@@ -6,7 +6,8 @@
  *
  * Copyright © 2013 Alessandro Bianco
  */
-package eu.alebianco.air.extensions.analytics.demo.commands {
+package eu.alebianco.air.extensions.analytics.demo.commands.macro {
+import eu.alebianco.air.extensions.analytics.demo.commands.*;
 
 import eu.alebianco.air.extensions.analytics.Analytics;
 import eu.alebianco.air.extensions.analytics.demo.events.NavigateEvent;
@@ -15,7 +16,7 @@ import eu.alebianco.robotlegs.utils.impl.SequenceMacro;
 
 import flash.events.IEventDispatcher;
 
-public class Startup extends SequenceMacro {
+public class StartupMacro extends SequenceMacro {
 
 	[Inject]
 	public var dispatcher:IEventDispatcher;

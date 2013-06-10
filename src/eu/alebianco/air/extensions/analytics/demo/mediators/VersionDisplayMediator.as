@@ -9,14 +9,14 @@
 package eu.alebianco.air.extensions.analytics.demo.mediators {
 
 import eu.alebianco.air.extensions.analytics.api.IAnalytics;
-import eu.alebianco.air.extensions.analytics.demo.views.UnsupportedScreen;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayVersion;
 
 import robotlegs.bender.bundles.mvcs.Mediator;
 
-public class UnsupportedMediator extends Mediator {
+public class VersionDisplayMediator extends Mediator {
 
 	[Inject]
-	public var view:UnsupportedScreen;
+	public var view:IDisplayVersion;
 
 	[Inject]
 	public var analytics:IAnalytics;

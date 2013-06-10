@@ -11,14 +11,14 @@ package eu.alebianco.air.extensions.analytics.demo.mediators {
 import eu.alebianco.air.extensions.analytics.api.IAnalytics;
 import eu.alebianco.air.extensions.analytics.demo.events.NavigateEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.DemoScreen;
-import eu.alebianco.air.extensions.analytics.demo.views.SettingsScreen;
+import eu.alebianco.air.extensions.analytics.demo.views.GlobalSettingsScreen;
 
 import robotlegs.bender.bundles.mvcs.Mediator;
 
-public class SettingsMediator extends Mediator {
+public class GlobalSettingsMediator extends Mediator {
 
 	[Inject]
-	public var view:SettingsScreen;
+	public var view:GlobalSettingsScreen;
 
 	[Inject]
 	public var analytics:IAnalytics;
