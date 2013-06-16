@@ -7,6 +7,7 @@
  * Copyright © 2013 Alessandro Bianco
  */
 package eu.alebianco.air.extensions.analytics.demo.commands.macro {
+
 import eu.alebianco.air.extensions.analytics.demo.commands.*;
 import eu.alebianco.air.extensions.analytics.demo.commands.guards.NoTrackerRegistered;
 import eu.alebianco.air.extensions.analytics.demo.commands.guards.OtherTrackerRegistered;
@@ -26,30 +27,34 @@ public class ChangeTrackerMacro extends SequenceMacro {
 	[Inject]
 	public var dispatcher:IEventDispatcher;
 
-    [Inject]
-    public var event:CreateTrackerEvent;
+	[Inject]
+	public var event:CreateTrackerEvent;
 
-    [Inject]
-    public var resources:ResourceBundle;
+	[Inject]
+	public var resources:ResourceBundle;
 
 	override public function prepare():void {
 
-        this.atomic = false;
+		this.atomic = false;
 
-        const account:SubCommandPayload = new SubCommandPayload(event.account).withName("account");
+		const account:SubCommandPayload = new SubCommandPayload(event.account).withName("account");
 
-		addSubCommand(DestroyTracker).withGuards(OtherTrackerRegistered).withPayloads(account);
-		addSubCommand(CreateTracker).withGuards(NoTrackerRegistered).withPayloads(account);
+		add(DestroyTracker).withGuards(OtherTrackerRegistered).withPayloads(account);
+		add(CreateTracker).withGuards(NoTrackerRegistered).withPayloads(account);
 
-		addCompletionListener(onComplete);
+		registerCompleteCallback(onComplete);
+	}
+
+	override public function execute():void {
+		super.execute();
 	}
 
 	private function onComplete(success:Boolean):void {
-        if (success) {
-            dispatcher.dispatchEvent(new NavigateEvent(DemoScreen.TRACKER));
-        } else {
-            new Toast(resources.common.errors.trackercreationfail).show();
-        }
+		if (success) {
+			dispatcher.dispatchEvent(new NavigateEvent(DemoScreen.TRACKER));
+		} else {
+			new Toast(resources.common.errors.trackercreationfail).show();
+		}
 	}
 }
 }

@@ -7,9 +7,10 @@
  * Copyright © 2013 Alessandro Bianco
  */
 package eu.alebianco.air.extensions.analytics.demo.views.api {
+
 import org.osflash.signals.ISignal;
 
 public interface INavigateScreens {
-    function get navigationRequested():ISignal;
+	function get navigationRequested():ISignal;
 }
 }

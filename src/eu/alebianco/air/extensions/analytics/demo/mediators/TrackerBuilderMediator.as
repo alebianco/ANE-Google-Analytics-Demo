@@ -11,16 +11,15 @@ package eu.alebianco.air.extensions.analytics.demo.mediators {
 import eu.alebianco.air.extensions.analytics.demo.events.CreateTrackerEvent;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IBuildTrackers;
 
-import org.swiftsuspenders.Injector;
-
 import robotlegs.bender.bundles.mvcs.Mediator;
+import robotlegs.bender.framework.api.IInjector;
 
 public class TrackerBuilderMediator extends Mediator {
 
 	private const DEFAULT_ACCOUNT:String = "UA-29711569-2";
 
 	[Inject]
-	public var injector:Injector;
+	public var injector:IInjector;
 
 	[Inject]
 	public var view:IBuildTrackers;

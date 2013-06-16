@@ -14,14 +14,13 @@ import eu.alebianco.air.extensions.analytics.demo.model.DemoScreen;
 import eu.alebianco.air.extensions.analytics.demo.model.ResourceBundle;
 import eu.alebianco.air.extensions.analytics.demo.views.api.INavigateScreens;
 
-import org.swiftsuspenders.Injector;
-
 import robotlegs.bender.bundles.mvcs.Mediator;
+import robotlegs.bender.framework.api.IInjector;
 
 public class NavigateMediator extends Mediator {
 
 	[Inject]
-	public var injector:Injector;
+	public var injector:IInjector;
 
 	[Inject]
 	public var view:INavigateScreens;

@@ -8,8 +8,8 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.model {
 
-import eu.alebianco.air.extensions.analytics.demo.views.HomeScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.GlobalSettingsScreen;
+import eu.alebianco.air.extensions.analytics.demo.views.HomeScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.TrackerScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.UnsupportedScreen;
 import eu.alebianco.core.Enum;

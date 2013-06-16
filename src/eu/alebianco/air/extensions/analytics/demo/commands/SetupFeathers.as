@@ -13,9 +13,8 @@ import feathers.core.DisplayListWatcher;
 import feathers.motion.transitions.ScreenSlidingStackTransitionManager;
 import feathers.themes.MetalWorksMobileTheme;
 
-import org.swiftsuspenders.Injector;
-
 import robotlegs.bender.bundles.mvcs.Command;
+import robotlegs.bender.framework.api.IInjector;
 import robotlegs.starling.extensions.contextView.ContextView;
 
 public class SetupFeathers extends Command {
@@ -27,7 +26,7 @@ public class SetupFeathers extends Command {
 	public var navigator:ScreenNavigator;
 
 	[Inject]
-	public var injector:Injector;
+	public var injector:IInjector;
 
 	override public function execute():void {
 		injector.map(DisplayListWatcher).toValue(new MetalWorksMobileTheme(contextView.view.stage));

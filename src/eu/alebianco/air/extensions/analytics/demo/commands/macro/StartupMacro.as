@@ -7,9 +7,9 @@
  * Copyright © 2013 Alessandro Bianco
  */
 package eu.alebianco.air.extensions.analytics.demo.commands.macro {
-import eu.alebianco.air.extensions.analytics.demo.commands.*;
 
 import eu.alebianco.air.extensions.analytics.Analytics;
+import eu.alebianco.air.extensions.analytics.demo.commands.*;
 import eu.alebianco.air.extensions.analytics.demo.events.NavigateEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.DemoScreen;
 import eu.alebianco.robotlegs.utils.impl.SequenceMacro;
@@ -23,10 +23,10 @@ public class StartupMacro extends SequenceMacro {
 
 	override public function prepare():void {
 
-		addSubCommand(SetupFeathers);
-		addSubCommand(CreateScreens);
+		add(SetupFeathers);
+		add(CreateScreens);
 
-		addCompletionListener(onReady);
+		registerCompleteCallback(onReady);
 	}
 
 	private function onReady(success:Boolean):void {
