@@ -7,6 +7,7 @@
  * Copyright © 2013 Alessandro Bianco
  */
 package eu.alebianco.air.extensions.analytics.demo.views {
+import eu.alebianco.air.extensions.analytics.demo.model.DemoScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IManageTrackerSettings;
 
 import feathers.controls.GroupedList;
@@ -28,23 +29,23 @@ public class TrackerSettingsScreen extends GlobalSettingsScreen implements IMana
     private var session_sld:Slider;
     private var secure_tgl:ToggleSwitch;
     private var session_lbl:Label;
-    private var samplerate_box:ScrollContainer;
-    private var samplerate_sld:Slider;
-    private var samplerate_lbl:Label;
+    private var sampleRate_box:ScrollContainer;
+    private var sampleRate_sld:Slider;
+    private var sampleRate_lbl:Label;
     private var anonymous_tgl:ToggleSwitch;
 
-    private var _sessiontimeout:uint;
+    private var _sessionTimeout:uint;
     private var _secure:Boolean;
-    private var _samplerate:uint;
+    private var _sampleRate:uint;
     private var _anonymous:Boolean;
 
-    public function get sessiontimeout():uint {
-        return _sessiontimeout;
+    public function get sessionTimeout():uint {
+        return _sessionTimeout;
     }
 
-    public function set sessiontimeout(value:uint):void {
-        if (_sessiontimeout != value) {
-            _sessiontimeout = value;
+    public function set sessionTimeout(value:uint):void {
+        if (_sessionTimeout != value) {
+            _sessionTimeout = value;
             invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
         }
     }
@@ -60,13 +61,13 @@ public class TrackerSettingsScreen extends GlobalSettingsScreen implements IMana
         }
     }
 
-    public function get samplerate():uint {
-        return _samplerate;
+    public function get sampleRate():uint {
+        return _sampleRate;
     }
 
-    public function set samplerate(value:uint):void {
-        if (_samplerate != value) {
-            _samplerate = value;
+    public function set sampleRate(value:uint):void {
+        if (_sampleRate != value) {
+            _sampleRate = value;
             invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
         }
     }
@@ -89,11 +90,11 @@ public class TrackerSettingsScreen extends GlobalSettingsScreen implements IMana
     override public function invalidate(flag:String = "all"):void {
         super.invalidate(flag);
         if (flag == FeathersControl.INVALIDATION_FLAG_DATA) {
-            session_sld.value = _sessiontimeout;
-            session_lbl.text = _sessiontimeout.toString();
+            session_sld.value = _sessionTimeout;
+            session_lbl.text = _sessionTimeout.toString();
             secure_tgl.isSelected = _secure;
-            samplerate_sld.value = _samplerate;
-            samplerate_lbl.text = _samplerate.toString();
+            sampleRate_sld.value = _sampleRate;
+            sampleRate_lbl.text = _sampleRate.toString();
             anonymous_tgl.isSelected = _anonymous;
         }
     }
@@ -101,10 +102,10 @@ public class TrackerSettingsScreen extends GlobalSettingsScreen implements IMana
     override protected function draw():void {
         super.draw();
 
-        samplerate_sld.validate();
+        sampleRate_sld.validate();
         session_sld.validate();
 
-        samplerate_box.validate();
+        sampleRate_box.validate();
         session_box.validate();
     }
 
@@ -113,7 +114,7 @@ public class TrackerSettingsScreen extends GlobalSettingsScreen implements IMana
 
         session_sld.removeEventListener(Event.CHANGE, session_changeHandler);
         secure_tgl.removeEventListener(Event.CHANGE, secure_changeHandler);
-        samplerate_sld.removeEventListener(Event.CHANGE, sample_changeHandler);
+        sampleRate_sld.removeEventListener(Event.CHANGE, sample_changeHandler);
         anonymous_tgl.removeEventListener(Event.CHANGE, anonymous_changeHandler);
     }
 
@@ -134,10 +135,10 @@ public class TrackerSettingsScreen extends GlobalSettingsScreen implements IMana
             {
                 header: resources.settings.tracker.title,
                 children: [
-                    { text: resources.settings.tracker.properties.anonymous, accessory: createAnonymousControl() },
-                    { text: resources.settings.tracker.properties.samplerate, accessory: createSampleRateControl() },
-                    { text: resources.settings.tracker.properties.secure, accessory: createSecureControl() },
-                    { text: resources.settings.tracker.properties.sessiont, accessory: createSessionTimeoutControl() }
+                    { label: resources.settings.tracker.properties.anonymous, accessory: createAnonymousControl() },
+                    { label: resources.settings.tracker.properties.samplerate, accessory: createSampleRateControl() },
+                    { label: resources.settings.tracker.properties.secure, accessory: createSecureControl() },
+                    { label: resources.settings.tracker.properties.session, accessory: createSessionTimeoutControl() }
                 ]
             }
         ]
@@ -170,23 +171,23 @@ public class TrackerSettingsScreen extends GlobalSettingsScreen implements IMana
     }
 
     private function createSampleRateControl():FeathersControl {
-        samplerate_box = new ScrollContainer();
-        samplerate_box.layout = new HorizontalLayout();
-        HorizontalLayout(samplerate_box.layout).gap = 4;
-        HorizontalLayout(samplerate_box.layout).verticalAlign = HorizontalLayout.VERTICAL_ALIGN_MIDDLE;
+        sampleRate_box = new ScrollContainer();
+        sampleRate_box.layout = new HorizontalLayout();
+        HorizontalLayout(sampleRate_box.layout).gap = 4;
+        HorizontalLayout(sampleRate_box.layout).verticalAlign = HorizontalLayout.VERTICAL_ALIGN_MIDDLE;
 
-        samplerate_sld = new Slider();
-        samplerate_sld.minimum = 0;
-        samplerate_sld.maximum = 100;
-        samplerate_sld.step = 5;
-        samplerate_sld.page = 10;
-        samplerate_sld.addEventListener(Event.CHANGE, sample_changeHandler);
-        samplerate_box.addChild(samplerate_sld);
+        sampleRate_sld = new Slider();
+        sampleRate_sld.minimum = 0;
+        sampleRate_sld.maximum = 100;
+        sampleRate_sld.step = 5;
+        sampleRate_sld.page = 10;
+        sampleRate_sld.addEventListener(Event.CHANGE, sample_changeHandler);
+        sampleRate_box.addChild(sampleRate_sld);
 
-        samplerate_lbl = new Label();
-        samplerate_box.addChild(samplerate_lbl);
+        sampleRate_lbl = new Label();
+        sampleRate_box.addChild(sampleRate_lbl);
 
-        return samplerate_box;
+        return sampleRate_box;
     }
 
     private function createAnonymousControl():FeathersControl {
@@ -196,7 +197,7 @@ public class TrackerSettingsScreen extends GlobalSettingsScreen implements IMana
     }
 
     private function session_changeHandler(event:Event):void {
-        sessiontimeout = session_sld.value;
+        sessionTimeout = session_sld.value;
         changed.dispatch();
     }
 
@@ -206,13 +207,17 @@ public class TrackerSettingsScreen extends GlobalSettingsScreen implements IMana
     }
 
     private function sample_changeHandler(event:Event):void {
-        samplerate = samplerate_sld.value;
+        sampleRate = sampleRate_sld.value;
         changed.dispatch();
     }
 
     private function anonymous_changeHandler(event:Event):void {
         anonymous = anonymous_tgl.isSelected;
         changed.dispatch();
+    }
+
+    override protected function onBackButton():void {
+        navigationRequested.dispatch(DemoScreen.TRACKER_INFO);
     }
 }
 }

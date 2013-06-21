@@ -57,7 +57,7 @@ public class TrackerInfoScreen extends BaseScreen implements IManageTracker, INa
 
     private function createContent():void {
         action_btns = new ButtonGroup();
-        action_btns.direction = ButtonGroup.DIRECTION_HORIZONTAL;
+        action_btns.direction = ButtonGroup.DIRECTION_VERTICAL;
         action_btns.gap = 4;
         action_btns.dataProvider = new ListCollection(buildActionsList());
         container.addChild(action_btns);

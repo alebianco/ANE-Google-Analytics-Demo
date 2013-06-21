@@ -8,6 +8,7 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.views {
 
+import eu.alebianco.air.extensions.analytics.demo.model.DemoScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IManageGlobalSettings;
 
 import feathers.controls.Button;
@@ -29,7 +30,7 @@ import starling.events.Event;
 public class GlobalSettingsScreen extends BaseScreen implements IManageGlobalSettings {
 
     private var _changed:ISignal;
-    private var _completed:ISignal;
+    private var _navigationRequested:ISignal;
 
     private var _list:List;
     protected var interval_box:ScrollContainer;
@@ -50,8 +51,8 @@ public class GlobalSettingsScreen extends BaseScreen implements IManageGlobalSet
         return _changed ||= new Signal();
     }
 
-    public function get completed():ISignal {
-        return _completed ||= new Signal();
+    public function get navigationRequested():ISignal {
+        return _navigationRequested ||= new Signal();
     }
 
     public function get debug():Boolean {
@@ -227,8 +228,8 @@ public class GlobalSettingsScreen extends BaseScreen implements IManageGlobalSet
         changed.dispatch();
     }
 
-    private function onBackButton():void {
-        completed.dispatch();
+    protected function onBackButton():void {
+        navigationRequested.dispatch(DemoScreen.HOME);
     }
 
     private function backButton_triggeredHandler(event:Event):void {

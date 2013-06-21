@@ -25,6 +25,7 @@ import eu.alebianco.air.extensions.analytics.demo.mediators.NavigateMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.TrackViewScreenMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.TrackerBuilderMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.TrackerManagerMediator;
+import eu.alebianco.air.extensions.analytics.demo.mediators.TrackerSettingsMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.VersionDisplayMediator;
 import eu.alebianco.air.extensions.analytics.demo.model.LayoutSettings;
 import eu.alebianco.air.extensions.analytics.demo.model.ResourceBundle;
@@ -33,6 +34,7 @@ import eu.alebianco.air.extensions.analytics.demo.views.api.IBuildTrackers;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayVersion;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IManageGlobalSettings;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IManageTracker;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IManageTrackerSettings;
 import eu.alebianco.air.extensions.analytics.demo.views.api.INavigateScreens;
 import eu.alebianco.air.extensions.analytics.demo.views.api.ITrackViews;
 
@@ -77,6 +79,7 @@ public class AppConfig implements IConfig {
         mediator.map(IBuildTrackers).toMediator(TrackerBuilderMediator);
         mediator.map(INavigateScreens).toMediator(NavigateMediator);
         mediator.map(IManageGlobalSettings).toMediator(GlobalSettingsMediator);
+        mediator.map(IManageTrackerSettings).toMediator(TrackerSettingsMediator);
         mediator.map(IManageTracker).toMediator(TrackerManagerMediator);
         mediator.map(ITrackViews).toMediator(TrackViewScreenMediator);
 
