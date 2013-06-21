@@ -28,6 +28,7 @@ public class TrackViewScreenMediator extends Mediator {
 
     override public function initialize():void {
         super.initialize();
+        view.enabled = false;
         view.change.add(onChange);
         view.track.add(onTrack);
     }
