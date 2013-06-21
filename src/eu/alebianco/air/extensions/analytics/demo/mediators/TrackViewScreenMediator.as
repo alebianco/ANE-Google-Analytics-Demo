@@ -9,7 +9,9 @@
 package eu.alebianco.air.extensions.analytics.demo.mediators {
 import eu.alebianco.air.extensions.analytics.api.Hit;
 import eu.alebianco.air.extensions.analytics.api.ITracker;
+import eu.alebianco.air.extensions.analytics.demo.events.NavigateEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.TrackDataEvent;
+import eu.alebianco.air.extensions.analytics.demo.model.DemoScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.api.ITrackViews;
 
 import robotlegs.bender.bundles.mvcs.Mediator;
@@ -38,6 +40,7 @@ public class TrackViewScreenMediator extends Mediator {
     private function onTrack():void {
         const hit:Hit = tracker.buildView(view.screenName).create();
         dispatch(new TrackDataEvent(hit))
+        dispatch(new NavigateEvent(DemoScreen.TRACKER_INFO));
     }
 
     override public function destroy():void {

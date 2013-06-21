@@ -24,6 +24,12 @@ public class TrackerManagerMediator extends Mediator {
 
     override public function initialize():void {
         super.initialize();
+
+        view.appID = tracker.appID;
+        view.appName = tracker.appName;
+        view.appVersion = tracker.appVersion;
+        view.trackerID = tracker.trackingID;
+
         /*
          tracker.buildView()
          tracker.buildEvent()

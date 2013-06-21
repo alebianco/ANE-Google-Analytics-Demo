@@ -38,9 +38,17 @@ settings:
 tracker:
   common:
     track:
-      label: Send!
+      label: Send now!
+    sent: Hit data has been queued for dispatch
   home:
     title: Tracker Info
+    info: |
+      "These info will be tracked with all your hits:"
+      "Application ID: {0}"
+      "Application name: {1}"
+      "Application Version: {2}"
+      " "
+      "All the information will be tracked to this account: {3}"
     disconnect:
       label: Disconnect
     action:
