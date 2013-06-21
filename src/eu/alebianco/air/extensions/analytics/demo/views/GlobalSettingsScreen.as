@@ -124,6 +124,7 @@ public class GlobalSettingsScreen extends BaseScreen implements IManageGlobalSet
         super.draw();
 
         list.height = container.height;
+        list.width = container.width - settings.paddingLeft - settings.paddingRight;
         list.validate();
 
         intervalValue_lbl.validate();
