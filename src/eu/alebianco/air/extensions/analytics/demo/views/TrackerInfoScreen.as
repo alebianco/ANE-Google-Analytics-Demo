@@ -132,15 +132,18 @@ public class TrackerInfoScreen extends BaseScreen implements IManageTracker, INa
         action_btns.layout = layout;
 
         for each (var action:TrackerAction in TrackerAction.getConstants()) {
+            const screen:DemoScreen = DemoScreen.parseConstant(action.name);
             const button:Button = new Button();
             button.label = resources.tracker.home.action[action.name.toLowerCase()];
-            button.addEventListener(Event.TRIGGERED, buildActionButtonHandler(DemoScreen.parseConstant(action.name)));
+            button.isEnabled = screen.view != null;
+            button.addEventListener(Event.TRIGGERED, buildActionButtonHandler(screen));
             action_btns.addChild(button);
         }
 
         container.addChild(action_btns);
 
         // TODO add dispatch button if manual dispatch
+        // TODO add reset session button to manually start a new session
     }
 
     override protected function createHeader():void {
