@@ -9,7 +9,7 @@
 package eu.alebianco.air.extensions.analytics.demo.views.api {
 import org.osflash.signals.ISignal;
 
-public interface ITrack {
+public interface ITrack extends INavigateScreens {
     function get track():ISignal;
 
     function get change():ISignal;

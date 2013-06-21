@@ -16,7 +16,7 @@ import eu.alebianco.air.extensions.analytics.demo.views.api.ITrackViews;
 
 import robotlegs.bender.bundles.mvcs.Mediator;
 
-public class TrackViewScreenMediator extends Mediator {
+public class TrackViewMediator extends Mediator {
 
     private const SCREEN_NAME_VALIDATOR:RegExp = new RegExp('^.+$', 'i');
 

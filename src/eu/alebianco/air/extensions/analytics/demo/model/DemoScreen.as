@@ -10,6 +10,7 @@ package eu.alebianco.air.extensions.analytics.demo.model {
 
 import eu.alebianco.air.extensions.analytics.demo.views.GlobalSettingsScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.HomeScreen;
+import eu.alebianco.air.extensions.analytics.demo.views.TrackEventScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.TrackViewScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.TrackerInfoScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.TrackerSettingsScreen;
@@ -30,7 +31,7 @@ public final class DemoScreen extends Enum {
     public static const TRACKER_SETTINGS:DemoScreen = new DemoScreen(TrackerSettingsScreen);
 
     public static const VIEW:DemoScreen = new DemoScreen(TrackViewScreen);
-    public static const EVENT:DemoScreen = new DemoScreen(null);
+    public static const EVENT:DemoScreen = new DemoScreen(TrackEventScreen);
     public static const TIMING:DemoScreen = new DemoScreen(null);
     public static const SOCIAL:DemoScreen = new DemoScreen(null);
     public static const EXCEPTION:DemoScreen = new DemoScreen(null);
