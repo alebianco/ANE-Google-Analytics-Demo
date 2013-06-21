@@ -4,6 +4,8 @@ common:
   header:
     back:
       label: Back
+    settings:
+      label: Settings
   errors:
     unsupportedplatform: This platform is not supported by the extension, sorry.
     trackercreationfail: "Something went wrong: Analytics is unable to create the requested tracker."
@@ -13,19 +15,43 @@ home:
   intro: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
   connect:
     label: Connect
-  settings:
-    label: Settings
   account:
     label: "Analytics ID:"
 
 settings:
-  title:
-    label: Settings
-  debug:
-    label: Debug
-  optout:
-    label: Opt out
-  manual:
-    label: Manual dispatch
-  interval:
-    label: Dispatch interval
+  title: Settings
+  global:
+    title: Global
+    properties:
+      debug: Debug
+      optout: Opt out
+      manual: Manual dispatch
+      interval: Dispatch interval
+  tracker:
+    title: Tracker
+    properties:
+      anonymous: Anonymous
+      samplerate: Sample rate
+      secure: Secure connection
+      session: Session timeout
+
+tracker:
+  common:
+    track:
+      label: Send!
+  home:
+    title: Tracker Info
+    disconnect:
+      label: Disconnect
+    action:
+      view: View
+      event: Event
+      timing: Timing
+      social: Social
+      exception: Exception
+      transaction: Transaction
+  view:
+    title: View
+    info: Lorem ipsum ...
+    fields:
+      name: "Screen name:"

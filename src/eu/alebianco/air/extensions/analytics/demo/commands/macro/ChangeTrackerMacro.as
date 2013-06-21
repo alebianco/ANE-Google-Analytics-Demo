@@ -24,37 +24,37 @@ import flash.events.IEventDispatcher;
 
 public class ChangeTrackerMacro extends SequenceMacro {
 
-	[Inject]
-	public var dispatcher:IEventDispatcher;
+    [Inject]
+    public var dispatcher:IEventDispatcher;
 
-	[Inject]
-	public var event:CreateTrackerEvent;
+    [Inject]
+    public var event:CreateTrackerEvent;
 
-	[Inject]
-	public var resources:ResourceBundle;
+    [Inject]
+    public var resources:ResourceBundle;
 
-	override public function prepare():void {
+    override public function prepare():void {
 
-		this.atomic = false;
+        this.atomic = false;
 
-		const account:SubCommandPayload = new SubCommandPayload(event.account).withName("account");
+        const account:SubCommandPayload = new SubCommandPayload(event.account).withName("account");
 
-		add(DestroyTracker).withGuards(OtherTrackerRegistered).withPayloads(account);
-		add(CreateTracker).withGuards(NoTrackerRegistered).withPayloads(account);
+        add(DestroyTracker).withGuards(OtherTrackerRegistered).withPayloads(account);
+        add(CreateTracker).withGuards(NoTrackerRegistered).withPayloads(account);
 
-		registerCompleteCallback(onComplete);
-	}
+        registerCompleteCallback(onComplete);
+    }
 
-	override public function execute():void {
-		super.execute();
-	}
+    override public function execute():void {
+        super.execute();
+    }
 
-	private function onComplete(success:Boolean):void {
-		if (success) {
-			dispatcher.dispatchEvent(new NavigateEvent(DemoScreen.TRACKER));
-		} else {
-			new Toast(resources.common.errors.trackercreationfail).show();
-		}
-	}
+    private function onComplete(success:Boolean):void {
+        if (success) {
+            dispatcher.dispatchEvent(new NavigateEvent(DemoScreen.TRACKER_INFO));
+        } else {
+            new Toast(resources.common.errors.trackercreationfail).show();
+        }
+    }
 }
 }

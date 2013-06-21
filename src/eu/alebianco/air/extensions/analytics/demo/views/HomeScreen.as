@@ -31,71 +31,71 @@ import starling.events.Event;
 
 final public class HomeScreen extends BaseScreen implements IDisplayVersion, IBuildTrackers, INavigateScreens {
 
-	private var settings_btn:Button;
-	private var account_txt:TextInput;
-	private var info_lbl:Label;
+    private var settings_btn:Button;
+    private var account_txt:TextInput;
+    private var info_lbl:Label;
 
-	private var version_lbl:Label;
-	private var _accountChanged:ISignal;
-	private var _connectTriggered:ISignal;
+    private var version_lbl:Label;
+    private var _accountChanged:ISignal;
+    private var _connectTriggered:ISignal;
 
-	private var _navigationRequested:ISignal;
-	private var _version:String;
-	private var _account:String;
-	private var connect_btn:Button;
+    private var _navigationRequested:ISignal;
+    private var _version:String;
+    private var _account:String;
+    private var connect_btn:Button;
 
-	public function get navigationRequested():ISignal {
-		return _navigationRequested ||= new Signal(DemoScreen);
-	}
+    public function get navigationRequested():ISignal {
+        return _navigationRequested ||= new Signal(DemoScreen);
+    }
 
-	public function get connectTriggered():ISignal {
-		return _connectTriggered ||= new Signal();
-	}
+    public function get connectTriggered():ISignal {
+        return _connectTriggered ||= new Signal();
+    }
 
-	public function get accountChanged():ISignal {
-		return _accountChanged ||= new Signal();
-	}
+    public function get accountChanged():ISignal {
+        return _accountChanged ||= new Signal();
+    }
 
-	public function set version(value:String):void {
-		_version = value;
-		invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
-	}
+    public function set version(value:String):void {
+        _version = value;
+        invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
+    }
 
-	public function get account():String {
-		return _account;
-	}
+    public function get account():String {
+        return _account;
+    }
 
-	public function set account(value:String):void {
-		_account = StringUtil.trim(value);
-		invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
-	}
+    public function set account(value:String):void {
+        _account = StringUtil.trim(value);
+        invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
+    }
 
     override protected function initialize():void {
         super.initialize();
         createContent();
     }
 
-	override public function invalidate(flag:String = "all"):void {
-		super.invalidate(flag);
-		if (flag == FeathersControl.INVALIDATION_FLAG_DATA) {
-			account_txt.text = _account;
-			version_lbl.text = _version;
-		}
-	}
+    override public function invalidate(flag:String = "all"):void {
+        super.invalidate(flag);
+        if (flag == FeathersControl.INVALIDATION_FLAG_DATA) {
+            account_txt.text = _account;
+            version_lbl.text = _version;
+        }
+    }
 
-	override protected function draw():void {
-		super.draw();
-		info_lbl.width = container.width - settings.paddingLeft - settings.paddingRight;
-	}
+    override protected function draw():void {
+        super.draw();
+        info_lbl.width = container.width - settings.paddingLeft - settings.paddingRight;
+    }
 
-	override public function dispose():void {
-		super.dispose();
-		account_txt.addEventListener(Event.CHANGE, account_changeHandler);
-		connect_btn.addEventListener(Event.TRIGGERED, connect_triggerHandler);
-		settings_btn.addEventListener(Event.TRIGGERED, settings_triggeredHandler);
-	}
+    override public function dispose():void {
+        super.dispose();
+        account_txt.addEventListener(Event.CHANGE, account_changeHandler);
+        connect_btn.addEventListener(Event.TRIGGERED, connect_triggerHandler);
+        settings_btn.addEventListener(Event.TRIGGERED, settings_triggeredHandler);
+    }
 
-	private function createContent():void {
+    private function createContent():void {
         version_lbl = new Label();
         container.addChild(version_lbl);
 
@@ -126,26 +126,26 @@ final public class HomeScreen extends BaseScreen implements IDisplayVersion, IBu
         container.addChild(connectGroup);
     }
 
-	override protected function createHeader():void {
+    override protected function createHeader():void {
         super.createHeader();
 
         settings_btn = new Button();
-        settings_btn.label = resources.home.settings.label;
+        settings_btn.label = resources.common.header.settings.label;
         settings_btn.addEventListener(Event.TRIGGERED, settings_triggeredHandler);
-		header.rightItems = new <DisplayObject>[settings_btn];
-	}
+        header.rightItems = new <DisplayObject>[settings_btn];
+    }
 
-	private function connect_triggerHandler(event:Event):void {
-		connectTriggered.dispatch()
-	}
+    private function connect_triggerHandler(event:Event):void {
+        connectTriggered.dispatch()
+    }
 
-	private function account_changeHandler(event:Event):void {
-		account = account_txt.text;
-		accountChanged.dispatch()
-	}
+    private function account_changeHandler(event:Event):void {
+        account = account_txt.text;
+        accountChanged.dispatch()
+    }
 
-	private function settings_triggeredHandler(event:Event):void {
-		navigationRequested.dispatch(DemoScreen.SETTINGS);
-	}
+    private function settings_triggeredHandler(event:Event):void {
+        navigationRequested.dispatch(DemoScreen.SETTINGS);
+    }
 }
 }
