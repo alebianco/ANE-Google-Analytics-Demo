@@ -52,14 +52,22 @@ tracker:
     disconnect:
       label: Disconnect
     action:
-      view: View
+      view: Screens
       event: Event
       timing: Timing
       social: Social
       exception: Exception
       transaction: Transaction
   view:
-    title: View
-    info: Lorem ipsum ...
+    title: Screens
+    info: Screens in Google Analytics represent content users are viewing within your app. The equivalent concept in web analytics is a pageview. Measuring screen views allows you to see which content is being viewed most by your users, and how are they are navigating between different pieces of content.
     fields:
       name: "Screen name:"
+  event:
+    title: Event
+    info: Events are a useful way to collect data about a user's interaction with interactive components of your app, like button presses or the use of a particular item in a game.
+    fields:
+      category: "Category:"
+      action: "Action:"
+      label: "Label:"
+      value: "Value:"

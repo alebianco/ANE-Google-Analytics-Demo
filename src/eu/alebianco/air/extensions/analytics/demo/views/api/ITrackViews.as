@@ -9,6 +9,6 @@
 package eu.alebianco.air.extensions.analytics.demo.views.api {
 
 public interface ITrackViews extends ITrack {
-    function get screenName():String;
+	function get screen():String;
 }
 }

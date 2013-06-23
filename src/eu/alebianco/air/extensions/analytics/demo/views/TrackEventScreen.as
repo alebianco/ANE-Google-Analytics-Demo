@@ -7,77 +7,137 @@
  * Copyright © 2013 Alessandro Bianco
  */
 package eu.alebianco.air.extensions.analytics.demo.views {
+
 import eu.alebianco.air.extensions.analytics.demo.views.api.ITrackEvent;
 
-import feathers.controls.Label;
+import feathers.controls.NumericStepper;
 import feathers.controls.ScrollContainer;
 import feathers.controls.Scroller;
 import feathers.controls.TextInput;
+import feathers.controls.ToggleSwitch;
+import feathers.core.FeathersControl;
 
 import starling.events.Event;
 
 public class TrackEventScreen extends TrackBaseScreen implements ITrackEvent {
 
-    private var name_row:ScrollContainer;
-    private var name_lbl:Label;
-    private var name_fld:TextInput;
+	private var _category:String;
+	private var _action:String;
+	private var _label:String;
+	private var _value:int;
+	private var _hasLabel:Boolean;
+	private var _hasValue:Boolean;
 
-    public function get category():String {
-        return "";
-    }
+	public function get category():String {
+		return _category || "";
+	}
 
-    public function get action():String {
-        return "";
-    }
+	public function get action():String {
+		return _action || "";
+	}
 
-    public function get label():String {
-        return "";
-    }
+	public function get label():String {
+		return _label || "";
+	}
 
-    public function get value():int {
-        return 0;
-    }
+	public function get value():int {
+		return _value;
+	}
 
-    public function get hasLabel():Boolean {
-        return false;
-    }
+	public function get hasLabel():Boolean {
+		return _hasLabel;
+	}
 
-    public function get hasValue():Boolean {
-        return false;
-    }
+	public function get hasValue():Boolean {
+		return _hasValue;
+	}
 
-    override public function dispose():void {
-        super.dispose();
-    }
+	override protected function createContent():void {
+		super.createContent();
+		info_lbl.text = resources.tracker.event.info;
+		addFormField(resources.tracker.event.fields.category, createCategoryField());
+		addFormField(resources.tracker.event.fields.action, createActionField());
+		addFormField(resources.tracker.event.fields.label, createLabelField());
+		addFormField(resources.tracker.event.fields.value, createValueField());
+	}
 
-    override protected function initialize():void {
-        super.initialize();
-        info_lbl.text = resources.tracker.event.info;
-    }
+	private function createCategoryField():FeathersControl {
+		const txt:TextInput = new TextInput();
+		txt.addEventListener(Event.CHANGE, function (event:Event):void {
+			_category = txt.text;
+		});
+		return txt;
+	}
 
-    override protected function createFormFields():void {
+	private function createActionField():FeathersControl {
+		const txt:TextInput = new TextInput();
+		txt.addEventListener(Event.CHANGE, function (event:Event):void {
+			_action = txt.text;
+		});
+		return txt;
+	}
 
-        name_row = new ScrollContainer();
-        name_row.layout = getFormFieldLayout();
-        container.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
-        container.addChild(name_row);
+	private function createLabelField():FeathersControl {
+		const field:ScrollContainer = new ScrollContainer();
+		field.layout = getFormFieldLayout();
+		field.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
+		field.scrollerProperties.horizontalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
 
-        name_lbl = new Label();
-        name_lbl.text = resources.tracker.view.fields.name;
-        name_row.addChild(name_lbl);
+		const txt:TextInput = new TextInput();
+		txt.isEnabled = false;
+		txt.addEventListener(Event.CHANGE, function (event:Event):void {
+			_label = txt.text;
+			field.dispatchEvent(event);
+		});
+		field.addChild(txt);
 
-        name_fld = new TextInput();
-        name_fld.addEventListener(Event.CHANGE, name_changeHandler);
-        name_row.addChild(name_fld);
-    }
+		const chk:ToggleSwitch = new ToggleSwitch();
+		chk.addEventListener(Event.CHANGE, function (event:Event):void {
+			_hasValue = chk.isSelected;
+			txt.isEnabled = chk.isSelected;
+			_label = txt.text;
+			field.dispatchEvent(event);
+		});
+		field.addChild(chk);
 
-    override protected function createHeader():void {
-        super.createHeader();
-        header.title = resources.tracker.event.title;
-    }
+		return field;
+	}
 
-    private function name_changeHandler(event:Event):void {
-        change.dispatch();
-    }
+	private function createValueField():FeathersControl {
+
+		const field:ScrollContainer = new ScrollContainer();
+		field.layout = getFormFieldLayout();
+		field.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
+		field.scrollerProperties.horizontalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
+
+		const num:NumericStepper = new NumericStepper();
+		num.minimum = 1;
+		num.maximum = 100;
+		num.step = 1;
+		num.value = 1;
+		num.isEnabled = false;
+		num.width = 260;
+		num.addEventListener(Event.CHANGE, function (event:Event):void {
+			_value = num.value;
+			field.dispatchEvent(event);
+		});
+		field.addChild(num);
+
+		const chk:ToggleSwitch = new ToggleSwitch();
+		chk.addEventListener(Event.CHANGE, function (event:Event):void {
+			_hasValue = chk.isSelected;
+			num.isEnabled = chk.isSelected;
+			_value = num.value;
+			field.dispatchEvent(event);
+		});
+		field.addChild(chk);
+
+		return field;
+	}
+
+	override protected function createHeader():void {
+		super.createHeader();
+		header.title = resources.tracker.event.title;
+	}
 }
 }
