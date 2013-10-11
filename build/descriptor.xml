@@ -25,7 +25,7 @@
 			<manifest android:installLocation="auto">
 				<uses-permission android:name="android.permission.INTERNET" />
 				<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-			    <application android:enabled="true">
+			    <application android:enabled="true" android:debuggable="true">
 					<activity android:excludeFromRecents="false">
 						<intent-filter>
 							<action android:name="android.intent.action.MAIN"/>
