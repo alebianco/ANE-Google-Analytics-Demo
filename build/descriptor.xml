@@ -20,7 +20,25 @@
     	<extensionID>eu.alebianco.air.extensions.analytics.NativeGATracker</extensionID>
     </extensions>
 
-	<android>
+    <icon>
+        <image16x16>icons/icon16.png</image16x16>
+        <image29x29>icons/icon29.png</image29x29>
+        <image32x32>icons/icon32.png</image32x32>
+        <image36x36>icons/icon36.png</image36x36>
+        <image48x48>icons/icon48.png</image48x48>
+        <image50x50>icons/icon50.png</image50x50>
+        <image57x57>icons/icon57.png</image57x57>
+        <image58x58>icons/icon58.png</image58x58>
+        <image72x72>icons/icon72.png</image72x72>
+        <image100x100>icons/icon100.png</image100x100>
+        <image114x114>icons/icon114.png</image114x114>
+        <image128x128>icons/icon128.png</image128x128>
+        <image144x144>icons/icon144.png</image144x144>
+        <image512x512>icons/icon512.png</image512x512>
+        <image1024x1024>icons/icon1024.png</image1024x1024>
+    </icon>
+
+    <android>
         <manifestAdditions><![CDATA[
 			<manifest android:installLocation="auto">
 				<uses-permission android:name="android.permission.INTERNET" />
