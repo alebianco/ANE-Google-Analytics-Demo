@@ -32,6 +32,8 @@ public class CreateTracker extends AsyncCommand {
         if (tracker) {
             injector.addEventListener(MappingEvent.POST_MAPPING_CHANGE, onMappingCreated);
             injector.map(ITracker).toValue(tracker);
+
+            tracker.getCampaignData();
         } else {
             dispatchComplete(false);
         }
