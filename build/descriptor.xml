@@ -5,8 +5,8 @@
 	<filename>ANE-AnalyticsDemo</filename>
 	<name>ANE-AnalyticsDemo-debug</name>
 	
-	<versionNumber>1.0.0</versionNumber>
-	<versionLabel>1.0</versionLabel>
+	<versionNumber>1.0.2</versionNumber>
+	<versionLabel>1.0.2</versionLabel>
 	
 	<initialWindow>
 		<content>Main.swf</content>
