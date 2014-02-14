@@ -8,9 +8,12 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.commands {
 
+import eu.alebianco.air.extensions.analytics.Analytics;
 import eu.alebianco.air.extensions.analytics.api.IAnalytics;
 import eu.alebianco.air.extensions.analytics.api.ITracker;
 import eu.alebianco.robotlegs.utils.impl.AsyncCommand;
+
+import feathers.controls.Toast;
 
 import org.swiftsuspenders.mapping.MappingEvent;
 
@@ -32,8 +35,6 @@ public class CreateTracker extends AsyncCommand {
         if (tracker) {
             injector.addEventListener(MappingEvent.POST_MAPPING_CHANGE, onMappingCreated);
             injector.map(ITracker).toValue(tracker);
-
-            tracker.getCampaignData();
         } else {
             dispatchComplete(false);
         }
