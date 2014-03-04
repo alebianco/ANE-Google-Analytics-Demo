@@ -5,8 +5,8 @@
 	<filename>ANE-AnalyticsDemo</filename>
 	<name>ANE-AnalyticsDemo-debug</name>
 	
-	<versionNumber>1.0.2</versionNumber>
-	<versionLabel>1.0.2</versionLabel>
+	<versionNumber>1.0.4</versionNumber>
+	<versionLabel>1.0.4</versionLabel>
 	
 	<initialWindow>
 		<content>Main.swf</content>
@@ -21,21 +21,21 @@
     </extensions>
 
     <icon>
-        <image16x16>icons/icon16.png</image16x16>
-        <image29x29>icons/icon29.png</image29x29>
-        <image32x32>icons/icon32.png</image32x32>
-        <image36x36>icons/icon36.png</image36x36>
-        <image48x48>icons/icon48.png</image48x48>
-        <image50x50>icons/icon50.png</image50x50>
-        <image57x57>icons/icon57.png</image57x57>
-        <image58x58>icons/icon58.png</image58x58>
-        <image72x72>icons/icon72.png</image72x72>
-        <image100x100>icons/icon100.png</image100x100>
-        <image114x114>icons/icon114.png</image114x114>
-        <image128x128>icons/icon128.png</image128x128>
-        <image144x144>icons/icon144.png</image144x144>
-        <image512x512>icons/icon512.png</image512x512>
-        <image1024x1024>icons/icon1024.png</image1024x1024>
+        <image16x16>icons/ico-16.png</image16x16>
+        <image29x29>icons/ico-29.png</image29x29>
+        <image32x32>icons/ico-32.png</image32x32>
+        <image36x36>icons/ico-36.png</image36x36>
+        <image48x48>icons/ico-48.png</image48x48>
+        <image50x50>icons/ico-50.png</image50x50>
+        <image57x57>icons/ico-57.png</image57x57>
+        <image58x58>icons/ico-58.png</image58x58>
+        <image72x72>icons/ico-72.png</image72x72>
+        <image100x100>icons/ico-100.png</image100x100>
+        <image114x114>icons/ico-114.png</image114x114>
+        <image128x128>icons/ico-128.png</image128x128>
+        <image144x144>icons/ico-144.png</image144x144>
+        <image512x512>icons/ico-512.png</image512x512>
+        <image1024x1024>icons/ico-1024.png</image1024x1024>
     </icon>
 
     <android>
@@ -43,7 +43,7 @@
 			<manifest android:installLocation="auto">
 				<uses-permission android:name="android.permission.INTERNET" />
 				<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-			    <application android:enabled="true" android:debuggable="true">
+			    <application android:enabled="true" android:debuggable="false">
                     <service android:name="com.google.analytics.tracking.android.CampaignTrackingService"/>
                     <receiver android:name="com.google.analytics.tracking.android.CampaignTrackingReceiver" android:exported="true">
                       <intent-filter>
