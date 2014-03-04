@@ -16,7 +16,7 @@ import robotlegs.bender.framework.api.IInjector;
 
 public class TrackerBuilderMediator extends Mediator {
 
-	private const DEFAULT_ACCOUNT:String = "UA-29711569-2";
+	private const DEFAULT_ACCOUNT:String = "UA-48656304-1";
 
 	[Inject]
 	public var injector:IInjector;
