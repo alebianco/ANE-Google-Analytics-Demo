@@ -73,7 +73,7 @@ public class TrackBaseScreen extends BaseScreen implements ITrack {
 		container.addChild(info_lbl);
 
 		form = new List();
-		form.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_AUTO;
+        form.verticalScrollPolicy = Scroller.SCROLL_POLICY_AUTO
 		form.isSelectable = false;
 		form.dataProvider = new ListCollection();
 		container.addChild(form);

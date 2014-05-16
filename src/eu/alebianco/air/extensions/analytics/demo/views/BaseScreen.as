@@ -59,8 +59,8 @@ public class BaseScreen extends Screen {
 	protected function createContainer():void {
 		container = new ScrollContainer();
 		container.layout = getContainerLayout();
-		container.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_AUTO;
-		container.scrollerProperties.snapScrollPositionsToPixels = true;
+		container.verticalScrollPolicy = Scroller.SCROLL_POLICY_AUTO;
+		container.snapScrollPositionsToPixels = true;
 		addChild(container);
 	}
 

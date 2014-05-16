@@ -80,8 +80,8 @@ public class TrackEventScreen extends TrackBaseScreen implements ITrackEvent {
 	private function createLabelField():FeathersControl {
 		const field:ScrollContainer = new ScrollContainer();
 		field.layout = getFormFieldLayout();
-		field.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
-		field.scrollerProperties.horizontalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
+		field.verticalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
+		field.horizontalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
 
 		const txt:TextInput = new TextInput();
 		txt.isEnabled = false;
@@ -107,8 +107,8 @@ public class TrackEventScreen extends TrackBaseScreen implements ITrackEvent {
 
 		const field:ScrollContainer = new ScrollContainer();
 		field.layout = getFormFieldLayout();
-		field.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
-		field.scrollerProperties.horizontalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
+		field.verticalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
+		field.horizontalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
 
 		const num:NumericStepper = new NumericStepper();
 		num.minimum = 1;
