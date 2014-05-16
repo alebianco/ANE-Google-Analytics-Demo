@@ -24,19 +24,19 @@ public class GlobalSettingsMediator extends Mediator {
     override public function initialize():void {
         super.initialize();
 
-        view.debug = analytics.debug;
-        view.dispatchManually = analytics.dispatchManually;
-        view.dispatchInterval = analytics.dispatchInterval;
-        view.optOut = analytics.optOut;
-
-        view.changed.add(onChanged);
+//        view.debug = analytics.debug;
+//        view.dispatchManually = analytics.dispatchManually;
+//        view.dispatchInterval = analytics.dispatchInterval;
+//        view.optOut = analytics.optOut;
+//
+//        view.changed.add(onChanged);
     }
 
     private function onChanged():void {
-        analytics.debug = view.debug;
-        analytics.dispatchManually = view.dispatchManually;
-        analytics.dispatchInterval = view.dispatchInterval;
-        analytics.optOut = view.optOut;
+//        analytics.debug = view.debug;
+//        analytics.dispatchManually = view.dispatchManually;
+//        analytics.dispatchInterval = view.dispatchInterval;
+//        analytics.optOut = view.optOut;
     }
 
     override public function destroy():void {

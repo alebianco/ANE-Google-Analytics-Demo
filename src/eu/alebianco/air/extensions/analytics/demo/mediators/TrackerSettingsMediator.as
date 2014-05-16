@@ -22,19 +22,19 @@ public class TrackerSettingsMediator extends Mediator {
 
     override public function initialize():void {
         super.initialize();
-        view.anonymous = tracker.anonymous;
-        view.sampleRate = tracker.sampleRate;
-        view.secure = tracker.secure;
-        view.sessionTimeout = tracker.sessionTimeout;
-
-        view.changed.add(onChanged);
+//        view.anonymous = tracker.anonymous;
+//        view.sampleRate = tracker.sampleRate;
+//        view.secure = tracker.secure;
+//        view.sessionTimeout = tracker.sessionTimeout;
+//
+//        view.changed.add(onChanged);
     }
 
     private function onChanged():void {
-        tracker.anonymous = view.anonymous;
-        tracker.sampleRate = view.sampleRate;
-        tracker.secure = view.secure;
-        tracker.sessionTimeout = view.sessionTimeout;
+//        tracker.anonymous = view.anonymous;
+//        tracker.sampleRate = view.sampleRate;
+//        tracker.secure = view.secure;
+//        tracker.sessionTimeout = view.sessionTimeout;
     }
 
     override public function destroy():void {

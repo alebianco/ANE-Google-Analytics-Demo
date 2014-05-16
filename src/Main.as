@@ -24,7 +24,7 @@ public class Main extends Sprite {
 
     public function Main() {
 
-        Analytics.getInstance().debug = true;
+        Analytics.getInstance();
 
         if (this.stage) {
             this.stage.scaleMode = StageScaleMode.NO_SCALE;
