@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<application xmlns="http://ns.adobe.com/air/application/15.0">
+    
+	<id>eu.alebianco.air.extensions.analytics.AnalyticsDemo.debug</id>
+	<filename>ANE-AnalyticsDemo</filename>
+	<name>ANE-AnalyticsDemo-debug</name>
+	
+	<versionNumber>1.1.0</versionNumber>
+	<versionLabel>1.1.0</versionLabel>
+	
+	<initialWindow>
+		<content>Main.swf</content>
+		<autoOrients>true</autoOrients>
+        <fullScreen>false</fullScreen>
+        <visible>true</visible>
+        <renderMode>direct</renderMode>
+    </initialWindow>
+    
+	<extensions>
+    	<extensionID>eu.alebianco.air.extensions.analytics.NativeGATracker</extensionID>
+    </extensions>
+
+    <icon>
+        <image16x16>icons/ico-16.png</image16x16>
+        <image29x29>icons/ico-29.png</image29x29>
+        <image32x32>icons/ico-32.png</image32x32>
+        <image36x36>icons/ico-36.png</image36x36>
+        <image48x48>icons/ico-48.png</image48x48>
+        <image50x50>icons/ico-50.png</image50x50>
+        <image57x57>icons/ico-57.png</image57x57>
+        <image58x58>icons/ico-58.png</image58x58>
+        <image72x72>icons/ico-72.png</image72x72>
+        <image100x100>icons/ico-100.png</image100x100>
+        <image114x114>icons/ico-114.png</image114x114>
+        <image128x128>icons/ico-128.png</image128x128>
+        <image144x144>icons/ico-144.png</image144x144>
+        <image512x512>icons/ico-512.png</image512x512>
+        <image1024x1024>icons/ico-1024.png</image1024x1024>
+    </icon>
+
+    <android>
+        <manifestAdditions><![CDATA[
+			<manifest android:installLocation="auto">
+				<uses-permission android:name="android.permission.INTERNET" />
+				<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+			    <application android:enabled="true" android:debuggable="false">
+					<activity android:excludeFromRecents="false">
+						<intent-filter>
+							<action android:name="android.intent.action.MAIN"/>
+							<category android:name="android.intent.category.LAUNCHER"/>
+						</intent-filter>
+						<intent-filter>
+                            <action android:name="android.intent.action.VIEW" />
+                            <category android:name="android.intent.category.DEFAULT" />
+                            <category android:name="android.intent.category.BROWSABLE" />
+                        </intent-filter>
+					</activity>
+				</application>
+			</manifest>
+		]]></manifestAdditions>
+    </android>
+    
+    <iPhone>
+        <InfoAdditions><![CDATA[
+			<key>UIDeviceFamily</key>
+			<array>
+				<string>1</string>
+				<string>2</string>
+			</array>
+		]]></InfoAdditions>
+        <requestedDisplayResolution>high</requestedDisplayResolution>
+    </iPhone>
+    
+</application>
