@@ -7,10 +7,7 @@
 package eu.alebianco.air.extensions.analytics.demo.commands {
 import eu.alebianco.robotlegs.utils.impl.AsyncCommand;
 
-import flash.filesystem.File;
 import flash.utils.setTimeout;
-
-import starling.utils.AssetManager;
 
 public class Delay extends AsyncCommand {
 
