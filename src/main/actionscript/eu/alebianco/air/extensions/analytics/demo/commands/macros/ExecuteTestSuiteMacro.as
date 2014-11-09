@@ -5,6 +5,7 @@
  * Created: 02/11/2014 18:15
  */
 package eu.alebianco.air.extensions.analytics.demo.commands.macros {
+import eu.alebianco.air.extensions.analytics.demo.commands.Delay;
 import eu.alebianco.air.extensions.analytics.demo.commands.ShowScreen;
 import eu.alebianco.air.extensions.analytics.demo.commands.guards.isTestActive;
 import eu.alebianco.air.extensions.analytics.demo.events.ExecuteTestSuiteEvent;
@@ -22,7 +23,7 @@ public class ExecuteTestSuiteMacro extends SequenceMacro {
     override public function prepare():void {
 
         add(ShowScreen).withPayloads(new NavigateEvent(DemoScreen.TEST_RUNNER));
-        // TODO disable view, wait transition, notify number of tests to run
+        add(Delay).withPayloads(new SubCommandPayload(3000, Number).withName("delay"));
         event.suite.tests.forEach(queueCommand);
         // TODO notify tests complete, show report
     }
