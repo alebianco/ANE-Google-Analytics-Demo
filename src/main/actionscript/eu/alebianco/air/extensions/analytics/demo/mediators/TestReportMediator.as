@@ -5,6 +5,7 @@
  * Created: 02/11/2014 19:24
  */
 package eu.alebianco.air.extensions.analytics.demo.mediators {
+import eu.alebianco.air.extensions.analytics.demo.events.DisplayReportDetailsEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.TestReportUpdateEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
 import eu.alebianco.air.extensions.analytics.demo.model.vo.TestReportVO;
@@ -39,7 +40,7 @@ public class TestReportMediator extends Mediator {
     }
 
     private function displayTestDetails(report:TestReportVO):void {
-        trace("show report screen for", report.test.name);
+        dispatch(new DisplayReportDetailsEvent(report));
     }
 
     private function onReportUpdated(event:TestReportUpdateEvent):void {

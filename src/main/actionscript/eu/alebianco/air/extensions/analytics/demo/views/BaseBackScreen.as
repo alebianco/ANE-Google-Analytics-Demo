@@ -5,6 +5,7 @@
  * Created: 02/11/2014 18:38
  */
 package eu.alebianco.air.extensions.analytics.demo.views {
+import eu.alebianco.air.extensions.analytics.demo.model.DemoScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IBack;
 
 import feathers.controls.Button;
@@ -21,7 +22,7 @@ public class BaseBackScreen extends BaseScreen implements IBack {
     private var _back:Signal;
 
     public function get back():Signal {
-        return _back ||= new Signal();
+        return _back ||= new Signal(DemoScreen);
     }
 
     override protected function createHeader():void {
@@ -41,7 +42,7 @@ public class BaseBackScreen extends BaseScreen implements IBack {
     }
 
     protected function onBackButton():void {
-        back.dispatch();
+        back.dispatch(DemoScreen.SUITES_LIST);
     }
 
     protected function onBackTriggered(event:Event):void {

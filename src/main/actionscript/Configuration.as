@@ -9,8 +9,10 @@ import eu.alebianco.air.extensions.analytics.demo.AnalyticsDemo;
 import eu.alebianco.air.extensions.analytics.demo.commands.GetVersion;
 import eu.alebianco.air.extensions.analytics.demo.commands.ShowScreen;
 import eu.alebianco.air.extensions.analytics.demo.commands.hooks.CreateReportSession;
+import eu.alebianco.air.extensions.analytics.demo.commands.macros.DisplayReportDetails;
 import eu.alebianco.air.extensions.analytics.demo.commands.macros.ExecuteTestSuiteMacro;
 import eu.alebianco.air.extensions.analytics.demo.commands.macros.StartupMacro;
+import eu.alebianco.air.extensions.analytics.demo.events.DisplayReportDetailsEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.ExecuteSuiteEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.NavigateEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.RequestVersionEvent;
@@ -88,6 +90,7 @@ public class Configuration implements IConfig {
         commander.map(NavigateEvent.TO, NavigateEvent).toCommand(ShowScreen);
         commander.map(RequestVersionEvent.GET, RequestVersionEvent).toCommand(GetVersion);
         commander.map(ExecuteSuiteEvent.RUN, ExecuteSuiteEvent).toCommand(ExecuteTestSuiteMacro).withHooks(CreateReportSession);
+        commander.map(DisplayReportDetailsEvent.SHOW, DisplayReportDetailsEvent).toCommand(DisplayReportDetails);
     }
 }
 }

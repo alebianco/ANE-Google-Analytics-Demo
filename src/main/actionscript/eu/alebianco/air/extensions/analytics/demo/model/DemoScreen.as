@@ -5,6 +5,7 @@
  * Created: 02/11/2014 18:18
  */
 package eu.alebianco.air.extensions.analytics.demo.model {
+import eu.alebianco.air.extensions.analytics.demo.views.ReportDetailsScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.SuiteRunnerScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.SuitesListScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.UnsupportedScreen;
@@ -20,6 +21,7 @@ public final class DemoScreen extends Enum {
     public static const UNSUPPORTED:DemoScreen = new DemoScreen(UnsupportedScreen);
     public static const SUITES_LIST:DemoScreen = new DemoScreen(SuitesListScreen);
     public static const SUITE_RUNNER:DemoScreen = new DemoScreen(SuiteRunnerScreen);
+    public static const REPORT_DETAILS:DemoScreen = new DemoScreen(ReportDetailsScreen);
 
     // Constant query.
     public static function getConstants():Vector.<DemoScreen> {

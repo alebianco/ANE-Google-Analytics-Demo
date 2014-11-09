@@ -74,10 +74,6 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
     }
 
-    public function enableTestInspection():void {
-        report_list.isSelectable = true;
-    }
-
     override protected function initialize():void {
         super.initialize();
 
@@ -218,7 +214,7 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
         list.clipContent = true;
         list.autoHideBackground = true;
-        list.isSelectable = false;
+        list.isSelectable = true;
         list.itemRendererProperties.isQuickHitAreaEnabled = true;
         list.itemRendererProperties.accessorySourceFunction = function(item:TestReportVO):Texture {
             return StandardIcons.listDrillDownAccessoryTexture;
@@ -238,7 +234,14 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
     }
 
     private function onTestSelected(event:Event):void {
-        _selected.dispatch(report_list.selectedItem);
+        if (report_list.selectedIndex > -1) {
+            const report:TestReportVO = report_list.selectedItem as TestReportVO;
+            if (report.finished) {
+                _selected.dispatch(report);
+            } else {
+                report_list.selectedIndex = -1;
+            }
+        }
     }
 }
 }

@@ -10,6 +10,5 @@ import eu.alebianco.air.extensions.analytics.demo.model.api.TestSuite;
 
 public interface IDisplaySuiteInformation {
     function showDetails(suite:TestSuite):void;
-    function enableTestInspection():void;
 }
 }

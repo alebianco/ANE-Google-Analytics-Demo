@@ -26,8 +26,8 @@ public class BackMediator extends Mediator {
         view.back.removeAll();
     }
 
-    private function goBackHome():void {
-        dispatch(new NavigateEvent(DemoScreen.SUITES_LIST));
+    private function goBackHome(screen:DemoScreen):void {
+        dispatch(new NavigateEvent(screen));
     }
 
 }
