@@ -19,7 +19,7 @@ import flash.utils.Dictionary;
 
 import starling.textures.Texture;
 
-public class TestRunnerScreen extends BaseBackScreen implements IReportTestResults {
+public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResults {
 
     private var map:Dictionary = new Dictionary();
 

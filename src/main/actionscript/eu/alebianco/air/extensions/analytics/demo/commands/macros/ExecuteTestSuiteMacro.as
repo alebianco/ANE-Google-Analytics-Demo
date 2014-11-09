@@ -22,7 +22,7 @@ public class ExecuteTestSuiteMacro extends SequenceMacro {
 
     override public function prepare():void {
 
-        add(ShowScreen).withPayloads(new NavigateEvent(DemoScreen.TEST_RUNNER));
+        add(ShowScreen).withPayloads(new NavigateEvent(DemoScreen.SUITE_RUNNER));
         add(Delay).withPayloads(new SubCommandPayload(3000, Number).withName("delay"));
         event.suite.tests.forEach(queueCommand);
         // TODO notify tests complete, show report
