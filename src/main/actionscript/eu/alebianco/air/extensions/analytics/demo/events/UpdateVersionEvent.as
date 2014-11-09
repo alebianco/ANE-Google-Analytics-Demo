@@ -9,7 +9,7 @@ import flash.events.Event;
 
 public class UpdateVersionEvent extends Event {
 
-    public static var UPDATE:String = "UpdateVersion:UPDATE";
+    public static var UPDATE:String = "UpdateVersionEvent:UPDATE";
 
     private var _version:String;
 

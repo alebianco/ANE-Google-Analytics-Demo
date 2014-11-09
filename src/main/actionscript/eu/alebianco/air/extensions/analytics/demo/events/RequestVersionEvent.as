@@ -9,7 +9,7 @@ import flash.events.Event;
 
 public class RequestVersionEvent extends Event {
 
-    public static var GET:String = "GetVersionEvent::GET";
+    public static var GET:String = "RequestVersionEvent::GET";
 
     public function RequestVersionEvent() {
         super(GET);

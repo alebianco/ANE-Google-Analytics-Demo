@@ -11,7 +11,7 @@ import flash.events.Event;
 
 public class ReportTestResultEvent extends Event {
 
-    public static const REPORT:String = "ReportTestResult::REPORT";
+    public static const REPORT:String = "ReportTestResultEvent::REPORT";
 
     private var _test:Test;
 
@@ -50,7 +50,7 @@ public class ReportTestResultEvent extends Event {
     }
 
     override public function toString():String {
-        return formatToString("ReportTestResult", "type", "bubbles", "cancelable", "test", "success")
+        return formatToString("ReportTestResultEvent", "type", "bubbles", "cancelable", "test", "success")
     }
 }
 }
