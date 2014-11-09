@@ -18,7 +18,7 @@ public class ShowTestSuites extends Command {
     public var dispatcher:IEventDispatcher;
 
     override public function execute():void {
-        dispatcher.dispatchEvent(new NavigateEvent(DemoScreen.HOME));
+        dispatcher.dispatchEvent(new NavigateEvent(DemoScreen.SUITES_LIST));
     }
 }
 }

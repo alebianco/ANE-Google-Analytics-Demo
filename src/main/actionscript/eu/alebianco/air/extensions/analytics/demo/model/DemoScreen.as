@@ -6,7 +6,7 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.model {
 import eu.alebianco.air.extensions.analytics.demo.views.SuiteRunnerScreen;
-import eu.alebianco.air.extensions.analytics.demo.views.TestSuiteListScreen;
+import eu.alebianco.air.extensions.analytics.demo.views.SuitesListScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.UnsupportedScreen;
 import eu.alebianco.core.Enum;
 
@@ -18,7 +18,7 @@ public final class DemoScreen extends Enum {
 
     // Constants.
     public static const UNSUPPORTED:DemoScreen = new DemoScreen(UnsupportedScreen);
-    public static const HOME:DemoScreen = new DemoScreen(TestSuiteListScreen);
+    public static const SUITES_LIST:DemoScreen = new DemoScreen(SuitesListScreen);
     public static const SUITE_RUNNER:DemoScreen = new DemoScreen(SuiteRunnerScreen);
 
     // Constant query.

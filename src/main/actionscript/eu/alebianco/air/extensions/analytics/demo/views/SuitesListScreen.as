@@ -19,7 +19,7 @@ import org.osflash.signals.Signal;
 
 import starling.events.Event;
 
-final public class TestSuiteListScreen extends BaseScreen implements IListTestSuites {
+final public class SuitesListScreen extends BaseScreen implements IListTestSuites {
 
     private var info_lbl:Label;
     private var suites_group:ButtonGroup;
