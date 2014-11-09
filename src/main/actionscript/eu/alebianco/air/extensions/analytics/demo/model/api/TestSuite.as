@@ -7,6 +7,7 @@
 package eu.alebianco.air.extensions.analytics.demo.model.api {
 public interface TestSuite {
     function get name():String;
+    function get description():String;
     function get tests():Vector.<Test>;
 }
 }

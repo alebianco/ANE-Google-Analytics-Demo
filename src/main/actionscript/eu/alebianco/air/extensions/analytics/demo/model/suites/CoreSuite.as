@@ -20,6 +20,10 @@ public class CoreSuite implements TestSuite {
         return "suite.core.name";
     }
 
+    public function get description():String {
+        return "suite.core.description";
+    }
+
     public function get tests():Vector.<Test> {
         return suite ||= generateSuite();
     }
