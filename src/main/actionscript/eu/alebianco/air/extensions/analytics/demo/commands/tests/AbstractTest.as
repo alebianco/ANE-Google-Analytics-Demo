@@ -14,7 +14,12 @@ import eu.alebianco.robotlegs.utils.impl.AsyncCommand;
 
 import flash.events.IEventDispatcher;
 
+import robotlegs.bender.framework.api.IInjector;
+
 public class AbstractTest extends AsyncCommand {
+
+    [Inject]
+    public var injector:IInjector;
 
     [Inject]
     public var dispatcher:IEventDispatcher;
@@ -33,6 +38,8 @@ public class AbstractTest extends AsyncCommand {
 
     override public function execute():void {
         reportData = new TestReportVO(test);
+        injector.injectInto(reportData);
+
         reportList = session.getItem("reports") as Vector.<TestReportVO>
         reportList.push(reportData);
 
