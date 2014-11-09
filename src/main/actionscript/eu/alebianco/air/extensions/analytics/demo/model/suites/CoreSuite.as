@@ -9,6 +9,7 @@ import eu.alebianco.air.extensions.analytics.demo.model.api.Test;
 import eu.alebianco.air.extensions.analytics.demo.model.api.TestSuite;
 import eu.alebianco.air.extensions.analytics.demo.model.tests.core.CreateTestData;
 import eu.alebianco.air.extensions.analytics.demo.model.tests.core.DisposeTestData;
+import eu.alebianco.air.extensions.analytics.demo.model.tests.core.ReadVersionTestData;
 import eu.alebianco.air.extensions.analytics.demo.model.tests.core.RecreateTestData;
 
 public class CoreSuite implements TestSuite {
@@ -29,6 +30,7 @@ public class CoreSuite implements TestSuite {
                     new CreateTestData(),
                     new DisposeTestData(),
                     new RecreateTestData(),
+                    new ReadVersionTestData(),
                 ];
         return list;
     }
