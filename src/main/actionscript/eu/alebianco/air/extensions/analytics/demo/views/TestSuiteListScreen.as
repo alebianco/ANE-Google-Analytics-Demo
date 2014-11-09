@@ -13,6 +13,7 @@ import feathers.controls.ButtonGroup;
 import feathers.controls.Label;
 import feathers.data.ListCollection;
 import feathers.display.VerticalSpacer;
+import feathers.layout.VerticalLayoutData;
 
 import org.osflash.signals.Signal;
 
@@ -44,18 +45,6 @@ final public class TestSuiteListScreen extends BaseScreen implements IListTestSu
         addChild(suites_group);
     }
 
-    override protected function draw():void {
-
-        const isLayoutInvalid:Boolean = isInvalid(INVALIDATION_FLAG_LAYOUT);
-
-        if (isLayoutInvalid) {
-            if (info_lbl)
-                info_lbl.width = width - settings.paddingLeft - settings.paddingRight;
-        }
-
-        super.draw();
-    }
-
     override public function dispose():void {
         removeChildren();
 
@@ -73,11 +62,13 @@ final public class TestSuiteListScreen extends BaseScreen implements IListTestSu
         const label:Label = new Label();
         label.textRendererProperties.wordWrap = true;
         label.text = getRString("home.intro");
+        label.layoutData = new VerticalLayoutData(100);
         return label;
     }
 
     private function createSuitesList():ButtonGroup {
         const group:ButtonGroup = new ButtonGroup();
+        group.layoutData = new VerticalLayoutData(100);
         group.dataProvider = new ListCollection([]);
         group.buttonInitializer = function( button:Button, item:TestSuite ):void {
             button.label = getRString(item.name);

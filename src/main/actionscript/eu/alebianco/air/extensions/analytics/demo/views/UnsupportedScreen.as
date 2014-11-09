@@ -11,6 +11,7 @@ import feathers.controls.Label;
 import feathers.controls.text.TextBlockTextRenderer;
 import feathers.core.FeathersControl;
 import feathers.display.VerticalSpacer;
+import feathers.layout.VerticalLayoutData;
 
 final public class UnsupportedScreen extends BaseScreen implements IDisplayVersion {
 
@@ -44,20 +45,10 @@ final public class UnsupportedScreen extends BaseScreen implements IDisplayVersi
     override protected function draw():void {
 
         const isDataInvalid:Boolean = isInvalid(INVALIDATION_FLAG_DATA);
-        const isLayoutInvalid:Boolean = isInvalid(INVALIDATION_FLAG_LAYOUT);
 
         if (isDataInvalid) {
             if (version_lbl)
                 version_lbl.text = getRString("home.version", version);
-        }
-
-        if (isLayoutInvalid) {
-            if (info_lbl)
-                info_lbl.width = width - settings.paddingLeft - settings.paddingRight;
-            if (version_lbl)
-                version_lbl.width = width - settings.paddingLeft - settings.paddingRight;
-            if (warning_lbl)
-                warning_lbl.width = width - settings.paddingLeft - settings.paddingRight;
         }
 
         super.draw();
@@ -80,6 +71,7 @@ final public class UnsupportedScreen extends BaseScreen implements IDisplayVersi
 
     private function createIntroLabel():Label {
         const label:Label = new Label();
+        label.layoutData = new VerticalLayoutData(100);
         label.textRendererProperties.wordWrap = true;
         label.text = getRString("home.intro");
         return label;
@@ -87,12 +79,14 @@ final public class UnsupportedScreen extends BaseScreen implements IDisplayVersi
 
     private function createVersionLabel():Label {
         const label:Label = new Label();
+        label.layoutData = new VerticalLayoutData(100);
         label.textRendererProperties.textAlign = TextBlockTextRenderer.TEXT_ALIGN_CENTER;
         return label;
     }
 
     private function createWarningLabel():Label {
         const label:Label = new Label();
+        label.layoutData = new VerticalLayoutData(100);
         label.styleNameList.add(LABEL_STYLE_WARNING);
         label.text = getRString("error.unsupported");
         return label;
