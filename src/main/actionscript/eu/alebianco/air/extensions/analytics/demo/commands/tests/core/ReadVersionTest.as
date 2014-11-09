@@ -9,8 +9,6 @@ import eu.alebianco.air.extensions.analytics.Analytics;
 import eu.alebianco.air.extensions.analytics.api.IAnalytics;
 import eu.alebianco.air.extensions.analytics.demo.commands.tests.AbstractTest;
 
-import flash.utils.setTimeout;
-
 public class ReadVersionTest extends AbstractTest {
 
     public static var VERSION_MATCHER:RegExp = /[a-zA-Z]+\sv\d+\.\d+.\d+/;
