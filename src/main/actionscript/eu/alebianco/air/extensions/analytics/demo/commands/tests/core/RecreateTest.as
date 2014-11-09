@@ -12,6 +12,8 @@ import eu.alebianco.air.extensions.analytics.demo.commands.tests.AbstractTest;
 public class RecreateTest extends AbstractTest {
 
     override public function execute():void {
+        super.execute();
+
         try {
             const first:IAnalytics = Analytics.getInstance();
             first.dispose();

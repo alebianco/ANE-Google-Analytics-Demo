@@ -9,6 +9,7 @@ package eu.alebianco.air.extensions.analytics.demo.views.api {
 import eu.alebianco.air.extensions.analytics.demo.model.api.Test;
 
 public interface IReportTestResults {
-    function appendResult(test:Test, success:Boolean, message:String, data:Array):void;
+    function addTest(test:Test):void;
+    function updateResult(test:Test, success:Boolean, message:String, data:Array):void;
 }
 }

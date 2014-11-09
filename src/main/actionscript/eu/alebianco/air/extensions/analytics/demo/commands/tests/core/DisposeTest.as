@@ -12,6 +12,8 @@ import eu.alebianco.air.extensions.analytics.demo.commands.tests.AbstractTest;
 public class DisposeTest extends AbstractTest {
 
     override public function execute():void {
+        super.execute();
+
         try {
             const instance:IAnalytics = Analytics.getInstance();
             instance.dispose();

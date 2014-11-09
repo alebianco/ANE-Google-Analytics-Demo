@@ -6,6 +6,7 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.commands.tests {
 import eu.alebianco.air.extensions.analytics.demo.events.ReportTestResultEvent;
+import eu.alebianco.air.extensions.analytics.demo.events.ReportTestStartEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.api.Test;
 import eu.alebianco.robotlegs.utils.impl.AsyncCommand;
 
@@ -18,6 +19,10 @@ public class AbstractTest extends AsyncCommand {
 
     [Inject]
     public var test:Test;
+
+    override public function execute():void {
+        dispatcher.dispatchEvent(new ReportTestStartEvent(test));
+    }
 
     public function report(success:Boolean, message:String = "", ...data):void {
         dispatcher.dispatchEvent(new ReportTestResultEvent(test, success, message, data));

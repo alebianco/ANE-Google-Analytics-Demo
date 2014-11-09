@@ -6,6 +6,7 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.views {
 import eu.alebianco.air.extensions.analytics.demo.model.api.Test;
+import eu.alebianco.air.extensions.analytics.demo.model.vo.TestResultVO;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IReportTestResults;
 
 import feathers.controls.List;
@@ -14,15 +15,30 @@ import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.StandardIcons;
 
+import flash.utils.Dictionary;
+
 import starling.textures.Texture;
 
 public class TestRunnerScreen extends BaseBackScreen implements IReportTestResults {
 
+    private var map:Dictionary = new Dictionary();
+
     private var results_list:List;
 
-    public function appendResult(test:Test, success:Boolean, message:String, data:Array):void {
+    public function addTest(test:Test):void {
+        const vo:TestResultVO = new TestResultVO(test);
+        map[test] = vo;
+        results_list.dataProvider.addItem(vo);
+    }
+
+    public function updateResult(test:Test, success:Boolean, message:String, data:Array):void {
         const feedback:String = getRString.apply(this, [message].concat(data));
-        results_list.dataProvider.addItem({test:test, success:success, feedback:feedback})
+
+        const vo:TestResultVO = map[test] as TestResultVO;
+        vo.complete(success, feedback);
+
+        const index:int = results_list.dataProvider.getItemIndex(vo);
+        results_list.dataProvider.updateItemAt(index);
     }
 
     override protected function initialize():void {
@@ -53,14 +69,18 @@ public class TestRunnerScreen extends BaseBackScreen implements IReportTestResul
         list.autoHideBackground = true;
         list.isSelectable = false;
         list.itemRendererProperties.isQuickHitAreaEnabled = true;
-        list.itemRendererProperties.accessorySourceFunction = function(item:Object):Texture {
+        list.itemRendererProperties.accessorySourceFunction = function(item:TestResultVO):Texture {
             return StandardIcons.listDrillDownAccessoryTexture;
         };
-        list.itemRendererProperties.iconSourceFunction = function(item:Object):Texture {
-            return assets.getTexture(item.success ? "success" : "failure");
+        list.itemRendererProperties.iconSourceFunction = function(item:TestResultVO):Texture {
+            if (!item.finished) {
+                return assets.getTexture("progress");
+            } else {
+                return assets.getTexture(item.success ? "success" : "failure");
+            }
         };
-        list.itemRendererProperties.labelFunction = function(item:Object):String {
-            return getRString(item.test.name) + "\n" + getRString(item.test.description);
+        list.itemRendererProperties.labelFunction = function(item:TestResultVO):String {
+            return getRString(item.test.name) + (item.finished ? "" : " ...");
         };
         return list;
     }

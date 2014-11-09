@@ -12,6 +12,8 @@ import eu.alebianco.air.extensions.analytics.demo.commands.tests.AbstractTest;
 public class CreateTest extends AbstractTest {
 
     override public function execute():void {
+        super.execute();
+
         try {
             verify(Analytics.getInstance());
         } catch(error:Error) {
