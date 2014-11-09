@@ -5,7 +5,7 @@
  * Created: 08/11/2014 17:15
  */
 package eu.alebianco.air.extensions.analytics.demo.events {
-import eu.alebianco.air.extensions.analytics.demo.model.api.Test;
+import eu.alebianco.air.extensions.analytics.demo.model.vo.TestResultVO;
 
 import flash.events.Event;
 
@@ -13,44 +13,23 @@ public class ReportTestResultEvent extends Event {
 
     public static const REPORT:String = "ReportTestResultEvent::REPORT";
 
-    private var _test:Test;
+    private var _result:TestResultVO;
 
-    public function get test():Test {
-        return _test;
+    public function get result():TestResultVO {
+        return _result;
     }
 
-    private var _success:Boolean;
-
-    public function get success():Boolean {
-        return _success;
-    }
-
-    private var _message:String;
-
-    public function get message():String {
-        return _message;
-    }
-
-    private var _data:Array;
-
-    public function get data():Array {
-        return _data;
-    }
-
-    public function ReportTestResultEvent(test:Test, success:Boolean, message:String, data:Array) {
+    public function ReportTestResultEvent(result:TestResultVO) {
         super(REPORT);
-        _test = test;
-        _success = success;
-        _message = message;
-        _data = data;
+        _result = result;
     }
 
     override public function clone():Event {
-        return new ReportTestResultEvent(test, success, message, data);
+        return new ReportTestResultEvent(result);
     }
 
     override public function toString():String {
-        return formatToString("ReportTestResultEvent", "type", "bubbles", "cancelable", "test", "success")
+        return formatToString("ReportTestResultEvent", "type", "bubbles", "cancelable", "result")
     }
 }
 }

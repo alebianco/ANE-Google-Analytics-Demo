@@ -25,17 +25,22 @@ public class ExecuteTestSuiteMacro extends SequenceMacro {
 
     override public function prepare():void {
 
+        const suitePayload:SubCommandPayload = new SubCommandPayload(event.suite, TestSuite);
+
         add(ShowScreen).withPayloads(new NavigateEvent(DemoScreen.SUITE_RUNNER));
-        add(ReportSuiteStart).withPayloads(new SubCommandPayload(event.suite, TestSuite));
+        add(ReportSuiteStart).withPayloads(suitePayload);
         add(Delay).withPayloads(new SubCommandPayload(500, Number).withName("delay"));
 
-        event.suite.tests.forEach(queueCommand);
+        event.suite.tests.forEach(queueTestsOf(suitePayload));
 
         add(ReportSuiteComplete).withPayloads(new SubCommandPayload(event.suite, TestSuite));
     }
 
-    private function queueCommand(item:Test, index:int, list:Vector.<Test>):void {
-        add(item.command).withGuards(isTestActive).withPayloads(new SubCommandPayload(item, Test));
+    private function queueTestsOf(suitePayload:SubCommandPayload):Function {
+        return function(item:Test, index:int, list:Vector.<Test>):void {
+            const testPayload:SubCommandPayload = new SubCommandPayload(item, Test);
+            add(item.command).withGuards(isTestActive).withPayloads(testPayload, suitePayload);
+        }
     }
 }
 }

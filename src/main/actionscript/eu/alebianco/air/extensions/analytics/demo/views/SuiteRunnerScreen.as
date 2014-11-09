@@ -5,7 +5,6 @@
  * Created: 08/11/2014 13:29
  */
 package eu.alebianco.air.extensions.analytics.demo.views {
-import eu.alebianco.air.extensions.analytics.demo.model.api.Test;
 import eu.alebianco.air.extensions.analytics.demo.model.api.TestSuite;
 import eu.alebianco.air.extensions.analytics.demo.model.vo.TestResultVO;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplaySuiteInformation;
@@ -25,17 +24,12 @@ import feathers.layout.VerticalLayout;
 import feathers.layout.VerticalLayoutData;
 import feathers.skins.StandardIcons;
 
-import flash.utils.Dictionary;
-
 import org.osflash.signals.Signal;
 
 import starling.events.Event;
-
 import starling.textures.Texture;
 
 public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResults, IDisplaySuiteInformation {
-
-    private var map:Dictionary = new Dictionary();
 
     private var title:String = " ";
     private var description:String = " ";
@@ -64,22 +58,18 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResu
         invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
     }
 
-    public function addTest(test:Test):void {
-        const vo:TestResultVO = new TestResultVO(test);
-        map[test] = vo;
-        results_list.dataProvider.addItem(vo);
-    }
+    public function updateResult(result:TestResultVO):void {
 
-    public function updateResult(test:Test, success:Boolean, message:String, data:Array):void {
-        const feedback:String = getRString.apply(this, [message].concat(data));
+        if (!results_list.dataProvider.contains(result)) {
+            results_list.dataProvider.addItem(result);
+        } else {
+            const index:int = results_list.dataProvider.getItemIndex(result);
+            results_list.dataProvider.updateItemAt(index)
+        }
 
-        const vo:TestResultVO = map[test] as TestResultVO;
-        vo.complete(success, feedback);
-
-        testsCompleted++;
-
-        const index:int = results_list.dataProvider.getItemIndex(vo);
-        results_list.dataProvider.updateItemAt(index);
+        if (result.finished) {
+            testsCompleted++;
+        }
 
         invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
     }
@@ -156,9 +146,6 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResu
 
         progress_bar.dispose();
         progress_bar = null;
-
-        results_list.dispose();
-        results_list = null;
 
         results_list.removeEventListener(Event.CHANGE, onTestSelected);
         results_list.dispose();

@@ -33,14 +33,21 @@ public class TestResultVO {
         return _message;
     }
 
+    private var _data:Array;
+
+    public function get data():Array {
+        return _data;
+    }
+
     public function TestResultVO(test:Test) {
         this._test = test;
     }
 
-    public function complete(success:Boolean, feedback:String):void {
+    public function complete(success:Boolean, message:String = "", data:Array = null):void {
         this._finished = true;
         this._success = success;
-        this._message = feedback;
+        this._message = message;
+        this._data = data;
     }
 }
 }
