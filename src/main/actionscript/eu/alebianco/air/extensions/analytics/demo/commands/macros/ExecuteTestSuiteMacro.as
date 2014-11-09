@@ -6,11 +6,11 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.commands.macros {
 import eu.alebianco.air.extensions.analytics.demo.commands.Delay;
-import eu.alebianco.air.extensions.analytics.demo.commands.ReportSuiteComplete;
-import eu.alebianco.air.extensions.analytics.demo.commands.ReportSuiteStart;
+import eu.alebianco.air.extensions.analytics.demo.commands.NotifySuiteComplete;
+import eu.alebianco.air.extensions.analytics.demo.commands.NotifySuiteStart;
 import eu.alebianco.air.extensions.analytics.demo.commands.ShowScreen;
 import eu.alebianco.air.extensions.analytics.demo.commands.guards.isTestActive;
-import eu.alebianco.air.extensions.analytics.demo.events.ExecuteTestSuiteEvent;
+import eu.alebianco.air.extensions.analytics.demo.events.ExecuteSuiteEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.NavigateEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.DemoScreen;
 import eu.alebianco.air.extensions.analytics.demo.model.api.Test;
@@ -21,19 +21,19 @@ import eu.alebianco.robotlegs.utils.impl.SubCommandPayload;
 public class ExecuteTestSuiteMacro extends SequenceMacro {
 
     [Inject]
-    public var event:ExecuteTestSuiteEvent;
+    public var event:ExecuteSuiteEvent;
 
     override public function prepare():void {
 
         const suitePayload:SubCommandPayload = new SubCommandPayload(event.suite, TestSuite);
 
         add(ShowScreen).withPayloads(new NavigateEvent(DemoScreen.SUITE_RUNNER));
-        add(ReportSuiteStart).withPayloads(suitePayload);
+        add(NotifySuiteStart).withPayloads(suitePayload);
         add(Delay).withPayloads(new SubCommandPayload(500, Number).withName("delay"));
 
         event.suite.tests.forEach(queueTestsOf(suitePayload));
 
-        add(ReportSuiteComplete).withPayloads(new SubCommandPayload(event.suite, TestSuite));
+        add(NotifySuiteComplete).withPayloads(new SubCommandPayload(event.suite, TestSuite));
     }
 
     private function queueTestsOf(suitePayload:SubCommandPayload):Function {

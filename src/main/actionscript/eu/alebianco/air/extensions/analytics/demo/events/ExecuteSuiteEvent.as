@@ -2,16 +2,16 @@
  * Author:  Alessandro Bianco
  * Website: http://alessandrobianco.eu
  * Twitter: @alebianco
- * Created: 08/11/2014 17:15
+ * Created: 08/11/2014 15:32
  */
 package eu.alebianco.air.extensions.analytics.demo.events {
 import eu.alebianco.air.extensions.analytics.demo.model.api.TestSuite;
 
 import flash.events.Event;
 
-public class ReportSuiteStartEvent extends Event {
+public class ExecuteSuiteEvent extends Event {
 
-    public static const START:String = "ReportSuiteStartEvent::START";
+    public static var RUN:String = "ExecuteTestSuiteEvent::RUN";
 
     private var _suite:TestSuite;
 
@@ -19,17 +19,17 @@ public class ReportSuiteStartEvent extends Event {
         return _suite;
     }
 
-    public function ReportSuiteStartEvent(suite:TestSuite) {
-        super(START);
+    public function ExecuteSuiteEvent(suite:TestSuite) {
+        super(RUN)
         _suite = suite;
     }
 
     override public function clone():Event {
-        return new ReportSuiteStartEvent(suite);
+        return new ExecuteSuiteEvent(_suite);
     }
 
     override public function toString():String {
-        return formatToString("ReportSuiteStartEvent", "type", "bubbles", "cancelable", "suite")
+        return formatToString("ExecuteTestSuiteEvent", "type", "bubbles", "cancelable", "_suite")
     }
 }
 }

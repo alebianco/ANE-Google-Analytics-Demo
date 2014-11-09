@@ -11,24 +11,24 @@ import eu.alebianco.air.extensions.analytics.demo.commands.ShowScreen;
 import eu.alebianco.air.extensions.analytics.demo.commands.hooks.CreateReportSession;
 import eu.alebianco.air.extensions.analytics.demo.commands.macros.ExecuteTestSuiteMacro;
 import eu.alebianco.air.extensions.analytics.demo.commands.macros.StartupMacro;
-import eu.alebianco.air.extensions.analytics.demo.events.ExecuteTestSuiteEvent;
+import eu.alebianco.air.extensions.analytics.demo.events.ExecuteSuiteEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.NavigateEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.RequestVersionEvent;
 import eu.alebianco.air.extensions.analytics.demo.mediators.BackMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.MainMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.SuiteInformationMediator;
-import eu.alebianco.air.extensions.analytics.demo.mediators.TestResultsMediator;
+import eu.alebianco.air.extensions.analytics.demo.mediators.TestReportMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.TestSuiteListMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.VersionDisplayMediator;
-import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
 import eu.alebianco.air.extensions.analytics.demo.model.LayoutSettings;
+import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
 import eu.alebianco.air.extensions.analytics.demo.model.TestsBundle;
 import eu.alebianco.air.extensions.analytics.demo.views.BaseScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IBack;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplaySuiteInformation;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayTestReports;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayVersion;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IListTestSuites;
-import eu.alebianco.air.extensions.analytics.demo.views.api.IReportTestResults;
 
 import feathers.controls.ScreenNavigator;
 
@@ -79,7 +79,7 @@ public class Configuration implements IConfig {
         mediator.map(AnalyticsDemo).toMediator(MainMediator);
         mediator.map(IDisplayVersion).toMediator(VersionDisplayMediator);
         mediator.map(IListTestSuites).toMediator(TestSuiteListMediator);
-        mediator.map(IReportTestResults).toMediator(TestResultsMediator);
+        mediator.map(IDisplayTestReports).toMediator(TestReportMediator);
         mediator.map(IDisplaySuiteInformation).toMediator(SuiteInformationMediator);
 
         views.mapMatcher(new TypeMatcher().allOf(BaseScreen)).toInjection();
@@ -87,7 +87,7 @@ public class Configuration implements IConfig {
         commander.map(LifecycleEvent.POST_INITIALIZE, LifecycleEvent).toCommand(StartupMacro);
         commander.map(NavigateEvent.TO, NavigateEvent).toCommand(ShowScreen);
         commander.map(RequestVersionEvent.GET, RequestVersionEvent).toCommand(GetVersion);
-        commander.map(ExecuteTestSuiteEvent.RUN, ExecuteTestSuiteEvent).toCommand(ExecuteTestSuiteMacro).withHooks(CreateReportSession);
+        commander.map(ExecuteSuiteEvent.RUN, ExecuteSuiteEvent).toCommand(ExecuteTestSuiteMacro).withHooks(CreateReportSession);
     }
 }
 }

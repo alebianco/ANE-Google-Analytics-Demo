@@ -5,12 +5,11 @@
  * Created: 08/11/2014 16:57
  */
 package eu.alebianco.air.extensions.analytics.demo.commands.tests {
-import eu.alebianco.air.extensions.analytics.demo.events.ReportTestResultEvent;
-import eu.alebianco.air.extensions.analytics.demo.events.ReportTestStartEvent;
+import eu.alebianco.air.extensions.analytics.demo.events.TestReportUpdateEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
 import eu.alebianco.air.extensions.analytics.demo.model.api.Test;
 import eu.alebianco.air.extensions.analytics.demo.model.api.TestSuite;
-import eu.alebianco.air.extensions.analytics.demo.model.vo.TestResultVO;
+import eu.alebianco.air.extensions.analytics.demo.model.vo.TestReportVO;
 import eu.alebianco.robotlegs.utils.impl.AsyncCommand;
 
 import flash.events.IEventDispatcher;
@@ -29,20 +28,20 @@ public class AbstractTest extends AsyncCommand {
     [Inject]
     public var session:SessionStorage;
 
-    private var result:TestResultVO;
-    private var provider:Vector.<TestResultVO>;
+    private var reportData:TestReportVO;
+    private var reportList:Vector.<TestReportVO>;
 
     override public function execute():void {
-        result = new TestResultVO(test);
-        provider = session.getItem("reports") as Vector.<TestResultVO>
-        provider.push(result);
+        reportData = new TestReportVO(test);
+        reportList = session.getItem("reports") as Vector.<TestReportVO>
+        reportList.push(reportData);
 
-        dispatcher.dispatchEvent(new ReportTestStartEvent(result));
+        dispatcher.dispatchEvent(new TestReportUpdateEvent(reportData));
     }
 
     public function report(success:Boolean, message:String = "", ...data):void {
-        result.complete(success, message, data);
-        dispatcher.dispatchEvent(new ReportTestResultEvent(result));
+        reportData.complete(success, message, data);
+        dispatcher.dispatchEvent(new TestReportUpdateEvent(reportData));
         dispatchComplete(true);
     }
 

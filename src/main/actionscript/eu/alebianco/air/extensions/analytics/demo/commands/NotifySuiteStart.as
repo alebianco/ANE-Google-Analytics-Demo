@@ -5,15 +5,14 @@
  * Created: 02/11/2014 18:52
  */
 package eu.alebianco.air.extensions.analytics.demo.commands {
-import eu.alebianco.air.extensions.analytics.demo.events.ReportSuiteCompleteEvent;
-import eu.alebianco.air.extensions.analytics.demo.events.ReportSuiteStartEvent;
+import eu.alebianco.air.extensions.analytics.demo.events.SuiteStartEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.api.TestSuite;
 
 import flash.events.IEventDispatcher;
 
 import robotlegs.bender.bundles.mvcs.Command;
 
-public class ReportSuiteComplete extends Command {
+public class NotifySuiteStart extends Command {
 
     [Inject]
     public var suite:TestSuite;
@@ -22,7 +21,7 @@ public class ReportSuiteComplete extends Command {
     public var dispatcher:IEventDispatcher;
 
     override public function execute():void {
-        dispatcher.dispatchEvent(new ReportSuiteCompleteEvent(suite));
+        dispatcher.dispatchEvent(new SuiteStartEvent(suite));
     }
 }
 }

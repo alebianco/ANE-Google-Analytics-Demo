@@ -18,7 +18,6 @@ import robotlegs.bender.framework.api.LogLevel;
 import robotlegs.bender.framework.impl.Context;
 import robotlegs.starling.bundles.mvcs.StarlingBundle;
 import robotlegs.starling.extensions.contextView.ContextView;
-import robotlegs.starling.extensions.viewProcessorMap.ViewProcessorMapExtension;
 
 import starling.core.Starling;
 

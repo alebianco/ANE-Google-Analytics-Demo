@@ -12,7 +12,7 @@ import feathers.controls.ScreenNavigatorItem;
 
 import robotlegs.bender.bundles.mvcs.Command;
 
-public class CreateScreens extends Command {
+public class PrepareScreenNavigator extends Command {
 
     [Inject]
     public var navigator:ScreenNavigator;

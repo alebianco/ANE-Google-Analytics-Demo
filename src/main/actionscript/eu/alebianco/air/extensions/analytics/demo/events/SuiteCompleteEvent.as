@@ -9,9 +9,9 @@ import eu.alebianco.air.extensions.analytics.demo.model.api.TestSuite;
 
 import flash.events.Event;
 
-public class ReportSuiteCompleteEvent extends Event {
+public class SuiteCompleteEvent extends Event {
 
-    public static const COMPLETE:String = "ReportSuiteCompleteEvent::COMPLETE";
+    public static const COMPLETE:String = "SuiteCompleteEvent::COMPLETE";
 
     private var _suite:TestSuite;
 
@@ -19,17 +19,17 @@ public class ReportSuiteCompleteEvent extends Event {
         return _suite;
     }
 
-    public function ReportSuiteCompleteEvent(suite:TestSuite) {
+    public function SuiteCompleteEvent(suite:TestSuite) {
         super(COMPLETE);
         _suite = suite;
     }
 
     override public function clone():Event {
-        return new ReportSuiteCompleteEvent(suite);
+        return new SuiteCompleteEvent(suite);
     }
 
     override public function toString():String {
-        return formatToString("ReportSuiteCompleteEvent", "type", "bubbles", "cancelable", "suite")
+        return formatToString("SuiteCompleteEvent", "type", "bubbles", "cancelable", "suite")
     }
 }
 }

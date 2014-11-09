@@ -5,23 +5,20 @@
  * Created: 02/11/2014 18:52
  */
 package eu.alebianco.air.extensions.analytics.demo.commands {
-import eu.alebianco.air.extensions.analytics.demo.events.ReportSuiteStartEvent;
-import eu.alebianco.air.extensions.analytics.demo.model.api.TestSuite;
+import eu.alebianco.air.extensions.analytics.demo.events.NavigateEvent;
+import eu.alebianco.air.extensions.analytics.demo.model.DemoScreen;
 
 import flash.events.IEventDispatcher;
 
 import robotlegs.bender.bundles.mvcs.Command;
 
-public class ReportSuiteStart extends Command {
-
-    [Inject]
-    public var suite:TestSuite;
+public class ShowSuitesList extends Command {
 
     [Inject]
     public var dispatcher:IEventDispatcher;
 
     override public function execute():void {
-        dispatcher.dispatchEvent(new ReportSuiteStartEvent(suite));
+        dispatcher.dispatchEvent(new NavigateEvent(DemoScreen.SUITES_LIST));
     }
 }
 }

@@ -7,7 +7,7 @@
 package eu.alebianco.air.extensions.analytics.demo.model.vo {
 import eu.alebianco.air.extensions.analytics.demo.model.api.Test;
 
-public class TestResultVO {
+public class TestReportVO {
 
     private var _test:Test;
 
@@ -39,7 +39,7 @@ public class TestResultVO {
         return _data;
     }
 
-    public function TestResultVO(test:Test) {
+    public function TestReportVO(test:Test) {
         this._test = test;
     }
 

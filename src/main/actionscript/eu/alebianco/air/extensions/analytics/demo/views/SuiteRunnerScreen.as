@@ -6,9 +6,9 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.views {
 import eu.alebianco.air.extensions.analytics.demo.model.api.TestSuite;
-import eu.alebianco.air.extensions.analytics.demo.model.vo.TestResultVO;
+import eu.alebianco.air.extensions.analytics.demo.model.vo.TestReportVO;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplaySuiteInformation;
-import eu.alebianco.air.extensions.analytics.demo.views.api.IReportTestResults;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayTestReports;
 
 import feathers.controls.Label;
 import feathers.controls.LayoutGroup;
@@ -29,7 +29,7 @@ import org.osflash.signals.Signal;
 import starling.events.Event;
 import starling.textures.Texture;
 
-public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResults, IDisplaySuiteInformation {
+public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestReports, IDisplaySuiteInformation {
 
     private var title:String = " ";
     private var description:String = " ";
@@ -42,12 +42,12 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResu
     private var progress_group:LayoutGroup;
     private var progress_lbl:Label;
     private var progress_bar:ProgressBar;
-    private var results_list:List;
+    private var report_list:List;
 
     private var _selected:Signal;
 
     public function get selected():Signal {
-        return _selected ||= new Signal(TestResultVO);
+        return _selected ||= new Signal(TestReportVO);
     }
 
     public function showDetails(suite:TestSuite):void {
@@ -58,16 +58,16 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResu
         invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
     }
 
-    public function updateResult(result:TestResultVO):void {
+    public function updateReport(report:TestReportVO):void {
 
-        if (!results_list.dataProvider.contains(result)) {
-            results_list.dataProvider.addItem(result);
+        if (!report_list.dataProvider.contains(report)) {
+            report_list.dataProvider.addItem(report);
         } else {
-            const index:int = results_list.dataProvider.getItemIndex(result);
-            results_list.dataProvider.updateItemAt(index)
+            const index:int = report_list.dataProvider.getItemIndex(report);
+            report_list.dataProvider.updateItemAt(index)
         }
 
-        if (result.finished) {
+        if (report.finished) {
             testsCompleted++;
         }
 
@@ -75,7 +75,7 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResu
     }
 
     public function enableTestInspection():void {
-        results_list.isSelectable = true;
+        report_list.isSelectable = true;
     }
 
     override protected function initialize():void {
@@ -87,7 +87,7 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResu
         progress_lbl = createProgressLabel();
         progress_group = createProgressGroup();
         progress_bar = createProgressBar();
-        results_list = createResultsList();
+        report_list = createReportList();
 
         progress_group.addChild(progress_lbl);
         progress_group.addChild(progress_bar);
@@ -97,7 +97,7 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResu
         info_group.addChild(progress_group);
 
         addChild(info_group);
-        addChild(results_list);
+        addChild(report_list);
     }
 
     override protected function draw():void {
@@ -119,8 +119,8 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResu
         super.draw();
 
         if (isLayoutInvalid) {
-            if (results_list && info_group)
-                AnchorLayoutData(results_list.layoutData).top = info_group.height;
+            if (report_list && info_group)
+                AnchorLayoutData(report_list.layoutData).top = info_group.height;
         }
     }
 
@@ -147,9 +147,9 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResu
         progress_bar.dispose();
         progress_bar = null;
 
-        results_list.removeEventListener(Event.CHANGE, onTestSelected);
-        results_list.dispose();
-        results_list = null;
+        report_list.removeEventListener(Event.CHANGE, onTestSelected);
+        report_list.dispose();
+        report_list = null;
 
         super.dispose();
     }
@@ -212,7 +212,7 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResu
         return progress;
     }
 
-    private function createResultsList():List {
+    private function createReportList():List {
         const list:List = new List();
         list.dataProvider = new ListCollection([]);
         list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
@@ -220,17 +220,17 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResu
         list.autoHideBackground = true;
         list.isSelectable = false;
         list.itemRendererProperties.isQuickHitAreaEnabled = true;
-        list.itemRendererProperties.accessorySourceFunction = function(item:TestResultVO):Texture {
+        list.itemRendererProperties.accessorySourceFunction = function(item:TestReportVO):Texture {
             return StandardIcons.listDrillDownAccessoryTexture;
         };
-        list.itemRendererProperties.iconSourceFunction = function(item:TestResultVO):Texture {
+        list.itemRendererProperties.iconSourceFunction = function(item:TestReportVO):Texture {
             if (!item.finished) {
                 return assets.getTexture("progress");
             } else {
                 return assets.getTexture(item.success ? "success" : "failure");
             }
         };
-        list.itemRendererProperties.labelFunction = function(item:TestResultVO):String {
+        list.itemRendererProperties.labelFunction = function(item:TestReportVO):String {
             return getRString(item.test.name) + (item.finished ? "" : " ...");
         };
         list.addEventListener(Event.CHANGE, onTestSelected);
@@ -238,7 +238,7 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResu
     }
 
     private function onTestSelected(event:Event):void {
-        _selected.dispatch(results_list.selectedItem);
+        _selected.dispatch(report_list.selectedItem);
     }
 }
 }
