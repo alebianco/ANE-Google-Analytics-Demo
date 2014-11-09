@@ -14,6 +14,7 @@ import flash.events.Event;
 import flash.geom.Rectangle;
 
 import robotlegs.bender.framework.api.IContext;
+import robotlegs.bender.framework.api.LogLevel;
 import robotlegs.bender.framework.impl.Context;
 import robotlegs.starling.bundles.mvcs.StarlingBundle;
 import robotlegs.starling.extensions.contextView.ContextView;
@@ -52,7 +53,10 @@ public class Main extends Sprite {
         this._starling.showStats = false;
         this._starling.start();
 
-        this._context = new Context().install(StarlingBundle, ViewProcessorMapExtension).configure(Configuration, new ContextView(this._starling))
+        this._context = new Context();
+        this._context.logLevel = LogLevel.WARN;
+        this._context.install(StarlingBundle);
+        this._context.configure(Configuration, new ContextView(this._starling))
     }
 
     private function stage_resizeHandler(event:Event):void {

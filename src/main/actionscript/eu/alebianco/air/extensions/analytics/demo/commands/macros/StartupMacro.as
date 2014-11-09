@@ -6,6 +6,7 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.commands.macros {
 import eu.alebianco.air.extensions.analytics.demo.commands.CreateScreens;
+import eu.alebianco.air.extensions.analytics.demo.commands.PrepareAssets;
 import eu.alebianco.air.extensions.analytics.demo.commands.SetupFeathers;
 import eu.alebianco.air.extensions.analytics.demo.commands.ShowTestSuites;
 import eu.alebianco.air.extensions.analytics.demo.commands.ShowUnsupportedWarning;
@@ -18,6 +19,7 @@ public class StartupMacro extends SequenceMacro {
     override public function prepare():void {
 
         add(SetupFeathers);
+        add(PrepareAssets);
         add(CreateScreens);
         add(ShowTestSuites).withGuards(IsSupported);
         add(ShowUnsupportedWarning).withGuards(IsNotSupported);

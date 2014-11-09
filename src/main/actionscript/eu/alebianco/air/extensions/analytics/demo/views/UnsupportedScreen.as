@@ -64,11 +64,18 @@ final public class UnsupportedScreen extends BaseScreen implements IDisplayVersi
     }
 
     override public function dispose():void {
-        super.dispose();
+        removeChildren();
 
+        info_lbl.dispose();
         info_lbl = null;
+
+        version_lbl.dispose();
         version_lbl = null;
+
+        warning_lbl.dispose();
         warning_lbl = null;
+
+        super.dispose();
     }
 
     private function createIntroLabel():Label {

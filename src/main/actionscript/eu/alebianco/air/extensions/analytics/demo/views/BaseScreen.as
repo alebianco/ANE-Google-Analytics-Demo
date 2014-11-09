@@ -15,6 +15,7 @@ import feathers.layout.VerticalLayout;
 import mx.resources.IResourceManager;
 
 import starling.events.Event;
+import starling.utils.AssetManager;
 
 public class BaseScreen extends PanelScreen {
 
@@ -25,6 +26,9 @@ public class BaseScreen extends PanelScreen {
 
     [Inject]
     public var resources:IResourceManager;
+
+    [Inject]
+    public var assets:AssetManager;
 
     final protected function getRString(id:String, ...arguments):String {
         return resources.getString(RESOURCE_BUNDLE_NAME, id, arguments);

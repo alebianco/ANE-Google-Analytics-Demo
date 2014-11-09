@@ -8,14 +8,23 @@ package {
 import eu.alebianco.air.extensions.analytics.demo.AnalyticsDemo;
 import eu.alebianco.air.extensions.analytics.demo.commands.GetVersion;
 import eu.alebianco.air.extensions.analytics.demo.commands.ShowScreen;
+import eu.alebianco.air.extensions.analytics.demo.commands.macros.ExecuteTestSuiteMacro;
 import eu.alebianco.air.extensions.analytics.demo.commands.macros.StartupMacro;
+import eu.alebianco.air.extensions.analytics.demo.events.ExecuteTestSuiteEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.NavigateEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.RequestVersionEvent;
+import eu.alebianco.air.extensions.analytics.demo.mediators.BackMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.MainMediator;
+import eu.alebianco.air.extensions.analytics.demo.mediators.TestResultsMediator;
+import eu.alebianco.air.extensions.analytics.demo.mediators.TestSuiteListMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.VersionDisplayMediator;
 import eu.alebianco.air.extensions.analytics.demo.model.LayoutSettings;
+import eu.alebianco.air.extensions.analytics.demo.model.TestsBundle;
 import eu.alebianco.air.extensions.analytics.demo.views.BaseScreen;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IBack;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayVersion;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IListTestSuites;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IReportTestResults;
 
 import feathers.controls.ScreenNavigator;
 
@@ -32,6 +41,8 @@ import robotlegs.bender.framework.api.IInjector;
 import robotlegs.bender.framework.api.LifecycleEvent;
 import robotlegs.starling.extensions.mediatorMap.api.IMediatorMap;
 import robotlegs.starling.extensions.viewProcessorMap.api.IViewProcessorMap;
+
+import starling.utils.AssetManager;
 
 public class Configuration implements IConfig {
 
@@ -56,15 +67,21 @@ public class Configuration implements IConfig {
         injector.map(File, "assets").toValue(File.applicationDirectory.resolvePath("assets"));
         injector.map(LayoutSettings).asSingleton();
         injector.map(ScreenNavigator).asSingleton();
+        injector.map(AssetManager).toValue(new AssetManager(1, false));
+        injector.map(TestsBundle).asSingleton();
 
+        mediator.map(IBack).toMediator(BackMediator);
         mediator.map(AnalyticsDemo).toMediator(MainMediator);
         mediator.map(IDisplayVersion).toMediator(VersionDisplayMediator);
+        mediator.map(IListTestSuites).toMediator(TestSuiteListMediator);
+        mediator.map(IReportTestResults).toMediator(TestResultsMediator);
 
         views.mapMatcher(new TypeMatcher().allOf(BaseScreen)).toInjection();
 
         commander.map(LifecycleEvent.POST_INITIALIZE, LifecycleEvent).toCommand(StartupMacro);
         commander.map(NavigateEvent.TO, NavigateEvent).toCommand(ShowScreen);
         commander.map(RequestVersionEvent.GET, RequestVersionEvent).toCommand(GetVersion);
+        commander.map(ExecuteTestSuiteEvent.RUN, ExecuteTestSuiteEvent).toCommand(ExecuteTestSuiteMacro);
     }
 }
 }
