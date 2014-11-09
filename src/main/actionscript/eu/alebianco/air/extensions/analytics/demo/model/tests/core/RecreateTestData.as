@@ -10,11 +10,11 @@ import eu.alebianco.air.extensions.analytics.demo.model.api.Test;
 
 public class RecreateTestData implements Test {
     public function get name():String {
-        return "suite.recreate.name";
+        return "test.core.recreate.name";
     }
 
     public function get description():String {
-        return "suite.recreate.description";
+        return "test.core.recreate.description";
     }
 
     public function get active():Boolean {

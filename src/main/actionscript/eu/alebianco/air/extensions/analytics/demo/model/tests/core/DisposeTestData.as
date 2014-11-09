@@ -10,11 +10,11 @@ import eu.alebianco.air.extensions.analytics.demo.model.api.Test;
 
 public class DisposeTestData implements Test {
     public function get name():String {
-        return "suite.dispose.name";
+        return "test.core.dispose.name";
     }
 
     public function get description():String {
-        return "suite.dispose.description";
+        return "test.core.dispose.description";
     }
 
     public function get active():Boolean {

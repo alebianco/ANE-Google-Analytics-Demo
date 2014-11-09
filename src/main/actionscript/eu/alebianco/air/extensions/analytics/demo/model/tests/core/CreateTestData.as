@@ -10,11 +10,11 @@ import eu.alebianco.air.extensions.analytics.demo.model.api.Test;
 
 public class CreateTestData implements Test {
     public function get name():String {
-        return "suite.create.name";
+        return "test.core.create.name";
     }
 
     public function get description():String {
-        return "suite.create.description";
+        return "test.core.create.description";
     }
 
     public function get active():Boolean {
