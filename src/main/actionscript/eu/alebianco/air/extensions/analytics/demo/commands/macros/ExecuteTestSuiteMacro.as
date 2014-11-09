@@ -6,6 +6,7 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.commands.macros {
 import eu.alebianco.air.extensions.analytics.demo.commands.Delay;
+import eu.alebianco.air.extensions.analytics.demo.commands.ReportSuiteComplete;
 import eu.alebianco.air.extensions.analytics.demo.commands.ReportSuiteStart;
 import eu.alebianco.air.extensions.analytics.demo.commands.ShowScreen;
 import eu.alebianco.air.extensions.analytics.demo.commands.guards.isTestActive;
@@ -27,8 +28,10 @@ public class ExecuteTestSuiteMacro extends SequenceMacro {
         add(ShowScreen).withPayloads(new NavigateEvent(DemoScreen.SUITE_RUNNER));
         add(ReportSuiteStart).withPayloads(new SubCommandPayload(event.suite, TestSuite));
         add(Delay).withPayloads(new SubCommandPayload(500, Number).withName("delay"));
+
         event.suite.tests.forEach(queueCommand);
-        // TODO notify tests complete, show report
+
+        add(ReportSuiteComplete).withPayloads(new SubCommandPayload(event.suite, TestSuite));
     }
 
     private function queueCommand(item:Test, index:int, list:Vector.<Test>):void {

@@ -7,6 +7,7 @@
 package eu.alebianco.air.extensions.analytics.demo.mediators {
 import eu.alebianco.air.extensions.analytics.demo.events.ReportTestResultEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.ReportTestStartEvent;
+import eu.alebianco.air.extensions.analytics.demo.model.vo.TestResultVO;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IReportTestResults;
 
 import robotlegs.bender.bundles.mvcs.Mediator;
@@ -20,6 +21,18 @@ public class TestResultsMediator extends Mediator {
         super.initialize();
         addContextListener(ReportTestResultEvent.REPORT, onReportReceived, ReportTestResultEvent);
         addContextListener(ReportTestStartEvent.START, onTestStarted, ReportTestStartEvent);
+
+        view.selected.addOnce(displayTestDetails);
+    }
+
+    override public function destroy():void {
+        super.destroy();
+
+        view.selected.removeAll();
+    }
+
+    private function displayTestDetails(report:TestResultVO):void {
+        trace("show report screen for", report.test.name);
     }
 
     private function onTestStarted(event:ReportTestStartEvent):void {

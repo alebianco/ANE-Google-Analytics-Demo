@@ -27,6 +27,10 @@ import feathers.skins.StandardIcons;
 
 import flash.utils.Dictionary;
 
+import org.osflash.signals.Signal;
+
+import starling.events.Event;
+
 import starling.textures.Texture;
 
 public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResults, IDisplaySuiteInformation {
@@ -41,10 +45,16 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResu
     private var info_group:LayoutGroup;
     private var title_lbl:Label;
     private var description_lbl:Label;
-    private var progress_group :LayoutGroup;
+    private var progress_group:LayoutGroup;
     private var progress_lbl:Label;
     private var progress_bar:ProgressBar;
     private var results_list:List;
+
+    private var _selected:Signal;
+
+    public function get selected():Signal {
+        return _selected ||= new Signal(TestResultVO);
+    }
 
     public function showDetails(suite:TestSuite):void {
         title = getRString(suite.name);
@@ -72,6 +82,10 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResu
         results_list.dataProvider.updateItemAt(index);
 
         invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
+    }
+
+    public function enableTestInspection():void {
+        results_list.isSelectable = true;
     }
 
     override protected function initialize():void {
@@ -123,6 +137,30 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResu
     override public function dispose():void {
         removeChildren();
 
+        info_group.removeChildren();
+        info_group.dispose();
+        info_group = null;
+
+        title_lbl.dispose();
+        title_lbl = null;
+
+        description_lbl.dispose();
+        description_lbl = null;
+
+        progress_group.removeChildren();
+        progress_group.dispose();
+        progress_group = null;
+
+        progress_lbl.dispose();
+        progress_lbl = null;
+
+        progress_bar.dispose();
+        progress_bar = null;
+
+        results_list.dispose();
+        results_list = null;
+
+        results_list.removeEventListener(Event.CHANGE, onTestSelected);
         results_list.dispose();
         results_list = null;
 
@@ -208,7 +246,12 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IReportTestResu
         list.itemRendererProperties.labelFunction = function(item:TestResultVO):String {
             return getRString(item.test.name) + (item.finished ? "" : " ...");
         };
+        list.addEventListener(Event.CHANGE, onTestSelected);
         return list;
+    }
+
+    private function onTestSelected(event:Event):void {
+        _selected.dispatch(results_list.selectedItem);
     }
 }
 }
