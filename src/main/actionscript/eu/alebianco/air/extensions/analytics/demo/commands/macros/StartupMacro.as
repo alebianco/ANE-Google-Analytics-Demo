@@ -6,6 +6,7 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.commands.macros {
 import eu.alebianco.air.extensions.analytics.demo.commands.PrepareAssets;
+import eu.alebianco.air.extensions.analytics.demo.commands.PrepareResources;
 import eu.alebianco.air.extensions.analytics.demo.commands.PrepareScreenNavigator;
 import eu.alebianco.air.extensions.analytics.demo.commands.SetupFeathers;
 import eu.alebianco.air.extensions.analytics.demo.commands.ShowSuitesList;
@@ -19,6 +20,7 @@ public class StartupMacro extends SequenceMacro {
     override public function prepare():void {
 
         add(SetupFeathers);
+        add(PrepareResources);
         add(PrepareAssets);
         add(PrepareScreenNavigator);
         add(ShowSuitesList).withGuards(IsSupported);
