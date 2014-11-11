@@ -18,6 +18,7 @@ import eu.alebianco.air.extensions.analytics.demo.events.NavigateEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.RequestVersionEvent;
 import eu.alebianco.air.extensions.analytics.demo.mediators.BackMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.MainMediator;
+import eu.alebianco.air.extensions.analytics.demo.mediators.ReportDetailsMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.SuiteInformationMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.TestReportMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.TestSuiteListMediator;
@@ -27,6 +28,7 @@ import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
 import eu.alebianco.air.extensions.analytics.demo.model.TestsBundle;
 import eu.alebianco.air.extensions.analytics.demo.views.BaseScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IBack;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayReportDetails;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplaySuiteInformation;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayTestReports;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayVersion;
@@ -83,6 +85,7 @@ public class Configuration implements IConfig {
         mediator.map(IListTestSuites).toMediator(TestSuiteListMediator);
         mediator.map(IDisplayTestReports).toMediator(TestReportMediator);
         mediator.map(IDisplaySuiteInformation).toMediator(SuiteInformationMediator);
+        mediator.map(IDisplayReportDetails).toMediator(ReportDetailsMediator);
 
         views.mapMatcher(new TypeMatcher().allOf(BaseScreen)).toInjection();
 

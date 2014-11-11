@@ -7,11 +7,22 @@
 package eu.alebianco.air.extensions.analytics.demo.model.vo {
 import eu.alebianco.air.extensions.analytics.demo.model.api.Test;
 
+import flash.globalization.DateTimeFormatter;
+
+import mx.formatters.DateFormatter;
+
 import mx.resources.IResourceManager;
 
 import mx.utils.StringUtil;
 
 public class TestReportVO {
+
+    public static var dateformatter:DateTimeFormatter;
+
+    {
+        dateformatter = new DateTimeFormatter("en-US");
+        dateformatter.setDateTimePattern( "yyyy-MM-dd at hh:mm:ssa");
+    }
 
     [Inject]
     public var resource:IResourceManager;
@@ -39,8 +50,8 @@ public class TestReportVO {
         return _feedback;
     }
 
-    public function get startedAt():Date {
-        return _startedAt;
+    public function get startedAt():String {
+        return dateformatter.format(_startedAt);
     }
 
     public function get duration():int {
