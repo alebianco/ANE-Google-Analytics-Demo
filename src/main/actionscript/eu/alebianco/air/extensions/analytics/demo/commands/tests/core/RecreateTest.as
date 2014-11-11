@@ -20,15 +20,15 @@ public class RecreateTest extends AbstractTest {
             const second:IAnalytics = Analytics.getInstance();
             verify(first, second);
         } catch(error:Error) {
-            report(false, "error.runtime", error.errorID, error.name, error.message);
+            report(false, "error.tests.rte", error.errorID, error.name, error.message, error.getStackTrace());
         }
     }
 
     override public function verify(...data):void {
         const first:IAnalytics = data[0];
         const second:IAnalytics = data[1];
-        const areEqual:Boolean = first == second;
-        report(!areEqual);
+        const areEqual:Boolean = first === second;
+        report(!areEqual, null, first, second);
     }
 }
 }

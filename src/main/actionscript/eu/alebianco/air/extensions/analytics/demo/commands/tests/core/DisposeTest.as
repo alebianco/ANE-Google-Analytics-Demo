@@ -19,7 +19,7 @@ public class DisposeTest extends AbstractTest {
             instance.dispose();
             verify();
         } catch(error:Error) {
-            report(false, "error.runtime", error.errorID, error.name, error.message);
+            report(false, "error.tests.rte", error.errorID, error.name, error.message, error.getStackTrace());
         }
     }
 

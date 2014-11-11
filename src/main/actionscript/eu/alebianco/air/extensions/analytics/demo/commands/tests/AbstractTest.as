@@ -53,7 +53,7 @@ public class AbstractTest extends AsyncCommand {
     }
 
     public function verify(...data):void {
-        report(false, "error.test.verifier.not.implemented", test.name);
+        report(false, "error.test.verifier.missing", test.name);
     }
 
 

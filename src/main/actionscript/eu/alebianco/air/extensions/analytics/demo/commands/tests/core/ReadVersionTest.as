@@ -21,14 +21,14 @@ public class ReadVersionTest extends AbstractTest {
             const version:String = instance.version;
             verify(version);
         } catch(error:Error) {
-            report(false, "error.runtime", error.errorID, error.name, error.message);
+            report(false, "error.tests.rte", error.errorID, error.name, error.message, error.getStackTrace());
         }
     }
 
     override public function verify(...data):void {
         const version:String = data[0];
         const isValid:Boolean = VERSION_MATCHER.test(version);
-        report(isValid);
+        report(isValid, null, version);
     }
 }
 }

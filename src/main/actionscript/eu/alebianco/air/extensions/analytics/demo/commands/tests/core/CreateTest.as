@@ -5,6 +5,8 @@
  * Created: 08/11/2014 16:01
  */
 package eu.alebianco.air.extensions.analytics.demo.commands.tests.core {
+import avmplus.getQualifiedClassName;
+
 import eu.alebianco.air.extensions.analytics.Analytics;
 import eu.alebianco.air.extensions.analytics.api.IAnalytics;
 import eu.alebianco.air.extensions.analytics.demo.commands.tests.AbstractTest;
@@ -17,7 +19,7 @@ public class CreateTest extends AbstractTest {
         try {
             verify(Analytics.getInstance());
         } catch(error:Error) {
-            report(false, "error.runtime", error.errorID, error.name, error.message);
+            report(false, "error.tests.rte", error.errorID, error.name, error.message, error.getStackTrace());
         }
     }
 
@@ -25,7 +27,7 @@ public class CreateTest extends AbstractTest {
         const first:IAnalytics = data[0];
         const isNotNull:Boolean = first != null;
         const isRightType:Boolean = first is Analytics;
-        report(isNotNull && isRightType);
+        report(isNotNull && isRightType, null, getQualifiedClassName(first));
     }
 }
 }
