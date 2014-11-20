@@ -5,8 +5,6 @@
  * Created: 08/11/2014 13:29
  */
 package eu.alebianco.air.extensions.analytics.demo.views {
-import eu.alebianco.air.extensions.analytics.demo.model.api.TestSuite;
-import eu.alebianco.air.extensions.analytics.demo.model.vo.TestReportVO;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplaySuiteInformation;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayTestReports;
 
@@ -23,6 +21,8 @@ import feathers.layout.HorizontalLayoutData;
 import feathers.layout.VerticalLayout;
 import feathers.layout.VerticalLayoutData;
 import feathers.skins.StandardIcons;
+
+import flexunit.framework.TestSuite;
 
 import org.osflash.signals.Signal;
 
@@ -47,29 +47,13 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
     private var _selected:Signal;
 
     public function get selected():Signal {
-        return _selected ||= new Signal(TestReportVO);
+        return _selected ||= new Signal();
     }
 
     public function showDetails(suite:TestSuite):void {
-        title = getRString(suite.name);
-        description = getRString(suite.description);
-        testsTotal = suite.tests.length;
-
-        invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
-    }
-
-    public function updateReport(report:TestReportVO):void {
-
-        if (!report_list.dataProvider.contains(report)) {
-            report_list.dataProvider.addItem(report);
-        } else {
-            const index:int = report_list.dataProvider.getItemIndex(report);
-            report_list.dataProvider.updateItemAt(index)
-        }
-
-        if (report.finished) {
-            testsCompleted++;
-        }
+        title = "...";
+        description = "...";
+        testsTotal = 99;
 
         invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
     }
@@ -216,31 +200,13 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         list.autoHideBackground = true;
         list.isSelectable = true;
         list.itemRendererProperties.isQuickHitAreaEnabled = true;
-        list.itemRendererProperties.accessorySourceFunction = function(item:TestReportVO):Texture {
-            return StandardIcons.listDrillDownAccessoryTexture;
-        };
-        list.itemRendererProperties.iconSourceFunction = function(item:TestReportVO):Texture {
-            if (!item.finished) {
-                return assets.getTexture("progress");
-            } else {
-                return assets.getTexture(item.success ? "success" : "failure");
-            }
-        };
-        list.itemRendererProperties.labelFunction = function(item:TestReportVO):String {
-            return getRString(item.test.name) + (item.finished ? "" : " ...");
-        };
         list.addEventListener(Event.CHANGE, onTestSelected);
         return list;
     }
 
     private function onTestSelected(event:Event):void {
         if (report_list.selectedIndex > -1) {
-            const report:TestReportVO = report_list.selectedItem as TestReportVO;
-            if (report.finished) {
-                _selected.dispatch(report);
-            } else {
-                report_list.selectedIndex = -1;
-            }
+
         }
     }
 }

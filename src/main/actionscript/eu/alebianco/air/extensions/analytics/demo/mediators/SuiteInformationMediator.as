@@ -6,7 +6,6 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.mediators {
 import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
-import eu.alebianco.air.extensions.analytics.demo.model.api.TestSuite;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplaySuiteInformation;
 
 import robotlegs.bender.bundles.mvcs.Mediator;
@@ -21,9 +20,6 @@ public class SuiteInformationMediator extends Mediator {
 
     override public function initialize():void {
         super.initialize();
-
-        const suite:TestSuite = session.getItem("current") as TestSuite;
-        view.showDetails(suite);
     }
 }
 }

@@ -5,7 +5,6 @@
  * Created: 02/11/2014 18:38
  */
 package eu.alebianco.air.extensions.analytics.demo.views {
-import eu.alebianco.air.extensions.analytics.demo.model.api.TestSuite;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IListTestSuites;
 
 import feathers.controls.Button;
@@ -14,6 +13,8 @@ import feathers.controls.Label;
 import feathers.data.ListCollection;
 import feathers.display.VerticalSpacer;
 import feathers.layout.VerticalLayoutData;
+
+import flexunit.framework.TestSuite;
 
 import org.osflash.signals.Signal;
 
