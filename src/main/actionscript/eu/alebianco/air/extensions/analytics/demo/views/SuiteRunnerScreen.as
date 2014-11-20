@@ -20,14 +20,12 @@ import feathers.layout.HorizontalLayout;
 import feathers.layout.HorizontalLayoutData;
 import feathers.layout.VerticalLayout;
 import feathers.layout.VerticalLayoutData;
-import feathers.skins.StandardIcons;
 
 import flexunit.framework.TestSuite;
 
 import org.osflash.signals.Signal;
 
 import starling.events.Event;
-import starling.textures.Texture;
 
 public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestReports, IDisplaySuiteInformation {
 
