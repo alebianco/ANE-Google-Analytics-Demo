@@ -21,18 +21,16 @@ import feathers.layout.HorizontalLayoutData;
 import feathers.layout.VerticalLayout;
 import feathers.layout.VerticalLayoutData;
 
-import flexunit.framework.TestSuite;
-
 import org.osflash.signals.Signal;
 
 import starling.events.Event;
 
 public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestReports, IDisplaySuiteInformation {
 
-    private var title:String = " ";
-    private var description:String = " ";
-    private var testsTotal:uint;
-    private var testsCompleted:uint;
+    private var _title:String = " ";
+    private var _description:String = " ";
+    private var _testsTotal:uint;
+    private var _testsCompleted:uint;
 
     private var info_group:LayoutGroup;
     private var title_lbl:Label;
@@ -48,11 +46,10 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         return _selected ||= new Signal();
     }
 
-    public function showDetails(suite:TestSuite):void {
-        title = "...";
-        description = "...";
-        testsTotal = 99;
-
+    public function showDetails(name:String, description:String, testCount:uint):void {
+        _title = name;
+        _description = description;
+        _testsTotal = testCount;
         invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
     }
 
@@ -85,13 +82,13 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
 
         if (isDataInvalid) {
             if (title_lbl)
-                title_lbl.text = title;
+                title_lbl.text = _title;
             if (description_lbl)
-                description_lbl.text = description;
+                description_lbl.text = _description;
             if (progress_lbl)
-                progress_lbl.text = getRString("runner.progress.label", testsCompleted, testsTotal);
+                progress_lbl.text = getRString("runner.progress.label", _testsCompleted, _testsTotal);
             if (progress_bar)
-                progress_bar.value = testsCompleted/testsTotal;
+                progress_bar.value = _testsCompleted/_testsTotal;
         }
 
         super.draw();

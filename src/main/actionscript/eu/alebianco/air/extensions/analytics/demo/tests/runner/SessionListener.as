@@ -40,6 +40,7 @@ public class SessionListener extends RunListener implements IRunListener {
         session.setItem("running", true);
         session.setItem("start-time", new Date().getTime());
         session.setItem("test-count", description.testCount);
+        session.setItem("suite", description.children[0]);
         session.setItem("list", new <TestCaseData>[]);
         dispatcher.dispatchEvent(new TestsStartedEvent());
     }

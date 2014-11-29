@@ -8,5 +8,6 @@
 package eu.alebianco.air.extensions.analytics.demo.views.api {
 
 public interface IDisplaySuiteInformation {
+    function showDetails(name:String, description:String, testCount:uint):void;
 }
 }

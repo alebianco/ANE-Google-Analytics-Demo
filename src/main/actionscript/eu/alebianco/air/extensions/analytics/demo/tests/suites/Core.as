@@ -8,7 +8,7 @@ package eu.alebianco.air.extensions.analytics.demo.tests.suites {
 import eu.alebianco.air.extensions.analytics.demo.tests.Creating;
 import eu.alebianco.air.extensions.analytics.demo.tests.Versioning;
 
-[Suite(order=1)]
+[Suite(order=1, description="suites.core.description")]
 [RunWith("org.flexunit.runners.Suite")]
 public class Core {
     public var creating:Creating;

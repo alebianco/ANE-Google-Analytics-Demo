@@ -5,6 +5,8 @@
  * Created: 02/11/2014 18:08
  */
 package {
+import avmplus.DescribeTypeJSON;
+
 import eu.alebianco.air.extensions.analytics.demo.AnalyticsDemo;
 import eu.alebianco.air.extensions.analytics.demo.commands.GetVersion;
 import eu.alebianco.air.extensions.analytics.demo.commands.ShowScreen;
@@ -80,6 +82,7 @@ public class Configuration implements IConfig {
         injector.map(SessionStorage).asSingleton();
         injector.map(RunListener).toSingleton(SessionListener);
         injector.map(FlexUnitCore).toValue(new FlexUnitCore());
+        injector.map(DescribeTypeJSON).asSingleton();
 
         mediator.map(IBack).toMediator(BackMediator);
         mediator.map(AnalyticsDemo).toMediator(MainMediator);
