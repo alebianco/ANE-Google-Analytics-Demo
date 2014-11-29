@@ -10,6 +10,8 @@ import org.flexunit.runner.notification.RunListener;
 
 import robotlegs.bender.bundles.mvcs.Command;
 
+import starling.core.Starling;
+
 public class PrepareTestRunner extends Command {
 
     [Inject]
@@ -20,6 +22,7 @@ public class PrepareTestRunner extends Command {
 
     override public function execute():void {
         runner.addListener(listener);
+        runner.addUncaughtErrorListener(Starling.current.nativeStage.loaderInfo);
     }
 }
 }
