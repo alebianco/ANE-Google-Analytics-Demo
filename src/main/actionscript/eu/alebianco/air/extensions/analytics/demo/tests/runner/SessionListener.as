@@ -6,6 +6,7 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.tests.runner {
 import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
+import eu.alebianco.air.extensions.analytics.demo.model.TestCaseData;
 
 import flash.events.IEventDispatcher;
 
@@ -34,29 +35,30 @@ public class SessionListener extends RunListener implements IRunListener {
     }
 
     override public function testRunStarted(description:IDescription):void {
-        session.setItem("test-count", description.testCount);
         session.setItem("running", true);
         session.setItem("start-time", new Date().getTime());
-        session.setItem("list", new <Object>[]);
+        session.setItem("test-count", description.testCount);
+        session.setItem("list", new <TestCaseData>[]);
     }
 
     override public function testRunFinished(result:Result):void {
         session.setItem("running", false);
+        session.setItem("successful", result.successful);
         session.setItem("end-time", new Date().getTime());
         dispatcher.dispatchEvent(new TestsCompleteEvent());
+    }
+
+    override public function testStarted(description:IDescription):void {
+        addRunning(description);
     }
 
     override public function testFinished(description:IDescription):void {
         var count:int = session.getItem("tests-run") || 0;
         session.setItem("tests-run", count+1);
 
-        if(!lastFailedTest || description.displayName != lastFailedTest.displayName) {
+        if(!lastFailedTest || !description.equals(lastFailedTest)) {
             addSuccess(description);
         }
-    }
-
-    override public function testStarted(description:IDescription):void {
-        // add test as disabled
     }
 
     override public function testFailure(failure:Failure):void {
@@ -69,37 +71,60 @@ public class SessionListener extends RunListener implements IRunListener {
     }
 
     override public function testAssumptionFailure(failure:Failure):void {
-        // nada
+        lastFailedTest = failure.description;
+        addFailure(failure);
     }
 
     private function get totalAssertions():uint {
         return flexunit.framework.Assert.assetionsMade + org.flexunit.Assert.assertionsMade;
     }
 
+    private function addRunning(description:IDescription):void {
+        addTestToList(description);
+    }
+
     private function addSuccess(description:IDescription):void {
         var count:int = session.getItem("tests-succeeded") || 0;
         session.setItem("tests-succeeded", count+1);
-
-        addTestToList(description, null, true, totalAssertions);
+        addTestToList(description, null, true, true);
     }
 
     private function addFailure(failure:Failure):void {
         var count:int = session.getItem("tests-failed") || 0;
         session.setItem("tests-failed", count+1);
-
-        addTestToList(failure.description, failure, false, totalAssertions);
+        addTestToList(failure.description, failure, false, true);
     }
 
     private function addIgnored(description:IDescription):void {
         var count:int = session.getItem("tests-ignored") || 0;
         session.setItem("tests-ignored", count+1);
-
-        addTestToList(description, null, true);
+        addTestToList(description, null, true, true);
     }
 
-    private function addTestToList(description:IDescription, failure:Failure = null, ignored:Boolean = false, assertionsMade:uint = 0):void {
-        var list:Vector.<Object> = session.getItem("list");
-        list.push({d:description, f:failure, i:ignored, a:assertionsMade});
+    private function addTestToList(description:IDescription, failure:Failure = null, ignored:Boolean = false, complete:Boolean = false):void {
+        const data:TestCaseData = findOrCreate(description);
+        if (complete && !data.isComplete()) {
+            data.complete(failure, ignored, totalAssertions);
+        }
+    }
+
+    private function findOrCreate(description:IDescription):TestCaseData {
+        var data:TestCaseData = null;
+        const list:Vector.<TestCaseData> = session.getItem("list") as Vector.<TestCaseData>;
+        const filtered:Vector.<TestCaseData> = list.filter(isSame(description));
+        if (filtered && filtered.length > 0) {
+            data = filtered[0];
+        } else {
+            data = new TestCaseData(description);
+            list.push(data);
+        }
+        return data;
+    }
+
+    private function isSame(description:IDescription):Function {
+        return function(data:TestCaseData, index:uint, list:Vector.<TestCaseData>):Boolean {
+            return description.equals(data.description);
+        };
     }
 }
 }
