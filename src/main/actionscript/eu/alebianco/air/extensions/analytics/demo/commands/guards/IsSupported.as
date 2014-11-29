@@ -6,13 +6,14 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.commands.guards {
 import eu.alebianco.air.extensions.analytics.Analytics;
+import eu.alebianco.utils.ModeCheck;
 
 import robotlegs.bender.framework.api.IGuard;
 
 public class IsSupported implements IGuard {
 
     public function approve():Boolean {
-        return Analytics.isSupported();
+        return ModeCheck.isDebugMode() || Analytics.isSupported();
     }
 }
 }
