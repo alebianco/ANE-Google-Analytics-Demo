@@ -7,12 +7,12 @@
 package eu.alebianco.air.extensions.analytics.demo.tests.runner {
 import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
 
-import flash.events.Event;
 import flash.events.IEventDispatcher;
 
 import flexunit.framework.Assert;
 
 import org.flexunit.Assert;
+import org.flexunit.flexui.event.TestsCompleteEvent;
 import org.flexunit.runner.IDescription;
 import org.flexunit.runner.Result;
 import org.flexunit.runner.notification.Failure;
@@ -43,7 +43,7 @@ public class SessionListener extends RunListener implements IRunListener {
     override public function testRunFinished(result:Result):void {
         session.setItem("running", false);
         session.setItem("end-time", new Date().getTime());
-        dispatcher.dispatchEvent(new Event(Event.COMPLETE)); // use custom event
+        dispatcher.dispatchEvent(new TestsCompleteEvent());
     }
 
     override public function testFinished(description:IDescription):void {
