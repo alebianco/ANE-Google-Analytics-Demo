@@ -5,7 +5,7 @@
  * Created: 02/11/2014 18:15
  */
 package eu.alebianco.air.extensions.analytics.demo.commands.macros {
-import eu.alebianco.air.extensions.analytics.demo.commands.ClearSession;
+import eu.alebianco.air.extensions.analytics.demo.commands.hooks.ClearSession;
 import eu.alebianco.air.extensions.analytics.demo.commands.Delay;
 import eu.alebianco.air.extensions.analytics.demo.commands.RunSuite;
 import eu.alebianco.air.extensions.analytics.demo.commands.ShowScreen;
