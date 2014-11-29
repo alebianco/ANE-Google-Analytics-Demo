@@ -5,6 +5,7 @@
  * Created: 02/11/2014 18:38
  */
 package eu.alebianco.air.extensions.analytics.demo.views {
+import eu.alebianco.air.extensions.analytics.demo.model.TestBundle;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IListTestSuites;
 
 import feathers.controls.Button;
@@ -13,8 +14,6 @@ import feathers.controls.Label;
 import feathers.data.ListCollection;
 import feathers.display.VerticalSpacer;
 import feathers.layout.VerticalLayoutData;
-
-import flexunit.framework.TestSuite;
 
 import org.osflash.signals.Signal;
 
@@ -28,10 +27,10 @@ final public class SuitesListScreen extends BaseScreen implements IListTestSuite
     private var _selected:Signal;
 
     public function get selected():Signal {
-        return _selected ||= new Signal(TestSuite);
+        return _selected ||= new Signal(TestBundle);
     }
 
-    public function addSuite(item:TestSuite):void {
+    public function addSuite(item:TestBundle):void {
         suites_group.dataProvider.addItem(item);
     }
 
@@ -71,14 +70,14 @@ final public class SuitesListScreen extends BaseScreen implements IListTestSuite
         const group:ButtonGroup = new ButtonGroup();
         group.layoutData = new VerticalLayoutData(100);
         group.dataProvider = new ListCollection([]);
-        group.buttonInitializer = function( button:Button, item:TestSuite ):void {
-            button.label = getRString(item.name);
+        group.buttonInitializer = function( button:Button, item:TestBundle ):void {
+            button.label = item.name;
         };
         group.addEventListener(Event.TRIGGERED, onSuiteSelected);
         return group;
     }
 
-    private function onSuiteSelected(event:Event, data:TestSuite):void {
+    private function onSuiteSelected(event:Event, data:TestBundle):void {
        selected.dispatch(data);
     }
 }
