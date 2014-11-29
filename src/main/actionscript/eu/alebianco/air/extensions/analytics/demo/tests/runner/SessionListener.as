@@ -5,6 +5,9 @@
  * Created: 27/11/2014 20:45
  */
 package eu.alebianco.air.extensions.analytics.demo.tests.runner {
+import eu.alebianco.air.extensions.analytics.demo.events.TestCaseDataChangedEvent;
+import eu.alebianco.air.extensions.analytics.demo.events.TestsCompleteEvent;
+import eu.alebianco.air.extensions.analytics.demo.events.TestsStartedEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
 import eu.alebianco.air.extensions.analytics.demo.model.TestCaseData;
 
@@ -13,7 +16,6 @@ import flash.events.IEventDispatcher;
 import flexunit.framework.Assert;
 
 import org.flexunit.Assert;
-import org.flexunit.flexui.event.TestsCompleteEvent;
 import org.flexunit.runner.IDescription;
 import org.flexunit.runner.Result;
 import org.flexunit.runner.notification.Failure;
@@ -39,6 +41,7 @@ public class SessionListener extends RunListener implements IRunListener {
         session.setItem("start-time", new Date().getTime());
         session.setItem("test-count", description.testCount);
         session.setItem("list", new <TestCaseData>[]);
+        dispatcher.dispatchEvent(new TestsStartedEvent());
     }
 
     override public function testRunFinished(result:Result):void {
@@ -50,6 +53,7 @@ public class SessionListener extends RunListener implements IRunListener {
 
     override public function testStarted(description:IDescription):void {
         addRunning(description);
+        dispatcher.dispatchEvent(new TestCaseDataChangedEvent());
     }
 
     override public function testFinished(description:IDescription):void {
@@ -59,20 +63,24 @@ public class SessionListener extends RunListener implements IRunListener {
         if(!lastFailedTest || !description.equals(lastFailedTest)) {
             addSuccess(description);
         }
+        dispatcher.dispatchEvent(new TestCaseDataChangedEvent());
     }
 
     override public function testFailure(failure:Failure):void {
         lastFailedTest = failure.description;
         addFailure(failure);
+        dispatcher.dispatchEvent(new TestCaseDataChangedEvent());
     }
 
     override public function testIgnored(description:IDescription):void {
         addIgnored(description);
+        dispatcher.dispatchEvent(new TestCaseDataChangedEvent());
     }
 
     override public function testAssumptionFailure(failure:Failure):void {
         lastFailedTest = failure.description;
         addFailure(failure);
+        dispatcher.dispatchEvent(new TestCaseDataChangedEvent());
     }
 
     private function get totalAssertions():uint {
