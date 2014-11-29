@@ -5,6 +5,7 @@
  * Created: 08/11/2014 13:29
  */
 package eu.alebianco.air.extensions.analytics.demo.views {
+import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayExecutionProgress;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplaySuiteInformation;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayTestReports;
 
@@ -25,7 +26,7 @@ import org.osflash.signals.Signal;
 
 import starling.events.Event;
 
-public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestReports, IDisplaySuiteInformation {
+public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestReports, IDisplaySuiteInformation, IDisplayExecutionProgress {
 
     private var _title:String = " ";
     private var _description:String = " ";
@@ -50,6 +51,11 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         _title = name;
         _description = description;
         _testsTotal = testCount;
+        invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
+    }
+
+    public function updateProgress(completed:uint):void {
+        _testsCompleted = completed;
         invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
     }
 
