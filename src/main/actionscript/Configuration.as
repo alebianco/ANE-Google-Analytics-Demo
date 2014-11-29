@@ -20,6 +20,7 @@ import eu.alebianco.air.extensions.analytics.demo.mediators.TestSuiteListMediato
 import eu.alebianco.air.extensions.analytics.demo.mediators.VersionDisplayMediator;
 import eu.alebianco.air.extensions.analytics.demo.model.LayoutSettings;
 import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
+import eu.alebianco.air.extensions.analytics.demo.tests.runner.SessionListener;
 import eu.alebianco.air.extensions.analytics.demo.views.BaseScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IBack;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayReportDetails;
@@ -35,6 +36,9 @@ import flash.filesystem.File;
 
 import mx.resources.IResourceManager;
 import mx.resources.ResourceManager;
+
+import org.flexunit.runner.FlexUnitCore;
+import org.flexunit.runner.notification.RunListener;
 
 import robotlegs.bender.extensions.eventCommandMap.api.IEventCommandMap;
 import robotlegs.bender.extensions.matching.TypeMatcher;
@@ -71,6 +75,8 @@ public class Configuration implements IConfig {
         injector.map(ScreenNavigator).asSingleton();
         injector.map(AssetManager).toValue(new AssetManager(1, false));
         injector.map(SessionStorage).asSingleton();
+        injector.map(RunListener).toSingleton(SessionListener);
+        injector.map(FlexUnitCore).toValue(new FlexUnitCore());
 
         mediator.map(IBack).toMediator(BackMediator);
         mediator.map(AnalyticsDemo).toMediator(MainMediator);

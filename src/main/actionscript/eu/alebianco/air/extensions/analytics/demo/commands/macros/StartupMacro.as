@@ -8,6 +8,7 @@ package eu.alebianco.air.extensions.analytics.demo.commands.macros {
 import eu.alebianco.air.extensions.analytics.demo.commands.PrepareAssets;
 import eu.alebianco.air.extensions.analytics.demo.commands.PrepareResources;
 import eu.alebianco.air.extensions.analytics.demo.commands.PrepareScreenNavigator;
+import eu.alebianco.air.extensions.analytics.demo.commands.PrepareTestRunner;
 import eu.alebianco.air.extensions.analytics.demo.commands.SetupFeathers;
 import eu.alebianco.air.extensions.analytics.demo.commands.ShowSuitesList;
 import eu.alebianco.air.extensions.analytics.demo.commands.ShowUnsupportedWarning;
@@ -22,6 +23,7 @@ public class StartupMacro extends SequenceMacro {
         add(SetupFeathers);
         add(PrepareResources);
         add(PrepareAssets);
+        add(PrepareTestRunner);
         add(PrepareScreenNavigator);
         add(ShowSuitesList).withGuards(IsSupported);
         add(ShowUnsupportedWarning).withGuards(IsNotSupported);
