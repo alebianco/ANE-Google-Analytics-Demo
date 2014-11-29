@@ -8,9 +8,11 @@ package {
 import eu.alebianco.air.extensions.analytics.demo.AnalyticsDemo;
 import eu.alebianco.air.extensions.analytics.demo.commands.GetVersion;
 import eu.alebianco.air.extensions.analytics.demo.commands.ShowScreen;
+import eu.alebianco.air.extensions.analytics.demo.commands.macros.ExecuteSuiteMacro;
 import eu.alebianco.air.extensions.analytics.demo.commands.macros.StartupMacro;
 import eu.alebianco.air.extensions.analytics.demo.events.NavigateEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.RequestVersionEvent;
+import eu.alebianco.air.extensions.analytics.demo.events.SelectedSuiteEvent;
 import eu.alebianco.air.extensions.analytics.demo.mediators.BackMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.MainMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.ReportDetailsMediator;
@@ -91,6 +93,7 @@ public class Configuration implements IConfig {
         commander.map(LifecycleEvent.POST_INITIALIZE, LifecycleEvent).toCommand(StartupMacro);
         commander.map(NavigateEvent.TO, NavigateEvent).toCommand(ShowScreen);
         commander.map(RequestVersionEvent.GET, RequestVersionEvent).toCommand(GetVersion);
+        commander.map(SelectedSuiteEvent.CHANGE, SelectedSuiteEvent).toCommand(ExecuteSuiteMacro);
     }
 }
 }
