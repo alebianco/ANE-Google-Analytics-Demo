@@ -5,6 +5,8 @@
  * Created: 02/11/2014 18:15
  */
 package eu.alebianco.air.extensions.analytics.demo.commands.macros {
+import eu.alebianco.air.extensions.analytics.demo.commands.ClearSession;
+import eu.alebianco.air.extensions.analytics.demo.commands.Delay;
 import eu.alebianco.air.extensions.analytics.demo.commands.RunSuite;
 import eu.alebianco.air.extensions.analytics.demo.commands.ShowScreen;
 import eu.alebianco.air.extensions.analytics.demo.events.NavigateEvent;
@@ -20,7 +22,8 @@ public class ExecuteSuiteMacro extends SequenceMacro {
 
     override public function prepare():void {
         add(ShowScreen).withPayloads(new NavigateEvent(DemoScreen.SUITE_RUNNER));
-        add(RunSuite).withPayloads(new SubCommandPayload(event.suite, Class));
+        add(Delay).withPayloads(new SubCommandPayload(500, Number).withName("delay"));
+        add(RunSuite).withHooks(ClearSession).withPayloads(new SubCommandPayload(event.suite, Class));
     }
 }
 }
