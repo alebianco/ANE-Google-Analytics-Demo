@@ -10,6 +10,7 @@ import eu.alebianco.air.extensions.analytics.demo.events.TestsCompleteEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.TestsStartedEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
 import eu.alebianco.air.extensions.analytics.demo.model.TestCaseData;
+import eu.alebianco.utils.functional.first;
 
 import flash.events.IEventDispatcher;
 
@@ -118,22 +119,17 @@ public class SessionListener extends RunListener implements IRunListener {
     }
 
     private function findOrCreate(description:IDescription):TestCaseData {
-        var data:TestCaseData = null;
         const list:Vector.<TestCaseData> = session.getItem("list") as Vector.<TestCaseData>;
-        const filtered:Vector.<TestCaseData> = list.filter(isSame(description));
-        if (filtered && filtered.length > 0) {
-            data = filtered[0];
-        } else {
+        var data:TestCaseData = first(list, isSameDescription, description);
+        if (!data) {
             data = new TestCaseData(description);
             list.push(data);
         }
         return data;
     }
 
-    private function isSame(description:IDescription):Function {
-        return function(data:TestCaseData, index:uint, list:Vector.<TestCaseData>):Boolean {
-            return description.equals(data.description);
-        };
+    private function isSameDescription(data:TestCaseData, description:IDescription):Boolean {
+        return description.equals(data.description);
     }
 }
 }

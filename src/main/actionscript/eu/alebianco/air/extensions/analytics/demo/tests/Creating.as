@@ -8,6 +8,7 @@ package eu.alebianco.air.extensions.analytics.demo.tests {
 
 import eu.alebianco.air.extensions.analytics.Analytics;
 import eu.alebianco.air.extensions.analytics.api.IAnalytics;
+import eu.alebianco.utils.functional.filter;
 
 import flash.events.TimerEvent;
 import flash.external.ExtensionContext;
@@ -209,7 +210,7 @@ public class Creating {
                 }
             }
         }
-        return list.filter(function(item:Boolean, index:int, list:Array):Boolean {return item === true;});
+        return filter(list, function(item:Boolean):Boolean{return item;});
     }
 }
 }

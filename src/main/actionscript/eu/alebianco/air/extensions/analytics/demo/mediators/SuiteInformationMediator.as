@@ -10,6 +10,7 @@ import avmplus.DescribeTypeJSON;
 import eu.alebianco.air.extensions.analytics.demo.events.TestsStartedEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplaySuiteInformation;
+import eu.alebianco.utils.functional.first;
 
 import flash.utils.getDefinitionByName;
 
@@ -72,19 +73,12 @@ public class SuiteInformationMediator extends Mediator {
     private function getDescriptionMetadata(className:String):Object {
         const suiteClass:Class = getDefinitionByName(className) as Class;
         const definition:Object = describer.getInstanceDescription(suiteClass);
-        const tag:Object = getFirstMatch(definition.traits.metadata, propertyEquals("name", "Suite")) as Object;
-        return getFirstMatch(tag.value, propertyEquals("key", "description")) as Object;
+        const tag:Object = first(definition.traits.metadata, propertyEquals, "name", "Suite") as Object;
+        return first(tag.value, propertyEquals, "key", "description") as Object;
     }
 
-    private function getFirstMatch(target:Array, matcher:Function):* {
-        const list:Array = target.filter(matcher);
-        return list && list.length > 0 ? list[0] : null;
-    }
-
-    private function propertyEquals(property:String, value:String):Function {
-        return function(object:Object, index:int, list:Array):Boolean {
-            return property in object && object[property] === value;
-        }
+    private function propertyEquals(object:Object, property:String, value:String):Boolean {
+        return property in object && object[property] === value;
     }
 }
 }
