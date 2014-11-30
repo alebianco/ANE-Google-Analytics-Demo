@@ -9,7 +9,7 @@ import eu.alebianco.air.extensions.analytics.demo.events.RequestVersionEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.UpdateVersionEvent;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayVersion;
 
-import robotlegs.bender.bundles.mvcs.Mediator;
+import robotlegs.starling.bundles.mvcs.Mediator;
 
 public class VersionDisplayMediator extends Mediator {
 

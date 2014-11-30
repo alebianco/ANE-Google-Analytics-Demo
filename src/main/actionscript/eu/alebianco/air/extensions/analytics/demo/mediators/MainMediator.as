@@ -9,7 +9,7 @@ import eu.alebianco.air.extensions.analytics.demo.AnalyticsDemo;
 
 import feathers.controls.ScreenNavigator;
 
-import robotlegs.bender.bundles.mvcs.Mediator;
+import robotlegs.starling.bundles.mvcs.Mediator;
 
 public class MainMediator extends Mediator {
 

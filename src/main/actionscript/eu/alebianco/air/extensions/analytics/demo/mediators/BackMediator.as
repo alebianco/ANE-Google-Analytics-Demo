@@ -9,7 +9,7 @@ import eu.alebianco.air.extensions.analytics.demo.events.NavigateEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.DemoScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IBack;
 
-import robotlegs.bender.bundles.mvcs.Mediator;
+import robotlegs.starling.bundles.mvcs.Mediator;
 
 public class BackMediator extends Mediator {
 

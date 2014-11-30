@@ -9,7 +9,7 @@ import eu.alebianco.air.extensions.analytics.demo.events.SelectedSuiteEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.TestBundle;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IListTestSuites;
 
-import robotlegs.bender.bundles.mvcs.Mediator;
+import robotlegs.starling.bundles.mvcs.Mediator;
 
 public class TestSuiteListMediator extends Mediator {
 

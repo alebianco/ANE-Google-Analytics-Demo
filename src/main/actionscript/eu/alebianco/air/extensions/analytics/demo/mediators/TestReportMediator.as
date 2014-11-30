@@ -8,7 +8,7 @@ package eu.alebianco.air.extensions.analytics.demo.mediators {
 import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayTestReports;
 
-import robotlegs.bender.bundles.mvcs.Mediator;
+import robotlegs.starling.bundles.mvcs.Mediator;
 
 public class TestReportMediator extends Mediator {
 

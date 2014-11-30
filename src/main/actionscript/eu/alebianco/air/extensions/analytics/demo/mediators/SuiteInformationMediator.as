@@ -18,7 +18,7 @@ import mx.utils.StringUtil;
 
 import org.flexunit.runner.IDescription;
 
-import robotlegs.bender.bundles.mvcs.Mediator;
+import robotlegs.starling.bundles.mvcs.Mediator;
 
 public class SuiteInformationMediator extends Mediator {
 
