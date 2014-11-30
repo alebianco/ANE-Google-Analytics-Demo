@@ -7,6 +7,7 @@
 package eu.alebianco.air.extensions.analytics.demo.views {
 import eu.alebianco.air.extensions.analytics.demo.model.DemoScreen;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IBack;
+import eu.alebianco.utils.getRString;
 
 import feathers.controls.Button;
 

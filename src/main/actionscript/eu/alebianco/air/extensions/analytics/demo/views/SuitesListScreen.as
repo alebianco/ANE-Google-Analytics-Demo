@@ -7,6 +7,7 @@
 package eu.alebianco.air.extensions.analytics.demo.views {
 import eu.alebianco.air.extensions.analytics.demo.model.TestBundle;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IListTestSuites;
+import eu.alebianco.utils.getRString;
 
 import feathers.controls.Button;
 import feathers.controls.ButtonGroup;

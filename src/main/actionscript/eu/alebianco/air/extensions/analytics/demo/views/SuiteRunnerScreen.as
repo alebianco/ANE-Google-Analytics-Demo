@@ -8,6 +8,7 @@ package eu.alebianco.air.extensions.analytics.demo.views {
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayExecutionProgress;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplaySuiteInformation;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayTestReports;
+import eu.alebianco.utils.getRString;
 
 import feathers.controls.Label;
 import feathers.controls.LayoutGroup;

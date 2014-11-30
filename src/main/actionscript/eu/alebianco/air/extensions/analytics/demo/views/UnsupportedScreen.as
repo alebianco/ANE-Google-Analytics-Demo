@@ -6,6 +6,7 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.views {
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayVersion;
+import eu.alebianco.utils.getRString;
 
 import feathers.controls.Label;
 import feathers.controls.text.TextBlockTextRenderer;

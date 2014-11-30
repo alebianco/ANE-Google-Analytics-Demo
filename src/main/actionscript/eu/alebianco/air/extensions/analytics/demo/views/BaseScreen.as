@@ -6,33 +6,23 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.views {
 import eu.alebianco.air.extensions.analytics.demo.model.LayoutSettings;
+import eu.alebianco.utils.getRString;
 
 import feathers.controls.PanelScreen;
 import feathers.controls.ScrollContainer;
 import feathers.events.FeathersEventType;
 import feathers.layout.VerticalLayout;
 
-import mx.resources.IResourceManager;
-
 import starling.events.Event;
 import starling.utils.AssetManager;
 
 public class BaseScreen extends PanelScreen {
 
-    private static const RESOURCE_BUNDLE_NAME:String = "resources";
-
     [Inject]
     public var settings:LayoutSettings;
 
     [Inject]
-    public var resources:IResourceManager;
-
-    [Inject]
     public var assets:AssetManager;
-
-    final protected function getRString(id:String, ...arguments):String {
-        return resources.getString(RESOURCE_BUNDLE_NAME, id, arguments);
-    }
 
     override protected function initialize():void {
         super.initialize();
