@@ -9,5 +9,6 @@ public interface IDisplayExecutionProgress {
     function updateProgress(completed:uint):void;
     function updateStats(passed:uint, failed:uint, ignored:uint):void;
     function updateStatus(running:Boolean, successful:Boolean):void;
+    function updateFitness(time:int, assertsAverage:Number):void;
 }
 }

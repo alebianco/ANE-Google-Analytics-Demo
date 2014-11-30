@@ -9,8 +9,10 @@ import eu.alebianco.air.extensions.analytics.demo.events.TestCaseDataChangedEven
 import eu.alebianco.air.extensions.analytics.demo.events.TestsCompleteEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.TestsStartedEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
+import eu.alebianco.air.extensions.analytics.demo.model.TestCaseData;
 import eu.alebianco.air.extensions.analytics.demo.model.TestStats;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayExecutionProgress;
+import eu.alebianco.utils.functional.fold;
 
 import robotlegs.starling.bundles.mvcs.Mediator;
 
@@ -48,6 +50,13 @@ public class SuiteProgressMediator extends Mediator {
 
     private function onTestsComplete(event:TestsCompleteEvent):void {
         updateStatus();
+
+        const endedAt:uint = session.getItem("end-time");
+        const startedAt:uint = session.getItem("start-time");
+        const list:Vector.<TestCaseData> = session.getItem("list");
+        const getAssertions:Function = function(data:TestCaseData):uint {return data.totalAssertions;};
+        const average:Number = Number(fold(1, list, getAssertions)) / list.length;
+        view.updateFitness(endedAt-startedAt, average);
     }
 }
 }

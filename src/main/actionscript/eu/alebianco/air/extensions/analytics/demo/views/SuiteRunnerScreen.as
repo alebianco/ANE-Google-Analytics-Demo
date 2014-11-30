@@ -38,7 +38,10 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
     private var _testsPassed:uint;
     private var _testsFailed:uint;
     private var _testsIgnored:uint;
+    private var _assertsAverage:Number = 0;
+    private var _timeTaken:int;
 
+    private var _selected:Signal;
     private var info_group:LayoutGroup;
     private var head_group:LayoutGroup;
     private var state_bmp:Image;
@@ -48,9 +51,9 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
     private var progress_lbl:Label;
     private var progress_bar:ProgressBar;
     private var stats_lbl:Label;
-    private var report_list:List;
+    private var fitness_lbl:Label;
 
-    private var _selected:Signal;
+    private var report_list:List;
 
     public function get selected():Signal {
         return _selected ||= new Signal();
@@ -72,11 +75,18 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         _testsPassed = passed;
         _testsFailed = failed;
         _testsIgnored = ignored;
+        invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
     }
 
     public function updateStatus(running:Boolean, successful:Boolean):void {
         const icon:Texture = assets.getTexture(running ? "progress" : successful ? "success" : "failure");
         state_bmp.texture = icon;
+    }
+
+    public function updateFitness(time:int, assertsAverage:Number):void {
+        _timeTaken = time;
+        _assertsAverage = assertsAverage;
+        invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
     }
 
     override protected function initialize():void {
@@ -91,6 +101,7 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         progress_group = createProgressGroup();
         progress_bar = createProgressBar();
         stats_lbl = createStatsLabel();
+        fitness_lbl = createFitnessLabel();
         report_list = createReportList();
 
         head_group.addChild(state_bmp);
@@ -103,6 +114,7 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         info_group.addChild(description_lbl);
         info_group.addChild(progress_group);
         info_group.addChild(stats_lbl);
+        info_group.addChild(fitness_lbl);
 
         addChild(info_group);
         addChild(report_list);
@@ -124,6 +136,8 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
                 progress_bar.value = _testsCompleted/_testsTotal;
             if (stats_lbl)
                 stats_lbl.text = getRString("runner.stats.label", _testsPassed, _testsFailed, _testsIgnored);
+            if (fitness_lbl)
+                fitness_lbl.text = getRString("runner.fitness.label", (_timeTaken/1000).toFixed(2), _assertsAverage.toFixed(2));
         }
 
         super.draw();
@@ -163,6 +177,9 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
 
         stats_lbl.dispose();
         stats_lbl = null;
+
+        fitness_lbl.dispose();
+        fitness_lbl = null;
 
         progress_bar.dispose();
         progress_bar = null;
@@ -248,6 +265,12 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
     }
 
     private function createStatsLabel():Label {
+        const label:Label = new Label();
+        label.layoutData = new VerticalLayoutData(100);
+        return label;
+    }
+
+    private function createFitnessLabel():Label {
         const label:Label = new Label();
         label.layoutData = new VerticalLayoutData(100);
         return label;
