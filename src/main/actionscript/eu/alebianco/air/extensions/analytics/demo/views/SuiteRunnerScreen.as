@@ -33,6 +33,9 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
     private var _description:String = " ";
     private var _testsTotal:uint;
     private var _testsCompleted:uint;
+    private var _testsPassed:uint;
+    private var _testsFailed:uint;
+    private var _testsIgnored:uint;
 
     private var info_group:LayoutGroup;
     private var title_lbl:Label;
@@ -40,6 +43,7 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
     private var progress_group:LayoutGroup;
     private var progress_lbl:Label;
     private var progress_bar:ProgressBar;
+    private var stats_lbl:Label;
     private var report_list:List;
 
     private var _selected:Signal;
@@ -60,6 +64,12 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
     }
 
+    public function updateStats(passed:uint, failed:uint, ignored:uint):void {
+        _testsPassed = passed;
+        _testsFailed = failed;
+        _testsIgnored = ignored;
+    }
+
     override protected function initialize():void {
         super.initialize();
 
@@ -69,6 +79,7 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         progress_lbl = createProgressLabel();
         progress_group = createProgressGroup();
         progress_bar = createProgressBar();
+        stats_lbl = createStatsLabel();
         report_list = createReportList();
 
         progress_group.addChild(progress_lbl);
@@ -77,6 +88,7 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         info_group.addChild(title_lbl);
         info_group.addChild(description_lbl);
         info_group.addChild(progress_group);
+        info_group.addChild(stats_lbl);
 
         addChild(info_group);
         addChild(report_list);
@@ -96,6 +108,8 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
                 progress_lbl.text = getRString("runner.progress.label", _testsCompleted, _testsTotal);
             if (progress_bar)
                 progress_bar.value = _testsCompleted/_testsTotal;
+            if (stats_lbl)
+                stats_lbl.text = getRString("runner.stats.label", _testsPassed, _testsFailed, _testsIgnored);
         }
 
         super.draw();
@@ -125,6 +139,9 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
 
         progress_lbl.dispose();
         progress_lbl = null;
+
+        stats_lbl.dispose();
+        stats_lbl = null;
 
         progress_bar.dispose();
         progress_bar = null;
@@ -192,6 +209,12 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         progress.value = 0;
         progress.layoutData = new HorizontalLayoutData(100);
         return progress;
+    }
+
+    private function createStatsLabel():Label {
+        const label:Label = new Label();
+        label.layoutData = new VerticalLayoutData(100);
+        return label;
     }
 
     private function createReportList():List {

@@ -10,6 +10,7 @@ import eu.alebianco.air.extensions.analytics.demo.events.TestsCompleteEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.TestsStartedEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
 import eu.alebianco.air.extensions.analytics.demo.model.TestCaseData;
+import eu.alebianco.air.extensions.analytics.demo.model.TestStats;
 import eu.alebianco.utils.functional.first;
 
 import flash.events.IEventDispatcher;
@@ -40,7 +41,7 @@ public class SessionListener extends RunListener implements IRunListener {
     override public function testRunStarted(description:IDescription):void {
         session.setItem("running", true);
         session.setItem("start-time", new Date().getTime());
-        session.setItem("test-count", description.testCount);
+        session.setItem("stats", new TestStats(description.testCount));
         session.setItem("suite", description.children[0]);
         session.setItem("list", new <TestCaseData>[]);
         dispatcher.dispatchEvent(new TestsStartedEvent());
@@ -59,9 +60,6 @@ public class SessionListener extends RunListener implements IRunListener {
     }
 
     override public function testFinished(description:IDescription):void {
-        var count:int = session.getItem("tests-run") || 0;
-        session.setItem("tests-run", count+1);
-
         if(!lastFailedTest || !description.equals(lastFailedTest)) {
             addSuccess(description);
         }
@@ -94,20 +92,20 @@ public class SessionListener extends RunListener implements IRunListener {
     }
 
     private function addSuccess(description:IDescription):void {
-        var count:int = session.getItem("tests-succeeded") || 0;
-        session.setItem("tests-succeeded", count+1);
+        var stats:TestStats = session.getItem("stats") as TestStats;
+        stats.addSuccessful();
         addTestToList(description, null, true, true);
     }
 
     private function addFailure(failure:Failure):void {
-        var count:int = session.getItem("tests-failed") || 0;
-        session.setItem("tests-failed", count+1);
+        var stats:TestStats = session.getItem("stats") as TestStats;
+        stats.addFailure();
         addTestToList(failure.description, failure, false, true);
     }
 
     private function addIgnored(description:IDescription):void {
-        var count:int = session.getItem("tests-ignored") || 0;
-        session.setItem("tests-ignored", count+1);
+        var stats:TestStats = session.getItem("stats") as TestStats;
+        stats.addIgnored();
         addTestToList(description, null, true, true);
     }
 

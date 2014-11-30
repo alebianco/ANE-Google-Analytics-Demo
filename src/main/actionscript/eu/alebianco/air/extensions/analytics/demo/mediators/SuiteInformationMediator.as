@@ -9,6 +9,7 @@ import avmplus.DescribeTypeJSON;
 
 import eu.alebianco.air.extensions.analytics.demo.events.TestsStartedEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
+import eu.alebianco.air.extensions.analytics.demo.model.TestStats;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplaySuiteInformation;
 import eu.alebianco.utils.functional.first;
 
@@ -42,7 +43,8 @@ public class SuiteInformationMediator extends Mediator {
     }
 
     private function onTestsStarted(event:TestsStartedEvent):void {
-        view.showDetails(suiteName, suiteDescription, totalTests);
+        const stats:TestStats = session.getItem("stats") as TestStats;
+        view.showDetails(suiteName, suiteDescription, stats.total);
     }
 
     private function get suiteName():String {
@@ -64,10 +66,6 @@ public class SuiteInformationMediator extends Mediator {
             description ||= resource.getString("resources", "error.suite.description.not.found", [suite.displayName.split("::")[1]]);
         }
         return description;
-    }
-
-    private function get totalTests():uint {
-        return session.getItem("test-count") as uint;
     }
 
     private function getDescriptionMetadata(className:String):Object {

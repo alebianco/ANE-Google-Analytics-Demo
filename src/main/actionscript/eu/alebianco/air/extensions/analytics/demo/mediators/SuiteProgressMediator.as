@@ -7,6 +7,7 @@
 package eu.alebianco.air.extensions.analytics.demo.mediators {
 import eu.alebianco.air.extensions.analytics.demo.events.TestCaseDataChangedEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
+import eu.alebianco.air.extensions.analytics.demo.model.TestStats;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayExecutionProgress;
 
 import robotlegs.starling.bundles.mvcs.Mediator;
@@ -26,8 +27,9 @@ public class SuiteProgressMediator extends Mediator {
     }
 
     private function onDataChange(event:TestCaseDataChangedEvent):void {
-        var completed:uint = session.getItem("tests-run") as uint;
-        view.updateProgress(completed);
+        const stats:TestStats = session.getItem("stats") as TestStats;
+        view.updateProgress(stats.completed);
+        view.updateStats(stats.passed, stats.failed, stats.ignored);
     }
 }
 }
