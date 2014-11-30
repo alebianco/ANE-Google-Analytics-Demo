@@ -25,7 +25,9 @@ import feathers.layout.VerticalLayoutData;
 
 import org.osflash.signals.Signal;
 
+import starling.display.Image;
 import starling.events.Event;
+import starling.textures.Texture;
 
 public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestReports, IDisplaySuiteInformation, IDisplayExecutionProgress {
 
@@ -38,6 +40,8 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
     private var _testsIgnored:uint;
 
     private var info_group:LayoutGroup;
+    private var head_group:LayoutGroup;
+    private var state_bmp:Image;
     private var title_lbl:Label;
     private var description_lbl:Label;
     private var progress_group:LayoutGroup;
@@ -70,11 +74,18 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         _testsIgnored = ignored;
     }
 
+    public function updateStatus(running:Boolean, successful:Boolean):void {
+        const icon:Texture = assets.getTexture(running ? "progress" : successful ? "success" : "failure");
+        state_bmp.texture = icon;
+    }
+
     override protected function initialize():void {
         super.initialize();
 
         info_group = createInfoGroup();
+        head_group = createHeadGroup();
         title_lbl = createTitleLabel();
+        state_bmp = creatStatusIcon();
         description_lbl = createDescriptionLabel();
         progress_lbl = createProgressLabel();
         progress_group = createProgressGroup();
@@ -82,10 +93,13 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         stats_lbl = createStatsLabel();
         report_list = createReportList();
 
+        head_group.addChild(state_bmp);
+        head_group.addChild(title_lbl);
+
         progress_group.addChild(progress_lbl);
         progress_group.addChild(progress_bar);
 
-        info_group.addChild(title_lbl);
+        info_group.addChild(head_group);
         info_group.addChild(description_lbl);
         info_group.addChild(progress_group);
         info_group.addChild(stats_lbl);
@@ -127,8 +141,15 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         info_group.dispose();
         info_group = null;
 
+        head_group.removeChildren();
+        head_group.dispose();
+        head_group = null;
+
         title_lbl.dispose();
         title_lbl = null;
+
+        state_bmp.dispose();
+        state_bmp = null;
 
         description_lbl.dispose();
         description_lbl = null;
@@ -173,10 +194,25 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         return group;
     }
 
+    private function createHeadGroup():LayoutGroup {
+        const layout:HorizontalLayout = new HorizontalLayout();
+        layout.gap = settings.gap;
+        layout.verticalAlign = HorizontalLayout.VERTICAL_ALIGN_MIDDLE;
+        const group:LayoutGroup = new LayoutGroup();
+        group.layoutData = new VerticalLayoutData(100);
+        group.layout = layout;
+        return group;
+    }
+
+    private function creatStatusIcon():Image {
+        const icon:Image = new Image(Texture.empty(16, 16));
+        return icon;
+    }
+
     private function createTitleLabel():Label {
         const label:Label = new Label();
         label.styleNameList.add(Label.ALTERNATE_NAME_HEADING);
-        label.layoutData = new VerticalLayoutData(100);
+        label.layoutData = new HorizontalLayoutData(100);
         return label;
     }
 
