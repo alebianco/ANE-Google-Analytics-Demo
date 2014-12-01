@@ -5,6 +5,7 @@
  * Created: 08/11/2014 13:29
  */
 package eu.alebianco.air.extensions.analytics.demo.views {
+import eu.alebianco.air.extensions.analytics.demo.model.TestCaseData;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayExecutionProgress;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplaySuiteInformation;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayTestReports;
@@ -22,6 +23,7 @@ import feathers.layout.HorizontalLayout;
 import feathers.layout.HorizontalLayoutData;
 import feathers.layout.VerticalLayout;
 import feathers.layout.VerticalLayoutData;
+import feathers.skins.StandardIcons;
 
 import org.osflash.signals.Signal;
 
@@ -54,6 +56,7 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
     private var fitness_lbl:Label;
 
     private var report_list:List;
+    private var collection:ListCollection;
 
     public function get selected():Signal {
         return _selected ||= new Signal();
@@ -87,6 +90,10 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         _timeTaken = time;
         _assertsAverage = assertsAverage;
         invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
+    }
+
+    public function getReportsCollection():ListCollection {
+        return collection;
     }
 
     override protected function initialize():void {
@@ -188,6 +195,8 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         report_list.dispose();
         report_list = null;
 
+        collection = null;
+
         super.dispose();
     }
 
@@ -284,6 +293,22 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestRep
         list.autoHideBackground = true;
         list.isSelectable = true;
         list.itemRendererProperties.isQuickHitAreaEnabled = true;
+        list.dataProvider = collection = new ListCollection();
+
+        list.itemRendererProperties.accessorySourceFunction = function(item:TestCaseData):Texture {
+            return StandardIcons.listDrillDownAccessoryTexture;
+        };
+        list.itemRendererProperties.iconSourceFunction = function(item:TestCaseData):Texture {
+            if (!item.isComplete()) {
+                return assets.getTexture("progress");
+            } else {
+                return assets.getTexture(item.wasSuccessful() ? "success" : "failure");
+            }
+        };
+        list.itemRendererProperties.labelFunction = function(item:TestCaseData):String {
+            return item.description.displayName.split(".").pop() + (item.isComplete() ? "" : " ...");
+        };
+
         list.addEventListener(Event.CHANGE, onTestSelected);
         return list;
     }
