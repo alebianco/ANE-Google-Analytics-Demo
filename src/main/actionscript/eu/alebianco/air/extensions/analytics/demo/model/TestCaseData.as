@@ -7,6 +7,7 @@
 package eu.alebianco.air.extensions.analytics.demo.model {
 import org.flexunit.runner.IDescription;
 import org.flexunit.runner.notification.Failure;
+import org.osflash.signals.Signal;
 
 public class TestCaseData {
 
@@ -15,6 +16,12 @@ public class TestCaseData {
     private var _failure:Failure;
     private var _ignored:Boolean;
     private var _totalAssertions:uint;
+
+    private var _completed:Signal;
+
+    public function get completed():Signal {
+        return _completed ||= new Signal();
+    }
 
     public function TestCaseData(description:IDescription) {
         _complete = false;
@@ -26,6 +33,7 @@ public class TestCaseData {
         _failure = failure;
         _ignored = ignored;
         _totalAssertions = totalAssertions;
+        _completed.dispatch();
     }
 
     public function isComplete():Boolean {

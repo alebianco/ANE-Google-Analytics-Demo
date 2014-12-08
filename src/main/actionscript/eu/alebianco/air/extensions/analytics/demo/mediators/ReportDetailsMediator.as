@@ -30,6 +30,16 @@ public class ReportDetailsMediator extends Mediator {
     override public function initialize():void {
         super.initialize();
         report = session.getItem("report") as TestCaseData;
+        report.completed.add(onTestCompleted);
+        updateView();
+    }
+
+    override public function destroy():void {
+        super.destroy();
+        report.completed.remove(onTestCompleted);
+    }
+
+    private function onTestCompleted():void {
         updateView();
     }
 
