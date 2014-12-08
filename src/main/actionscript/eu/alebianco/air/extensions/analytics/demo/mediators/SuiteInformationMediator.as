@@ -5,18 +5,14 @@
  * Created: 02/11/2014 19:24
  */
 package eu.alebianco.air.extensions.analytics.demo.mediators {
-import avmplus.DescribeTypeJSON;
 
 import eu.alebianco.air.extensions.analytics.demo.events.TestsStartedEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
 import eu.alebianco.air.extensions.analytics.demo.model.TestStats;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplaySuiteInformation;
-import eu.alebianco.utils.functional.first;
-
-import flash.utils.getDefinitionByName;
+import eu.alebianco.utils.extractMetadataValue;
 
 import mx.resources.IResourceManager;
-import mx.utils.StringUtil;
 
 import org.flexunit.runner.IDescription;
 
@@ -32,9 +28,6 @@ public class SuiteInformationMediator extends Mediator {
 
     [Inject]
     public var session:SessionStorage;
-
-    [Inject]
-    public var describer:DescribeTypeJSON;
 
     override public function initialize():void {
         super.initialize();
@@ -54,29 +47,16 @@ public class SuiteInformationMediator extends Mediator {
 
     private function get suiteDescription():String {
         const suite:IDescription = session.getItem("suite") as IDescription;
-        var description:String;
+        var localised:String;
         try {
-            const descriptor:Object = getDescriptionMetadata(suite.displayName);
-            if (descriptor && StringUtil.trim(descriptor.value).length > 0) {
-                description = resource.getString("resources", descriptor.value);
-            }
+            const description:String = extractMetadataValue(suite.getAllMetadata(), "Suite", "description") as String;
+            localised = resource.getString("resources", description);
         } catch (error:Error) {
-            description = resource.getString("resources", "error.suite.description.rte", [error.message]);
+            localised = resource.getString("resources", "error.suite.description.rte", [error.message]);
         } finally {
-            description ||= resource.getString("resources", "error.suite.description.not.found", [suite.displayName.split("::")[1]]);
+            localised ||= resource.getString("resources", "error.suite.description.not.found", [suite.displayName.split("::")[1]]);
         }
-        return description;
-    }
-
-    private function getDescriptionMetadata(className:String):Object {
-        const suiteClass:Class = getDefinitionByName(className) as Class;
-        const definition:Object = describer.getInstanceDescription(suiteClass);
-        const tag:Object = first(definition.traits.metadata, propertyEquals, "name", "Suite") as Object;
-        return first(tag.value, propertyEquals, "key", "description") as Object;
-    }
-
-    private function propertyEquals(object:Object, property:String, value:String):Boolean {
-        return property in object && object[property] === value;
+        return localised;
     }
 }
 }
