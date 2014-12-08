@@ -6,6 +6,7 @@
  */
 package eu.alebianco.air.extensions.analytics.demo.views {
 import eu.alebianco.air.extensions.analytics.demo.model.DemoScreen;
+import eu.alebianco.air.extensions.analytics.demo.model.TestCaseData;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayReportDetails;
 
 import feathers.controls.Label;
@@ -19,6 +20,8 @@ public class ReportDetailsScreen extends BaseBackScreen implements IDisplayRepor
     private var time_lbl:Label;
     private var result_lbl:Label;
     private var feedback_lbl:Label;
+
+    private var _data:TestCaseData;
 
     override protected function initialize():void {
         super.initialize();
@@ -39,21 +42,37 @@ public class ReportDetailsScreen extends BaseBackScreen implements IDisplayRepor
 
     }
 
+    public function updateInfo(group:String, name:String, description:String):void {
+        trace(group, name, description)
+    }
+
+    public function updateTime(duration:int):void {
+        trace(duration);
+    }
+
+    public function updateStatus(complete:Boolean, successful:Boolean, ignored:Boolean):void {
+        trace(complete, successful, ignored);
+    }
+
+    public function updateFailure(message:String, stackTrace:String):void {
+        trace(message, stackTrace);
+    }
+
     override protected function draw():void {
 
         const isDataInvalid:Boolean = isInvalid(INVALIDATION_FLAG_DATA);
 
-        if (isDataInvalid) {
+        if (isDataInvalid && _data) {
             if (name_lbl)
-                name_lbl.text = "...";
+                name_lbl.text = _data.description.displayName;
             if (description_lbl)
                 description_lbl.text = "...";
             if (time_lbl)
                 time_lbl.text = "...";
             if (result_lbl)
-                result_lbl.text = "...";
+                result_lbl.text = _data.wasIgnored() ? "ignored" : (_data.wasSuccessful() ? "success" : "failure");
             if (feedback_lbl)
-                feedback_lbl.text = "...";
+                feedback_lbl.text = !_data.wasSuccessful() ? _data.failure.message : "";
         }
 
         super.draw();
