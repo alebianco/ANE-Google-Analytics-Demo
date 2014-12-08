@@ -8,16 +8,16 @@ package eu.alebianco.air.extensions.analytics.demo.mediators {
 import eu.alebianco.air.extensions.analytics.demo.events.TestCaseDataChangedEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
 import eu.alebianco.air.extensions.analytics.demo.model.TestCaseData;
-import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayTestReports;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IListTestReports;
 
 import feathers.data.ListCollection;
 
 import robotlegs.starling.bundles.mvcs.Mediator;
 
-public class TestReportMediator extends Mediator {
+public class TestReportListMediator extends Mediator {
 
     [Inject]
-    public var view:IDisplayTestReports;
+    public var view:IListTestReports;
 
     [Inject]
     public var session:SessionStorage;

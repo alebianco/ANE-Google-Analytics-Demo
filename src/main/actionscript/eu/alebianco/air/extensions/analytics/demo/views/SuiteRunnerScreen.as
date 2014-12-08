@@ -8,7 +8,7 @@ package eu.alebianco.air.extensions.analytics.demo.views {
 import eu.alebianco.air.extensions.analytics.demo.model.TestCaseData;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayExecutionProgress;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplaySuiteInformation;
-import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayTestReports;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IListTestReports;
 import eu.alebianco.utils.getRString;
 
 import feathers.controls.Label;
@@ -31,7 +31,7 @@ import starling.display.Image;
 import starling.events.Event;
 import starling.textures.Texture;
 
-public class SuiteRunnerScreen extends BaseBackScreen implements IDisplayTestReports, IDisplaySuiteInformation, IDisplayExecutionProgress {
+public class SuiteRunnerScreen extends BaseBackScreen implements IListTestReports, IDisplaySuiteInformation, IDisplayExecutionProgress {
 
     private var _title:String = " ";
     private var _description:String = " ";

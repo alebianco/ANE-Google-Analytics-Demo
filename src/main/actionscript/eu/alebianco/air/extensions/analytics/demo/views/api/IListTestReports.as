@@ -10,7 +10,7 @@ import feathers.data.ListCollection;
 
 import org.osflash.signals.Signal;
 
-public interface IDisplayTestReports {
+public interface IListTestReports {
     function getReportsCollection():ListCollection;
     function get selected():Signal;
 }

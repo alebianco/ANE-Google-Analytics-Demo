@@ -21,7 +21,7 @@ import eu.alebianco.air.extensions.analytics.demo.mediators.MainMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.ReportDetailsMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.SuiteInformationMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.SuiteProgressMediator;
-import eu.alebianco.air.extensions.analytics.demo.mediators.TestReportMediator;
+import eu.alebianco.air.extensions.analytics.demo.mediators.TestReportListMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.TestSuiteListMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.VersionDisplayMediator;
 import eu.alebianco.air.extensions.analytics.demo.model.LayoutSettings;
@@ -32,7 +32,7 @@ import eu.alebianco.air.extensions.analytics.demo.views.api.IBack;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayExecutionProgress;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayReportDetails;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplaySuiteInformation;
-import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayTestReports;
+import eu.alebianco.air.extensions.analytics.demo.views.api.IListTestReports;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IDisplayVersion;
 import eu.alebianco.air.extensions.analytics.demo.views.api.IListTestSuites;
 
@@ -90,7 +90,7 @@ public class Configuration implements IConfig {
         mediator.map(AnalyticsDemo).toMediator(MainMediator);
         mediator.map(IDisplayVersion).toMediator(VersionDisplayMediator);
         mediator.map(IListTestSuites).toMediator(TestSuiteListMediator);
-        mediator.map(IDisplayTestReports).toMediator(TestReportMediator);
+        mediator.map(IListTestReports).toMediator(TestReportListMediator);
         mediator.map(IDisplaySuiteInformation).toMediator(SuiteInformationMediator);
         mediator.map(IDisplayExecutionProgress).toMediator(SuiteProgressMediator);
         mediator.map(IDisplayReportDetails).toMediator(ReportDetailsMediator);
