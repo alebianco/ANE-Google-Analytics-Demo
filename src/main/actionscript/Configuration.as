@@ -8,6 +8,7 @@ package {
 import avmplus.DescribeTypeJSON;
 
 import eu.alebianco.air.extensions.analytics.demo.AnalyticsDemo;
+import eu.alebianco.air.extensions.analytics.demo.commands.DisplayReport;
 import eu.alebianco.air.extensions.analytics.demo.commands.GetVersion;
 import eu.alebianco.air.extensions.analytics.demo.commands.ShowScreen;
 import eu.alebianco.air.extensions.analytics.demo.commands.hooks.StopCurrentTest;
@@ -15,6 +16,7 @@ import eu.alebianco.air.extensions.analytics.demo.commands.macros.ExecuteSuiteMa
 import eu.alebianco.air.extensions.analytics.demo.commands.macros.StartupMacro;
 import eu.alebianco.air.extensions.analytics.demo.events.NavigateEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.RequestVersionEvent;
+import eu.alebianco.air.extensions.analytics.demo.events.SelectedReportEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.SelectedSuiteEvent;
 import eu.alebianco.air.extensions.analytics.demo.mediators.BackMediator;
 import eu.alebianco.air.extensions.analytics.demo.mediators.MainMediator;
@@ -101,6 +103,7 @@ public class Configuration implements IConfig {
         commander.map(NavigateEvent.TO, NavigateEvent).toCommand(ShowScreen).withHooks(StopCurrentTest);
         commander.map(RequestVersionEvent.GET, RequestVersionEvent).toCommand(GetVersion);
         commander.map(SelectedSuiteEvent.CHANGE, SelectedSuiteEvent).toCommand(ExecuteSuiteMacro);
+        commander.map(SelectedReportEvent.CHANGE, SelectedReportEvent).toCommand(DisplayReport);
     }
 }
 }

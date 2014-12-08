@@ -5,6 +5,7 @@
  * Created: 02/11/2014 19:24
  */
 package eu.alebianco.air.extensions.analytics.demo.mediators {
+import eu.alebianco.air.extensions.analytics.demo.events.SelectedReportEvent;
 import eu.alebianco.air.extensions.analytics.demo.events.TestCaseDataChangedEvent;
 import eu.alebianco.air.extensions.analytics.demo.model.SessionStorage;
 import eu.alebianco.air.extensions.analytics.demo.model.TestCaseData;
@@ -29,7 +30,13 @@ public class TestReportListMediator extends Mediator {
 
         collection = view.getReportsCollection();
 
+        view.selected.addOnce(reportSelected);
+
         addContextListener(TestCaseDataChangedEvent.CHANGE, onDataChange, TestCaseDataChangedEvent);
+    }
+
+    private function reportSelected(report:TestCaseData):void {
+        dispatch(new SelectedReportEvent(report));
     }
 
     private function onDataChange(event:TestCaseDataChangedEvent):void {

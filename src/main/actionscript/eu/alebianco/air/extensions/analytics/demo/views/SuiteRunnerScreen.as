@@ -59,7 +59,7 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IListTestReport
     private var collection:ListCollection;
 
     public function get selected():Signal {
-        return _selected ||= new Signal();
+        return _selected ||= new Signal(TestCaseData);
     }
 
     public function showDetails(name:String, description:String, testCount:uint):void {
@@ -315,7 +315,7 @@ public class SuiteRunnerScreen extends BaseBackScreen implements IListTestReport
 
     private function onTestSelected(event:Event):void {
         if (report_list.selectedIndex > -1) {
-
+            selected.dispatch(report_list.selectedItem as TestCaseData);
         }
     }
 }
