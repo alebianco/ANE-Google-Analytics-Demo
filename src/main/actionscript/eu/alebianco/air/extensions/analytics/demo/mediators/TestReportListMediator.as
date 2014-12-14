@@ -29,8 +29,9 @@ public class TestReportListMediator extends Mediator {
         super.initialize();
 
         collection = view.getReportsCollection();
-
         view.selected.addOnce(reportSelected);
+
+        updateList();
 
         addContextListener(TestCaseDataChangedEvent.CHANGE, onDataChange, TestCaseDataChangedEvent);
     }
@@ -39,18 +40,23 @@ public class TestReportListMediator extends Mediator {
         dispatch(new SelectedReportEvent(report));
     }
 
-    private function onDataChange(event:TestCaseDataChangedEvent):void {
+    private function updateList():void {
         const list:Vector.<TestCaseData> = session.getItem("list") as Vector.<TestCaseData>;
+        if (list) {
+            list.forEach(function(report:TestCaseData, index:int, list:Vector.<TestCaseData>):void {
+                if (collection.contains(report)) {
+                    const i:uint = collection.getItemIndex(report);
+                    collection.setItemAt(report, i);
+                    collection.updateItemAt(i);
+                } else {
+                    collection.addItem(report);
+                }
+            });
+        }
+    }
 
-        list.forEach(function(report:TestCaseData, index:int, list:Vector.<TestCaseData>):void {
-            if (collection.contains(report)) {
-                const i:uint = collection.getItemIndex(report);
-                collection.setItemAt(report, i);
-                collection.updateItemAt(i);
-            } else {
-                collection.addItem(report);
-            }
-        });
+    private function onDataChange(event:TestCaseDataChangedEvent):void {
+        updateList();
     }
 
     override public function destroy():void {

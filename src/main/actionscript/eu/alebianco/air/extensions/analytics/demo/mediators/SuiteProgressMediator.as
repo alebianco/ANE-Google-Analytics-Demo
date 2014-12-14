@@ -27,6 +27,10 @@ public class SuiteProgressMediator extends Mediator {
     override public function initialize():void {
         super.initialize();
 
+        updateStatus();
+        updateProgress();
+        updateFitness();
+
         addContextListener(TestsStartedEvent.STARTED, onTestsStarted, TestsStartedEvent);
         addContextListener(TestCaseDataChangedEvent.CHANGE, onDataChange, TestCaseDataChangedEvent);
         addContextListener(TestsCompleteEvent.COMPLETE, onTestsComplete, TestsCompleteEvent);
@@ -38,25 +42,36 @@ public class SuiteProgressMediator extends Mediator {
         view.updateStatus(running, successful);
     }
 
+    private function updateProgress():void {
+        const stats:TestStats = session.getItem("stats") as TestStats;
+        if (stats) {
+            view.updateProgress(stats.completed);
+            view.updateStats(stats.passed, stats.failed, stats.ignored);
+        }
+    }
+
+    private function updateFitness():void {
+        const endedAt:uint = session.getItem("end-time");
+        const startedAt:uint = session.getItem("start-time");
+        const list:Vector.<TestCaseData> = session.getItem("list");
+        if (list) {
+            const getAssertions:Function = function(data:TestCaseData):uint {return data.totalAssertions;};
+            const average:Number = Number(fold(1, list, getAssertions)) / list.length;
+            view.updateFitness(endedAt-startedAt, average);
+        }
+    }
+
     private function onTestsStarted(event:TestsStartedEvent):void {
         updateStatus();
     }
 
     private function onDataChange(event:TestCaseDataChangedEvent):void {
-        const stats:TestStats = session.getItem("stats") as TestStats;
-        view.updateProgress(stats.completed);
-        view.updateStats(stats.passed, stats.failed, stats.ignored);
+        updateProgress();
     }
 
     private function onTestsComplete(event:TestsCompleteEvent):void {
         updateStatus();
-
-        const endedAt:uint = session.getItem("end-time");
-        const startedAt:uint = session.getItem("start-time");
-        const list:Vector.<TestCaseData> = session.getItem("list");
-        const getAssertions:Function = function(data:TestCaseData):uint {return data.totalAssertions;};
-        const average:Number = Number(fold(1, list, getAssertions)) / list.length;
-        view.updateFitness(endedAt-startedAt, average);
+        updateFitness();
     }
 }
 }
