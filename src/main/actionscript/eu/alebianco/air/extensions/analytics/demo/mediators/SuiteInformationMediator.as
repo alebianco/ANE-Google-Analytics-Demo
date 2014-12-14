@@ -32,12 +32,19 @@ public class SuiteInformationMediator extends Mediator {
     override public function initialize():void {
         super.initialize();
 
+        updateInfo();
         addContextListener(TestsStartedEvent.STARTED, onTestsStarted, TestsStartedEvent);
     }
 
-    private function onTestsStarted(event:TestsStartedEvent):void {
+    private function updateInfo():void {
         const stats:TestStats = session.getItem("stats") as TestStats;
-        view.showDetails(suiteName, suiteDescription, stats.total);
+        if (stats) {
+            view.showDetails(suiteName, suiteDescription, stats.total);
+        }
+    }
+
+    private function onTestsStarted(event:TestsStartedEvent):void {
+        updateInfo();
     }
 
     private function get suiteName():String {
