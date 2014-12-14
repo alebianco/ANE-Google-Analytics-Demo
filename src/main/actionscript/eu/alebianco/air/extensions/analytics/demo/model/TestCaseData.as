@@ -33,7 +33,7 @@ public class TestCaseData {
         _failure = failure;
         _ignored = ignored;
         _totalAssertions = totalAssertions;
-        _completed.dispatch();
+        completed.dispatch();
     }
 
     public function isComplete():Boolean {
