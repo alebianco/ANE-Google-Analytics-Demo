@@ -94,7 +94,7 @@ public class SessionListener extends RunListener implements IRunListener {
     private function addSuccess(description:IDescription):void {
         var stats:TestStats = session.getItem("stats") as TestStats;
         stats.addSuccessful();
-        addTestToList(description, null, true, true);
+        addTestToList(description, null, false, true);
     }
 
     private function addFailure(failure:Failure):void {
