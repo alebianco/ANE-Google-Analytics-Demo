@@ -13,7 +13,7 @@ import robotlegs.bender.framework.api.IGuard;
 public class IsSupported implements IGuard {
 
     public function approve():Boolean {
-        return ModeCheck.isDebugMode() || Analytics.isSupported();
+        return Analytics.isSupported() || ModeCheck.isDebugMode();
     }
 }
 }
