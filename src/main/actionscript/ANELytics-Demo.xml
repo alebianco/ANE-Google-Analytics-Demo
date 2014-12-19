@@ -2,14 +2,14 @@
 <application xmlns="http://ns.adobe.com/air/application/15.0">
     
 	<id>eu.alebianco.air.extensions.analytics.AnalyticsDemo.debug</id>
-	<filename>ANE-AnalyticsDemo</filename>
-	<name>ANE-AnalyticsDemo-debug</name>
+	<filename>ANELytics-Demo</filename>
+	<name>ANELytics-Demo</name>
 	
 	<versionNumber>1.1.0</versionNumber>
 	<versionLabel>1.1.0</versionLabel>
 	
 	<initialWindow>
-		<content>Main.swf</content>
+		<content>ANELytics-Demo.swf</content>
 		<autoOrients>true</autoOrients>
         <fullScreen>false</fullScreen>
         <visible>true</visible>
