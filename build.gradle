@@ -1,5 +1,5 @@
 /*
- * Project: ANE-Google-Analytics
+ * Project: ANELytics-Demo
  *
  * Author:  Alessandro Bianco
  * Website: http://alessandrobianco.eu
@@ -15,11 +15,7 @@
     dependencies {
         classpath group: 'org.gradlefx', name: 'gradlefx', version: '1.1' // development release
     }
-
     project.properties.ext.setProperty('os', System.properties['os.name'].toLowerCase()[0..2])
-    project.properties.ext.setProperty('sim', project.hasProperty('sim'))
-    project.properties.ext.setProperty('platform', project.hasProperty('ios') ? 'ios' : 'android')
-
 }
 
 apply plugin: 'gradlefx'
@@ -29,43 +25,38 @@ type = 'mobile'
 mainClass = 'Main.as'
 
 air {
+	storepass = project.storepass
 
 	locales	= ['en_US']
 
 	additionalCompilerOptions = [
 	    '-swf-version=26',
 	    '-target-player=15.0',
-	    '-verbose-stacktraces=true',
-	    '-load-config=air-config.xml',
 	    '-static-link-runtime-shared-libraries=true',
 	    '-define=CONFIG::debug,true',
 	]
 
 	includeFileTrees = [
-		fileTree(dir: 'src/main/resources/', include: 'icons/*')
+		fileTree(dir: 'src/main/resources/')
 	]
 }
 
-airMobile {
-    extensionDir = 'src/main/libs'
-    platform = platform
-}
-
-if ('ios'.equals(platform)) {
-    airMobile {
-        target = 'ipa-debug-interpreter'
-        simulatorTarget = 'ipa-debug-interpreter-simulator'
-        provisioningProfile = 'ANELytics.mobileprofile'
-        if (!sim) targetDevice = 22
-        if (sim) simulatorPlatformSdk = '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/'
+airMobile.extensionDir = 'src/main/libs'
+airMobile.platform = project.platform
+if (project.hasProperty('targetDevice'))
+    airMobile.targetDevice = project.targetDevice
+if ('ios'.equals(project.platform)) {
+    airMobile.target = 'ipa-debug-interpreter'
+    airMobile.simulatorTarget = 'ipa-debug-interpreter-simulator'
+    airMobile.provisioningProfile = 'ANELytics-Demo.mobileprovision'
+    if ('true'.equals(project.simulator)) {
+        airMobile.simulatorPlatformSdk = '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/'
     }
-} else {
-    airMobile {
-        extensionDir = 'src/main/libs'
-        platform = 'android'
-        target = 'apk-debug'
-        simulatorTarget = 'apk-emulator'
-    }
+} else if ('android'.equals(project.platform)) {
+    airMobile.extensionDir = 'src/main/libs'
+    airMobile.platform = 'android'
+    airMobile.target = 'apk-debug'
+    airMobile.simulatorTarget = 'apk-emulator'
 }
 
 repositories {
@@ -91,14 +82,10 @@ sdkAutoInstall {
     showPrompts = false
 }
 
-task install {
-    dependsOn(':install' + (project.sim ? 'Simulator' : '') + 'Mobile')
-}
-task uninstall {
-    dependsOn(':uninstall' + (project.sim ? 'Simulator' : '') + 'Mobile')
-}
-task launch {
-    dependsOn(':launch' + (project.sim ? 'Simulator' : '') + 'Mobile')
+['install', 'uninstall', 'launch'].each { def targetName ->
+    tasks.create(name: "$targetName") {
+        dependsOn(":$targetName" + ('true'.equals(project.simulator) ? 'Simulator' : '') + 'Mobile')
+    }
 }
 
 task wrapper(type: Wrapper) {
