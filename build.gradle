@@ -46,15 +46,12 @@ airMobile.platform = project.platform
 if (project.hasProperty('targetDevice'))
     airMobile.targetDevice = project.targetDevice
 if ('ios'.equals(project.platform)) {
+    airMobile.outputExtension = 'ipa'
     airMobile.target = 'ipa-debug-interpreter'
     airMobile.simulatorTarget = 'ipa-debug-interpreter-simulator'
     airMobile.provisioningProfile = 'ANELytics-Demo.mobileprovision'
-    if ('true'.equals(project.simulator)) {
-        airMobile.simulatorPlatformSdk = '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/'
-    }
+    airMobile.simulatorPlatformSdk = '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/'
 } else if ('android'.equals(project.platform)) {
-    airMobile.extensionDir = 'src/main/libs'
-    airMobile.platform = 'android'
     airMobile.target = 'apk-debug'
     airMobile.simulatorTarget = 'apk-emulator'
 }
