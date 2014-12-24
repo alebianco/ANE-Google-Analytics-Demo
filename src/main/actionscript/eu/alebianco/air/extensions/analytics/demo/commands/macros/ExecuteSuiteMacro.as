@@ -21,9 +21,9 @@ public class ExecuteSuiteMacro extends SequenceMacro {
     public var event:SelectedSuiteEvent;
 
     override public function prepare():void {
-        add(ShowScreen).withPayloads(new NavigateEvent(DemoScreen.SUITE_RUNNER));
+        add(ShowScreen).withPayloads(new NavigateEvent(DemoScreen.SUITE_RUNNER)).withHooks(ClearSession);
         add(Delay).withPayloads(new SubCommandPayload(500, Number).withName("delay"));
-        add(RunSuite).withHooks(ClearSession).withPayloads(new SubCommandPayload(event.suite, Class));
+        add(RunSuite).withPayloads(new SubCommandPayload(event.suite, Class));
     }
 }
 }
