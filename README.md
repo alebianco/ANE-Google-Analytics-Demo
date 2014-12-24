@@ -17,5 +17,7 @@ This is meant to be a testing and debugging project and no release version will 
 ## Building
 
 Steps:
-* Rename the _user.properties.eg_ file in the _gradle_ folder to _user.properties_ and follow the instructions to fill the appropriate values.
-* Execute the `gradlew launch` script.
+* Add your certificate in the root folder with the name _ANELytics-Demo.p12_
+* If building for iOS add your provision file in the root folder with the name _ANELytics-Demo.mobileprovision_
+* Edit _gradle.properties_ file to specify for which platform you're building the app and on which device you want to install it.
+* Execute the build passing your certificate password `gradlew launch -Pstorepass=<password>`.
