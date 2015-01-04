@@ -15,9 +15,9 @@
         <visible>true</visible>
         <renderMode>direct</renderMode>
     </initialWindow>
-    
+
 	<extensions>
-    	<extensionID>eu.alebianco.air.extensions.analytics.NativeGATracker</extensionID>
+    	<extensionID>eu.alebianco.air.extensions.analytics.ANELytics</extensionID>
     </extensions>
 
     <icon>
